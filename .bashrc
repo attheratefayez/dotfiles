@@ -248,38 +248,60 @@ createProject()
 
     mkdir -p "$1"/{build,src,include/"$1"}
     cd "$1"
-    touch main.cpp Makefile
+    touch main.cpp CMakeLists.txt
 
+#     echo -e \
+# """
+# #!/bin/bash
+# CXX=g++
+# CPPFLAGS=-I\$(include_dir)
+# build_dir = ./build
+# src_dir = ./src
+# include_dir = ./include
+# srcs = \$(shell find ./ -type f -name '*.cpp' )
+# objs = \$(srcs:.cpp=.o)
+#
+# all: \$(build_dir) \$(build_dir)/${1}
+#
+# debug: CXX += -g 
+# debug: clean \$(build_dir) \$(build_dir)/${1}
+#
+# \$(build_dir)/${1}: \$(build_dir) \$(objs)
+# \t\$(CXX) \$(CPPFLAGS) \\
+# \t        \$(objs) \\
+# \t        -o \$(build_dir)/${1}
+#
+# \$(build_dir):
+# \tmkdir ./build
+#
+# clean: 
+# \t-rm ./*.o
+# \t-rm \$(src_dir)/*.o
+# \t-rm \$(build_dir)/*
+# """ >> Makefile
+#
     echo -e \
 """
-#!/bin/bash
-CXX=g++
-CPPFLAGS=-I\$(include_dir)
-build_dir = ./build
-src_dir = ./src
-include_dir = ./include
-srcs = \$(shell find ./ -type f -name '*.cpp' )
-objs = \$(srcs:.cpp=.o)
+cmake_minimum_required(VERSION 3.20)
 
-all: \$(build_dir) \$(build_dir)/${1}
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 
-debug: CXX += -g 
-debug: clean \$(build_dir) \$(build_dir)/${1}
+project(${1}
+    DESCRIPTION "description_will_be_changed_later"
+    VERSION 0.0.1
+    LANGUAGES CXX
+)
 
-\$(build_dir)/${1}: \$(build_dir) \$(objs)
-\t\$(CXX) \$(CPPFLAGS) \\
-\t        \$(objs) \\
-\t        -o \$(build_dir)/${1}
+file(GLOB ${1}_SRC_FILES "./src/*.cpp")
 
-\$(build_dir):
-\tmkdir ./build
+add_executable(\${PROJECT_NAME}
+    main.cpp
+    \${${1}_SRC_FILES}
+)
 
-clean: 
-\t-rm ./*.o
-\t-rm \$(src_dir)/*.o
-\t-rm \$(build_dir)/*
-""" >> Makefile
-
+""" >> ./CMakeLists.txt
     cp ~/Templates/mainfile.temp ./main.cpp
     clang-format --style WebKit --dump-config > .clang-format
 
