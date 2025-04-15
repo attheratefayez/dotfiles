@@ -92,7 +92,7 @@ alias ll='ls -lah'
 alias la='ls -A'
 alias l='ls -CF'
 alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) <%an>%Creset' --abbrev-commit --branches"
-alias get_idf=". $HOME/Bugs/Rosjects/esp/esp-idf/export.sh"
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
