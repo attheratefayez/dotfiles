@@ -1,11 +1,16 @@
-import = ["/home/fayez/.config/alacritty/themes/themes/palenight.toml"]
+[general]
+import = ["/home/fayez/.config/alacritty/themes/palenight.toml"]
 
 [font]
-size = 12
+size = 11
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
+family = "RobotoMono Nerd Font"
 style = "Regular"
 
 [window]
 opacity = 0.75
+
+[window.dimensions]
+columns = 105
+lines = 25
