@@ -7,9 +7,9 @@ return {
         opts = {
             enabled = true,
             autoresize = {
-                width = 130,
+                width = 120,
                 height = 30,
-                minwidth = 20,
+                minwidth = 40,
                 minheight = 10
             }
         }

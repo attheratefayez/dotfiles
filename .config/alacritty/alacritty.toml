@@ -2,14 +2,14 @@
 import = ["/home/fayez/.config/alacritty/themes/palenight.toml"]
 
 [font]
-size = 11
+size = 11.5
 
 [font.normal]
 family = "RobotoMono Nerd Font"
 style = "Regular"
 
 [window]
-opacity = 0.75
+opacity = 0.85
 
 [window.dimensions]
 columns = 105

@@ -2,7 +2,7 @@
 import = ["/home/fayez/.config/alacritty/themes/catppuccin_macchiato.toml"]
 
 [window]
-opacity = 0.90
+opacity = 0.95
 
 [window.dimensions]
 columns = 125
