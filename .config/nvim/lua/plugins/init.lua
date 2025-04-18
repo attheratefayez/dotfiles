@@ -1,6 +1,10 @@
 return {
     -- Lua
     {
+        'folke/which-key.nvim',
+        event = "VeryLazy"
+    },
+    {
         'nvim-focus/focus.nvim',
         event = "winEnter",
         version = '*',
