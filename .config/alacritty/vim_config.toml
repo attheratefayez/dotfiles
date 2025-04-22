@@ -9,6 +9,6 @@ columns = 125
 lines = 37
 
 [font.normal]
-family = "RobotoMono Nerd Font"
+family = "FiraCode Nerd Font Mono"
 style = "Regular"
 

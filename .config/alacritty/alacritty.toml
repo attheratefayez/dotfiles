@@ -5,7 +5,7 @@ import = ["/home/fayez/.config/alacritty/themes/palenight.toml"]
 size = 11.5
 
 [font.normal]
-family = "RobotoMono Nerd Font"
+family = "FiraCode Nerd Font Mono"
 style = "Regular"
 
 [window]
