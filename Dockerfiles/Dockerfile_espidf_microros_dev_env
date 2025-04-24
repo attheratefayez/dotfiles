@@ -39,7 +39,6 @@ USER $USER
 # Source install neovim and alacritty 
 RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/faizurrahman1998/dotfiles .)\
     && (rm .bashrc && cd dotfiles && stow . && source ./../.bashrc && source /etc/profile.d/bash_completion.sh) \
-    && git clone https://github.com/alacritty/alacritty-theme /home/$USER/.config/alacritty/themes \
     && git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm \
     && sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential \
     cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3\
@@ -47,7 +46,8 @@ RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/faizurrahman1
 
 RUN mkdir gitclones && (cd gitclones \
     && git clone https://github.com/neovim/neovim \
-    && cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo \
+    && cd neovim && git checkout stable \
+    && make CMAKE_BUILD_TYPE=Release \
     && sudo make install) 
 
 RUN (curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y\
