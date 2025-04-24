@@ -37,7 +37,7 @@ WORKDIR /home/$USER
 USER $USER 
 
 # Source install neovim and alacritty 
-RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/faizurrahman1998/dotfiles.git .) \
+RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/attheratefayez/dotfiles.git .) \
     && (rm .bashrc && cd dotfiles && stow . && source ./../.bashrc && source /etc/profile.d/bash_completion.sh) \
     && git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm \
     && sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential \
