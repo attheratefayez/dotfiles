@@ -1,0 +1,21 @@
+services:
+  gcc_dev_env:
+    build: 
+      context: .
+      dockerfile: Dockerfile_gcc_dev_env
+      args: 
+        UID: 1000
+        USER: fayez
+    image: gcc_dev_env
+    container_name: gcc_dev_env_cont
+    network_mode: host
+    user: fayez
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /home/fayez/Bugs/Cpp/:/home/fayez/Bugs/Cpp:rw
+      - /dev:/dev
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /usr/share/fonts/:/usr/share/fonts/
+
+
