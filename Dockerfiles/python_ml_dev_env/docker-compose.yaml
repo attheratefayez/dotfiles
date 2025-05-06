@@ -1,13 +1,13 @@
 services:
-  python_dev_env:
+  python_ml_dev_env:
     build: 
       context: .
       dockerfile: Dockerfile
       args: 
         UID: 1000
         USER: ubuntu
-    image: python_dev_env
-    container_name: python_dev_env_cont
+    image: python_ml_dev_env
+    container_name: python_ml_dev_env_cont
     network_mode: host
     user: ubuntu
     environment:

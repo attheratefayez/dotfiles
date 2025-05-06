@@ -2,7 +2,7 @@ services:
   ros_humble_dev_env:
     build: 
       context: .
-      dockerfile: Dockerfile_ros_humble_dev_env
+      dockerfile: Dockerfile
       args: 
         UID: 1000
         USER: fayez

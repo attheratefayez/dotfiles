@@ -182,9 +182,7 @@ syncpac()
 
 activateenv()
 {
-    cd ./env/*_env/;
-    source ./bin/activate;
-    cd ./../..;
+    (cd ./env/*_env/ && source ./bin/activate)
 }
 
 
@@ -330,17 +328,7 @@ source_ros()
     export ROS_DOMAIN_ID=1
 }
 
-tmuxn()
-{
-    if [ -z $1 ]
-    then 
-        folder_name=${PWD##*/}
-        tmux new -s "$folder_name"
-        return 
-    fi
 
-    tmux new -s "$1"
-}
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
