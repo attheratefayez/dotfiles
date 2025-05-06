@@ -181,30 +181,28 @@ syncpac()
 
 activateenv()
 {
-    if [ ! -f ./env/*_env/bin/activate ]; then
+    if [ ! -f ./.venv/*/bin/activate ]; then
         echo -e "${Red}Environment activate script not available.${Color_Reset}"
         return
     fi
-	source ./env/*_env/bin/activate
+	source ./.venv/*/bin/activate
 }
 
 createEnv()
 {
+    if [ $# -eq 0 ] 
+    then
+        echo -e "${Yellow}Environment name required.${Color_Reset}"
+        return
+    fi
 
-    # this function takes two positional arguments. 
-    # $1 : environment name, (mandatory)
-    # $2 : requirements file name, (if environment should be created from a requirements file)
-
-    local req=${2:-0} 
-    mkdirc ./env;
-    python3 -m virtualenv "${1}_env";
-    cd ./..;
+    python3 -m venv --clear ./.venv/$1;
     activateenv;
 
-    if [[ -r "$req" ]]
+    if [ -f ./requirements.txt ]
     then
         echo -e "\n\033[1;32mINSTALLING REQUIREMENTS\n\033[0m"
-        pip3 install --requirement "$req"
+        pip3 install --requirement ./requirements.txt
     fi
 
 }
