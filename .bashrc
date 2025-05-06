@@ -179,12 +179,14 @@ syncpac()
     sudo apt-get update && sudo apt-get -y upgrade;
 }
 
-
 activateenv()
 {
-    (cd ./env/*_env/ && source ./bin/activate)
+    if [ ! -f ./env/*_env/bin/activate ]; then
+        echo -e "${Red}Environment activate script not available.${Color_Reset}"
+        return
+    fi
+	source ./env/*_env/bin/activate
 }
-
 
 createEnv()
 {
