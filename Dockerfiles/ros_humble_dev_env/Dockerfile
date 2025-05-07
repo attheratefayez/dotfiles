@@ -16,7 +16,9 @@ RUN apt-get update && apt upgrade -y \
     sudo \
     tmux \ 
     vim \
-    xclip 
+    xclip \
+    fzf \
+    ripgrep
 
 ARG UID 
 ARG USER

@@ -18,10 +18,9 @@ RUN apt-get update && apt upgrade -y \
     vim \
     xclip \
     pkg-config \
-    libfreetype6-dev \
-    libfontconfig1-dev \
-    libxcb-xfixes0-dev \
-    libxkbcommon-dev 
+    libxkbcommon-dev \
+    fzf \
+    ripgrep
 
 ARG UID 
 ARG USER
