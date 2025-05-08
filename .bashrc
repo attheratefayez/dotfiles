@@ -141,6 +141,10 @@ alias ping='ping -c 5'
 alias tree='tree -L 2'
 alias lsdir='tree -d -L 2'
 
+launch_yazi()
+{
+    ghostty --title=Yazi --window-height=40 --window-width=160 --background-opacity=0.95 -e yazi
+}
 
 vimn()
 {
@@ -327,6 +331,7 @@ source_ros()
     source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
     export ROS_DOMAIN_ID=1
 }
+
 
 
 
