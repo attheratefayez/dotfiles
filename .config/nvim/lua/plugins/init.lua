@@ -2,6 +2,7 @@ return {
     -- Lua
     {
         "Vigemus/iron.nvim",
+        event = "BufEnter *.py",
         config = function()
             local iron = require "iron.core"
             local common = require "iron.fts.common"
