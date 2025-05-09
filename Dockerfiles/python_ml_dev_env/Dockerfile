@@ -56,11 +56,18 @@ RUN mkdir gitclones && (cd gitclones \
     && make CMAKE_BUILD_TYPE=Release \
     && sudo make install) 
 
+# INSTALL ghostty
+# RUN echo 'deb http://download.opensuse.org/repositories/home:/clayrisser:/bookworm/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/home:clayrisser:bookworm.list \
+#     && curl -fsSL https://download.opensuse.org/repositories/home:clayrisser:bookworm/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_clayrisser_bookworm.gpg > /dev/null \
+#     && sudo apt-get update && sudo apt-get install ghostty -y\
+#     && rm -rf gitclones \
+#     && sudo rm -rf /var/lib/apt/lists/*
+#
 RUN (curl https://sh.rustup.rs -sSf | sh -s -- -y \
     && source $HOME/.cargo/env && cargo install alacritty) \
     && rm -rf gitclones \
     && sudo rm -rf /var/lib/apt/lists/* 
-
+#
 # to build the image
 # docker image build --build-arg UID=$UID --build-arg USER=$USER -t gcc_dev_env .
 
