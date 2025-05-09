@@ -12,7 +12,8 @@ local options = {
     silent = true,
 }
 
-map("i", "jk", "<ESC>")
+map("i", "jk", "<ESC>", options)
+map("t", "jk", "<C-\\><C-n>", options)
 map("n", "<CR>", ":noh<CR>", options)
 
 -- neogen keymaps
@@ -35,3 +36,4 @@ map("n", "<leader>ql", function() require("persistence").load({ last = true }) e
 
 -- stop Persistence => session won't be saved on exit
 map("n", "<leader>qd", function() require("persistence").stop() end, { desc = "Stop Persistence"})
+
