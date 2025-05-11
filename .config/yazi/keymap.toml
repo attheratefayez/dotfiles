@@ -1,0 +1,15 @@
+[manager]
+prepend_keymap = [
+	{ on = [ "g", "c" ],       run = "cd ~/dotfiles/.config", desc = "Go ~/dotfiles/.config" },
+]
+
+append_keymap = [
+	{ on = [ "g", "b" ],       run = "cd ~/Bugs",             desc = "Go ~/Bugs" },
+	{ on = [ "g", "r" ],       run = "cd ~/Bugs/Rosjects",    desc = "Go ~/Bugs/Rosjects" },
+	{ on = [ "g", "p" ],       run = "cd ~/Bugs/PythonWorks", desc = "Go ~/Bugs/PythonWorks" },
+	{ on = [ "g", "C" ],       run = "cd ~/Bugs/Cpp",         desc = "Go ~/Bugs/Cpp" },
+
+	{ on = [ "T" , "g"],       run = "shell --orphan --confirm ghostty &",  desc = "Open Terminal" },
+	{ on = [ "T" , "a"],       run = "shell --orphan --confirm alacritty &",desc = "Open Terminal" },
+]
+

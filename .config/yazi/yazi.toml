@@ -1,0 +1,9 @@
+[manager]
+ratio          = [ 1, 4, 3 ]
+title_format   = "Yazi"
+
+[opener]
+edit = [
+	{ run = '${EDITOR:-nvim} "$@"', desc = "$EDITOR", block = true, for = "unix" },
+]
+
