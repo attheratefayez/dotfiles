@@ -1,0 +1,6 @@
+theme = catppuccin-mocha
+bold-is-bright = true
+cursor-style-blink = false
+background-opacity = 0.9
+
+gtk-titlebar = false
