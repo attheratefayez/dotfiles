@@ -1,6 +1,7 @@
 [manager]
 prepend_keymap = [
 	{ on = [ "g", "c" ],       run = "cd ~/dotfiles/.config", desc = "Go ~/dotfiles/.config" },
+
 ]
 
 append_keymap = [

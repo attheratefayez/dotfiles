@@ -17,8 +17,10 @@ RUN apt-get update && apt upgrade -y \
     tmux \ 
     vim \
     xclip \
-    ripgrep
-    
+    ripgrep \
+    libxkbcommon-x11-0
+
+# installing fzf    
 RUN (cd /bin/ \ 
     && wget -c https://github.com/junegunn/fzf/releases/download/v0.62.0/fzf-0.62.0-linux_amd64.tar.gz -O - | tar -xz)
 

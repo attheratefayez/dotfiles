@@ -92,6 +92,7 @@ alias ll='ls -lah'
 alias la='ls -A'
 alias l='ls -CF'
 alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) <%an>%Creset' --abbrev-commit --branches"
+alias cf='cd $(find ~ -type d -print | fzf)'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -294,7 +295,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 
 project(${1}
-    DESCRIPTION "description_will_be_changed_later"
+    DESCRIPTION "TODO:description_will_be_changed_later"
     VERSION 0.0.1
     LANGUAGES CXX
 )
