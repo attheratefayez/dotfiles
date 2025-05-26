@@ -1,5 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
+
   dependencies = {
     "rcarriga/nvim-dap-ui",
     "nvim-neotest/nvim-nio",
@@ -8,8 +9,20 @@ return {
   config = function()
     local dap, dapui = require "dap", require "dapui"
 
-    vim.keymap.set("n", "<Leader>dt", dap.toggle_breakpoint, {})
-    vim.keymap.set("n", "<Leader>dc", dap.continue, {})
+    vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+    vim.keymap.set("n", "<Leader>dB", dap.clear_breakpoints, { desc = "Clear Breakpoints" })
+
+    vim.keymap.set("n", "<Leader>dc", dap.continue, { desc = "Continue Execution" })
+    vim.keymap.set("n", "<Leader>dC", dap.close, { desc = "Close Current Session" })
+    vim.keymap.set("n", "<Leader>dq", dap.terminate, { desc = "Terminate Current Debug Session" })
+
+    vim.keymap.set("n", "<Leader>do", dap.step_over, { desc = "Execute Current Line" })
+    vim.keymap.set("n", "<Leader>di", dap.step_into, { desc = "Step into the current function or method if possible" })
+    vim.keymap.set("n", "<Leader>du", dap.step_out, { desc = "Step out of current funtion or method if possible" })
+
+    vim.keymap.set("n", "<Leader>dh", function()
+      require("dap.ui.widgets").hover()
+    end, { desc = "View expression under cursor" })
 
     require("mason-nvim-dap").setup()
     dapui.setup()
@@ -25,24 +38,5 @@ return {
     dap.listeners.before.event_exited.dapui_config = function()
       dapui.close()
     end
-    -- dap.adapters.codelldb = {
-    --   type = "executable",
-    --   command = "codelldb", -- or if not in $PATH: "/absolute/path/to/codelldb"
-    --
-    --   -- On windows you may have to uncomment this:
-    --   -- detached = false,
-    -- }
-    -- dap.configurations.cpp = {
-    --   {
-    --     name = "Launch",
-    --     type = "codelldb",
-    --     request = "launch",
-    --     program = function()
-    --       return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-    --     end,
-    --     cwd = "${workspaceFolder}",
-    --     stopAtBeginningOfMainSubprogram = false,
-    --   },
-    -- }
   end,
 }
