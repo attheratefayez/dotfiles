@@ -12,7 +12,6 @@ set backspace=indent,eol,start  " Make bs work across line breaks etc
 set autoindent      " Enable basic auto indentation
 set copyindent      " Preserve manual indentation
 set number
-set relativenumber
 set shiftround
 set showmatch
 set ignorecase
@@ -22,24 +21,13 @@ set hlsearch
 set incsearch
 set history=1000
 set undolevels=1000
-set wildmenu
-set wildcharm=<Tab>	" Needed to open the wildmenu from shortcuts
-"set clipboard=unnamed	" Use system clipboard, bonus copy/paste between local & SSH
-set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
 set title
 set ruler
 set novisualbell
 set noerrorbells
-set lazyredraw
 set laststatus=2
 set cursorline
-" set colorcolumn=85
-set background=dark
 set encoding=utf-8
-set undodir=~/.vim/undo//
-set backupdir=~/.vim/backup//
-set directory=~/.vim/swp//
-set swapfile backup undofile
 
 " netrw file browser settings
 let g:netrw_banner=0		" Hide the directory banner
@@ -47,7 +35,7 @@ let g:netrw_liststyle=3		" 0=thin; 1=long; 2=wide; 3=tree
 
 filetype plugin indent on
 syntax on
-colorscheme koehler
+colorscheme default
 
 " Map Ctrl+[hjkl] to navigate windows vim style
 nnoremap <silent> <C-h> <C-w>h
