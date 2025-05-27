@@ -20,5 +20,11 @@ M.base46 = {
 --          lazyload = false
 --      }
 --}
+M.mason = {
+    pkgs = {
+        "codelldb",
+        "debugpy"
+    }
+}
 
 return M

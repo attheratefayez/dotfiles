@@ -1,15 +1,6 @@
 -- default plugins
 return {
   {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "codelldb",
-        "debugpy",
-      },
-    },
-  },
-  {
     "folke/which-key.nvim",
     event = "VeryLazy",
   },
