@@ -1,6 +1,5 @@
 FROM debian:latest
 
-
 # Basic Installs
 RUN apt-get update && apt upgrade -y \
     && apt-get install -y \
@@ -14,6 +13,8 @@ RUN apt-get update && apt upgrade -y \
     stow \
     sudo \
     tmux \ 
+    texlive \
+    texlive-science \
     vim \
     xclip \
     fzf \
