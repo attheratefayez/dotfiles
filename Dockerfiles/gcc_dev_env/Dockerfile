@@ -28,12 +28,13 @@ ARG UID
 ARG USER
 ENV USER=$USER
 ENV HOME=/home/$USER
-ENV XDG_RUNTIME_DIR=/tmp/runtime-$USER
+ENV XDG_RUNTIME_DIR=/run/user/$UID
 
 # Adding user and createing home and adding user to sudoers group
 RUN groupadd --gid $UID $USER \
     && useradd -s /bin/bash --uid $UID --gid $UID -m $USER \ 
     && mkdir /home/$USER/.config && chown $USER:$UID /home/$USER/.config \
+    && mkdir $XDG_RUNTIME_DIR && chown $USER:$UID $XDG_RUNTIME_DIR \
     && echo $USER ALL=\(ALL\) NOPASSWD: ALL > /etc/sudoers.d/$USER \
     && chmod 0440 /etc/sudoers.d/$USER
 
