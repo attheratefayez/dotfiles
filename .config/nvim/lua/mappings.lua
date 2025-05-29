@@ -25,6 +25,7 @@ map("n", "<leader>Nfc", "<cmd>Neogen class<CR>", { desc = "Generate Doxygen comm
 map("n", "<leader>n", "<cmd>Neogit kind=floating<CR>", { desc = "Start Neogit" })
 
 -- persistence keymaps
+
 -- load the session for the current directory
 map("n", "<leader>qs", function() require("persistence").load() end, { desc = "Load the session for the current directory."})
 
@@ -36,4 +37,9 @@ map("n", "<leader>ql", function() require("persistence").load({ last = true }) e
 
 -- stop Persistence => session won't be saved on exit
 map("n", "<leader>qd", function() require("persistence").stop() end, { desc = "Stop Persistence"})
+
+-- markview keymap
+map("n", "<leader>mso", "<cmd>Markview splitOpen<CR>", { desc = "Opens Markview's splitview for current buffer"})
+map("n", "<leader>msc", "<cmd>Markview splitClose<CR>", { desc = "Closes Markview preview"})
+
 
