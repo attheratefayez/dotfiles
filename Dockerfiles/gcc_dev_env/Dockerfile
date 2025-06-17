@@ -1,4 +1,4 @@
-FROM gcc:12.4.0-bookworm
+FROM gcc:latest
 
 # Basic Installs
 RUN apt-get update && apt upgrade -y \
