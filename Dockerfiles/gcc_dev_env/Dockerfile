@@ -7,6 +7,7 @@ RUN apt-get update && apt upgrade -y \
     cmake \
     clang \
     gcc \
+    gdb \
     git \ 
     make \ 
     npm \

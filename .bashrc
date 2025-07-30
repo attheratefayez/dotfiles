@@ -150,6 +150,7 @@ launch_yazi()
 vimn()
 {
    alacritty -qq --config-file ~/.config/alacritty/vim_config.toml -T "nvim - $@" -e nvim "$@" & 
+   # ghostty -e nvim "#@" &
 }
 
 createFiles()
@@ -340,3 +341,5 @@ source_ros()
 
 . "$HOME/.cargo/env"
 eval "$(fzf --bash)"
+
+. "$HOME/.local/bin/env"
