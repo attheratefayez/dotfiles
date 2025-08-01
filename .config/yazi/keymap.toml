@@ -1,6 +1,7 @@
 [manager]
 prepend_keymap = [
 	{ on = [ "g", "c" ],       run = "cd ~/dotfiles/.config", desc = "Go ~/dotfiles/.config" },
+	{ on = ["!"],       run = 'shell "$SHELL" --block ll', desc = "Open $Shell here" },
 
 ]
 
@@ -10,7 +11,6 @@ append_keymap = [
 	{ on = [ "g", "p" ],       run = "cd ~/Bugs/PythonWorks", desc = "Go ~/Bugs/PythonWorks" },
 	{ on = [ "g", "C" ],       run = "cd ~/Bugs/Cpp",         desc = "Go ~/Bugs/Cpp" },
 
-	{ on = [ "T" , "g"],       run = "shell --orphan --confirm ghostty &",  desc = "Open Terminal" },
-	{ on = [ "T" , "a"],       run = "shell --orphan --confirm alacritty &",desc = "Open Terminal" },
+	{ on = [ "T" , "a"],       run = "shell --orphan --confirm alacritty &",desc = "Open Alacritty" },
 ]
 

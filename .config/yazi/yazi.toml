@@ -1,5 +1,5 @@
 [manager]
-ratio          = [ 1, 4, 3 ]
+ratio          = [ 1, 3, 4 ]
 title_format   = "Yazi"
 
 [opener]
