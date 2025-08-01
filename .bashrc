@@ -213,13 +213,43 @@ createEnv()
 
 }
 
-
-runp()
+buildrun()
 {
-    echo -e "\n\033[1;32mEXECUTING APPLICATION:\n\033[0m"
+    # check if we are in build folder
+    current_folder=${PWD##*/} 
+    if [ "$current_folder" != "build" ]; then 
+        echo -e "${Yellow}[WARN] Not in build dir. Aborting...${Color_Reset}"
+        return
+    fi
 
-    file_name=$(find ./build/ -maxdepth 1 -executable -type f);
-    $file_name
+    # check if clean is passed as argument
+    if [ "$1" == "clean" ]; then 
+        echo "Cleaning Build."
+        rm -rf CMakeFiles
+        rm *
+
+        # checking if cmake is available
+        if ! command -v cmake 2>&1 >/dev/null; then
+            echo -e "${Red}[Error] cmake is not available. Aborting build.${Color_Reset}"
+            return
+        else
+            cmake ..
+        fi
+    fi
+
+    # checking if make is available
+    if ! command -v make 2>&1 >/dev/null; then
+        echo -e "${Red}[Error] make is not available. Aborting build.${Color_Reset}"
+        return
+    else
+        make
+    fi
+
+    echo -e "${Green}<----- Build Finished ----->${Color_Reset}"
+    echo ""
+
+    executable_filename="$( find . -maxdepth 1 -executable -type f )"
+    $executable_filename
 }
 
 
@@ -341,5 +371,6 @@ source_ros()
 
 . "$HOME/.cargo/env"
 eval "$(fzf --bash)"
+eval "$(zoxide init bash)"
 
 . "$HOME/.local/bin/env"

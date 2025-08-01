@@ -1,4 +1,4 @@
-theme = catppuccin-mocha
+theme = nightfox
 bold-is-bright = true
 cursor-style-blink = false
 background-opacity = 0.9
