@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 prepend_keymap = [
 	{ on = [ "g", "c" ],       run = "cd ~/dotfiles/.config", desc = "Go ~/dotfiles/.config" },
 	{ on = ["!"],       run = 'shell "$SHELL" --block ll', desc = "Open $Shell here" },

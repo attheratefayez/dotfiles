@@ -1,9 +1,17 @@
-[manager]
+[mgr]
 ratio          = [ 1, 3, 4 ]
 title_format   = "Yazi"
+linemode       = "permissions"
 
 [opener]
 edit = [
 	{ run = '${EDITOR:-nvim} "$@"', desc = "$EDITOR", block = true, for = "unix" },
 ]
+open_in_new_window = [
+    { run = 'alacritty --config-file ~/.config/alacritty/vim_config.toml -e nvim "$@" &', block = false, for = "unix"},
+]
 
+[open]
+append_rules = [
+    { name = "*", use = ["edit", "open_in_new_window"]}
+]
