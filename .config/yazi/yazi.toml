@@ -13,5 +13,5 @@ open_in_new_window = [
 
 [open]
 append_rules = [
-    { name = "*", use = ["edit", "open_in_new_window"]}
+    { name = "*", use = ["edit", "open", "reveal", "open_in_new_window"]}
 ]
