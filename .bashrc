@@ -370,7 +370,9 @@ source_ros()
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 . "$HOME/.cargo/env"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 eval "$(fzf --bash)"
 eval "$(zoxide init bash)"
 
 . "$HOME/.local/bin/env"
+
