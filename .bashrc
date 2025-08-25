@@ -94,6 +94,7 @@ alias l='ls -CF'
 alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) <%an>%Creset' --abbrev-commit --branches"
 alias cf='cd $(find ~ -type d -print | fzf)'
 
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -264,6 +265,19 @@ crprs()
 cpclip()
 {
     more "${1}" | xclip -selection clipboard
+}
+
+fzo()
+{
+    # find a file from home using fzf and open it in neovim in read-only mode
+    #
+    result="$(cd ${HOME} && fzf)"
+    if [[ -n ${result} ]]
+    then 
+        nvim -R ${result}
+    else
+        echo "No files selected"
+    fi
 }
 
 runlab()
