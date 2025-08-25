@@ -274,6 +274,7 @@ fzo()
     result="$(cd ${HOME} && fzf)"
     if [[ -n ${result} ]]
     then 
+        result="$HOME/${result}"
         nvim -R ${result}
     else
         echo "No files selected"
