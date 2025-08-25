@@ -19,11 +19,8 @@ RUN apt-get update && apt upgrade -y \
     vim \
     xclip \
     ripgrep \
-    libxkbcommon-x11-0
-
-# installing fzf    
-RUN (cd /bin/ \ 
-    && wget -c https://github.com/junegunn/fzf/releases/download/v0.62.0/fzf-0.62.0-linux_amd64.tar.gz -O - | tar -xz)
+    libxkbcommon-x11-0 \
+    zoxide
 
 ARG UID 
 ARG USER
@@ -43,6 +40,11 @@ SHELL ["/bin/bash", "-c"]
 WORKDIR /home/$USER
 
 USER $USER 
+
+# installing fzf    
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+RUN ~/.fzf/install --completion --no-key-bindings --no-update-rc --no-zsh --no-fish
+
 
 # Source install neovim and alacritty 
 RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/attheratefayez/dotfiles.git .) \
