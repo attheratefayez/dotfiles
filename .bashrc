@@ -115,7 +115,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-#======================   fayez-Defined Commands   ========================
+#======================   Fayez-Defined Commands   ========================
 
 Color_Reset='\033[0m'       # Text Reset
 Black='\033[0;30m'        # Black
@@ -127,10 +127,6 @@ Purple='\033[0;35m'       # Purple
 Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
-#echo "                                      Bismillahir Rahmanir Rahim              "
-#echo ""
-#echo ""
-#neofetch
 
 #echo "
 #                     ▒█░▒█ █▀▀ █░░ █░░ █▀▀█ 　 ▒█░░▒█ █▀▀█ █▀▀█ █░░ █▀▀▄ 
@@ -138,15 +134,9 @@ White='\033[0;37m'        # White
 #                     ▒█░▒█ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀▀ 　 ▒█▄▀▄█ ▀▀▀▀ ▀░▀▀ ▀▀▀ ▀▀▀░
 #"
 
-#alias jupyter='gnome-terminal -- jupyter "$@"';
 alias ping='ping -c 5'
 alias tree='tree -L 2'
-alias lsdir='tree -d -L 2'
-
-launch_yazi()
-{
-    ghostty --title=Yazi --window-height=40 --window-width=160 --background-opacity=0.95 -e yazi
-}
+alias lsdir='tree -d -L 2' # list directories upto 2 depth 
 
 vimn()
 {
@@ -188,12 +178,45 @@ syncpac()
 
 activateenv()
 {
-    if [ ! -f ./.venv/*/bin/activate ]; then
+    venvs=()
+
+    # add .venv/bin/ if it exists
+    if [ -f ./.venv/bin/activate ]; then
+        venvs+=("./.venv/bin/activate")
+    fi
+    
+    # check if there is multiple venv exists
+    while IFS= read -r f; do
+        [ "$f" = "./.venv/bin/activate" ] && continue
+        venvs+=("$f")
+    done < <(find ./.venv -maxdepth 3 -type f -name activate 2>/dev/null)
+
+    # if not environment is available, show error message and return 
+    if [ ${#venvs[@]} -eq 0 ]; then
         echo -e "${Red}Environment activate script not available.${Color_Reset}"
         return
     fi
-	source ./.venv/*/bin/activate
+
+    # in case there is only one environment found, activate it
+    if [ ${#venvs[@]} -eq 1 ]; then
+        source "${venvs[0]}"
+        return
+    fi
+
+    # If multiple venvs found, ask user to choose
+    echo "Multiple virtual environments found:"
+    select v in "${venvs[@]}"; do
+        if [ -n "$v" ]; then
+            echo "env $v"
+            source "$v"
+            break
+        else 
+            echo -e "${Yellow}No environment activated. Select from list.${Color_Reset}"
+        fi
+
+    done
 }
+
 
 createEnv()
 {
@@ -254,16 +277,9 @@ buildrun()
 }
 
 
-crprs()
-{
-    file_name=${PWD##*/}
-
-    cp ./../templates/template.cpp "${file_name}.cpp"
-    createFiles "${file_name}.cpp" "${file_name}.py" v;
-}
-
 cpclip()
 {
+    # takes the filename as input, and copy its content to clipboard
     more "${1}" | xclip -selection clipboard
 }
 
@@ -288,6 +304,7 @@ runlab()
 
 createProject()
 {
+    # creates a cpp project 
     if [ -z $1 ]
     then
         echo -e "${Red}PROJECT NOT CREATED.${Color_Reset}"
@@ -378,8 +395,6 @@ source_ros()
     source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
     export ROS_DOMAIN_ID=1
 }
-
-
 
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
