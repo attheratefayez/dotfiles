@@ -12,5 +12,6 @@ append_keymap = [
 	{ on = [ "g", "C" ],       run = "cd ~/Bugs/Cpp",         desc = "Go ~/Bugs/Cpp" },
 
 	{ on = [ "T" , "a"],       run = "shell --orphan --confirm alacritty &",desc = "Open Alacritty" },
+	{ on = [ "T" , "g"],       run = "shell --orphan --confirm ghostty &",desc = "Open Ghostty" },
 ]
 

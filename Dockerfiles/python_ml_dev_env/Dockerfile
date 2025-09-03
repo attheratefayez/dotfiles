@@ -1,4 +1,4 @@
-FROM python:bookworm
+FROM python:3.12-trixie
 
 # Basic Installs
 RUN apt-get update && apt upgrade -y \
@@ -19,7 +19,8 @@ RUN apt-get update && apt upgrade -y \
     xclip \
     pkg-config \
     libxkbcommon-dev \
-    ripgrep
+    ripgrep \
+    zoxide
 
 RUN (cd /bin/ \ 
     && wget -c https://github.com/junegunn/fzf/releases/download/v0.62.0/fzf-0.62.0-linux_amd64.tar.gz -O - | tar -xz)

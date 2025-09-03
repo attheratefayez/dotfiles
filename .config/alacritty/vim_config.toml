@@ -1,5 +1,5 @@
 [general]
-import = ["/home/fayez/.config/alacritty/themes/catppuccin_macchiato.toml"]
+import = ["/home/fayez/.config/alacritty/themes/palenight.toml"]
 
 [window]
 opacity = 0.95
