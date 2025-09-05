@@ -396,6 +396,10 @@ source_ros()
     export ROS_DOMAIN_ID=1
 }
 
+# keyboard shortcut for yazi in ghostty
+# ghostty --title=Yazi --window-height=40 --window-width=160 --background-opacity=0.95 -e yazi
+#
+# to launch default terminal use: x-terminal-emulator
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
