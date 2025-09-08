@@ -3,6 +3,7 @@ import = ["/home/fayez/.config/alacritty/themes/palenight.toml"]
 
 [window]
 opacity = 0.95
+decorations = "None"
 
 [window.dimensions]
 columns = 125

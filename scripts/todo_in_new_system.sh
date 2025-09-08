@@ -1,5 +1,5 @@
 apt install -y curl stow tmux alacritty vim-gtk3 gnome-tweaks git xclip vlc \
-            ninja-build gettext cmake curl build-essential \
+            ninja-build gettext cmake curl build-essential clang-format \
             ffmpeg 7zip jq poppler-utils fd-find ripgrep zoxide imagemagick \
             fonts-noto-core fonts-noto-ui-core \
 
