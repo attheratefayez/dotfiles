@@ -37,7 +37,6 @@ local function get_python_path(workspace, force_select)
   end
 
   local paths = collect_python_paths(workspace)
-  vim.notify_once("found paths: " .. vim.inspect(paths), vim.log.levels.INFO)
 
   if #paths == 0 then
     return "/usr/bin/python3"
@@ -70,7 +69,7 @@ local function get_python_path(workspace, force_select)
           cached_python_path = selection[1]
 
           -- Restart Pyright immediately
-          for _, client in ipairs(vim.lsp.get_active_clients({ name = "pyright" })) do
+          for _, client in ipairs(vim.lsp.get_clients({ name = "pyright" })) do
             client.stop(true)
           end
           vim.defer_fn(function()
