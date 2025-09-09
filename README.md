@@ -1,6 +1,6 @@
 ## dotfiles 
 Contains:
-- A .bashrc with some custom function
+- A .bashrc with some custom functions
 
 - Configurations for: 
   - Alacritty
