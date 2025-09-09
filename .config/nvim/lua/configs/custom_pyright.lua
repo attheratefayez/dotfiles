@@ -11,6 +11,16 @@ local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
 local cached_python_path = nil
 
+local function set_vim_path(some_path)
+    if not some_path then
+        return
+    end
+
+    local venv_bin = some_path:gsub("/python[%d.]*$", "")
+    local new_env_path = vim.env.PATH:gsub(venv_bin, "")
+    vim.env.PATH = new_env_path .. ":" .. venv_bin
+end
+
 -- Collect available interpreters
 local function collect_python_paths(workspace)
   local paths = {}
@@ -33,6 +43,7 @@ end
 -- Pick python path (either cached or prompt)
 local function get_python_path(workspace, force_select)
   if cached_python_path ~= nil and not force_select then
+    set_vim_path(cached_python_path)
     return cached_python_path
   end
 
@@ -42,6 +53,7 @@ local function get_python_path(workspace, force_select)
     return "/usr/bin/python3"
   elseif #paths == 1 then
     cached_python_path = paths[1]
+    set_vim_path(cached_python_path)
     return cached_python_path
   else
     -- Use inputlist fallback if Telescope not available
@@ -49,6 +61,7 @@ local function get_python_path(workspace, force_select)
     if not ok then
       local choice = vim.fn.inputlist(vim.list_extend({ "Select Python interpreter:" }, paths))
       cached_python_path = paths[choice] or paths[1]
+      set_vim_path(cached_python_path)
       return cached_python_path
     end
 
@@ -83,11 +96,18 @@ local function get_python_path(workspace, force_select)
       end,
     }):find()
 
+    set_vim_path(cached_python_path)
     return cached_python_path
   end
 end
-
+--
+-- local function set_iron_repl_python()
+--
+-- end
+--
 -- Setup pyright
+--
+
 lspconfig.pyright.setup{
   before_init = function(_, config)
     config.settings = config.settings or {}
