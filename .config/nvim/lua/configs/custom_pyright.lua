@@ -17,8 +17,10 @@ local function set_vim_path(some_path)
     end
 
     local venv_bin = some_path:gsub("/python[%d.]*$", "")
-    local new_env_path = vim.env.PATH:gsub(venv_bin, "")
-    vim.env.PATH = new_env_path .. ":" .. venv_bin
+    if not string.find(vim.env.PATH, venv_bin) then
+        vim.env.PATH = vim.env.PATH .. ":" .. venv_bin
+    end
+
 end
 
 -- Collect available interpreters
