@@ -1,6 +1,12 @@
 -- default plugins
 return {
   {
+    "L3MON4D3/LuaSnip",
+    dependencies = { "rafamadriz/friendly-snippets" },
+    event = "VeryLazy"
+  },
+
+  {
     "folke/which-key.nvim",
     event = "VeryLazy",
   },
