@@ -1,6 +1,7 @@
 return {
   "OXY2DEV/markview.nvim",
-  lazy = false,
+  event = "BufEnter *.md",
+  lazy = true,
 
   config = function()
     require("markview").setup {
