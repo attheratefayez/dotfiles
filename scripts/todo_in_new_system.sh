@@ -67,3 +67,6 @@ export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.17.8-1 \
       nvidia-container-toolkit-base=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
       libnvidia-container-tools=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
       libnvidia-container1=${NVIDIA_CONTAINER_TOOLKIT_VERSION}
+
+# add local:docker in xhost. commnad: xhost +local:docker, so that 
+# docker containers can use xhost to open windows

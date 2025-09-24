@@ -5,27 +5,47 @@ FROM osrf/ros:jazzy-desktop-full
 RUN apt-get update && apt upgrade -y \
     && apt-get install -y \
     bash-completion \
+    build-essential \
     cmake \
     clang \
+    curl \
     gcc \
+    gdb \
+    gettext \
     git \ 
+    libxkbcommon-x11-0 \
+    locales \
+    libfreetype6-dev \
+    libfontconfig1-dev \
+    libxcb-xfixes0-dev \
+    libxkbcommon-dev \
     make \ 
     npm \
+    ninja-build \
     openssh-server \
+    pkg-config \
+    python3 \
     python3-venv \
+    ripgrep \
     stow \
     sudo \
     tmux \ 
     vim \
     xclip \
-    fzf \
-    ripgrep
-
+    zoxide \
+    unzip 
+    
 ARG UID 
 ARG USER
+
 ENV USER=$USER
 ENV HOME=/home/$USER
-ENV XDG_RUNTIME_DIR=/tmp/runtime-$USER
+ENV XDG_RUNTIME_DIR=/run/user/$UID
+ENV LANG=en_US.UTF-8
+
+RUN sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
+    && locale-gen en_US.UTF-8 \
+    && update-locale LANG=en_US.UTF-8
 
 # Adding user and createing home and adding user to sudoers group
 # RUN groupadd --gid $UID $USER \
@@ -39,23 +59,29 @@ WORKDIR /home/$USER
 
 USER $USER 
 
-# Source install neovim and alacritty 
-RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/attheratefayez/dotfiles.git .)\
-    && (rm .bashrc && cd dotfiles && stow . && source ./../.bashrc && source /etc/profile.d/bash_completion.sh) \
-    && git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm \
-    && sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential \
-    cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3\
-    && sudo rm -rf /var/lib/apt/lists/* 
+# installing fzf    
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+RUN ~/.fzf/install --completion --no-key-bindings --no-update-rc --no-zsh --no-fish
 
-RUN mkdir gitclones && (cd gitclones \
-    && git clone https://github.com/neovim/neovim \
-    && cd neovim && git checkout stable \
-    && make CMAKE_BUILD_TYPE=Release \
-    && sudo make install) 
 
-RUN (curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y\
-    && source $HOME/.cargo/env && cargo install alacritty) \
-    && rm -rf gitclones
+# get dotfiles 
+RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/attheratefayez/dotfiles.git .) \
+    && (rm .bashrc && cd dotfiles && stow . && source ./../.bashrc && source /etc/profile.d/bash_completion.sh) 
+
+# get tpm
+RUN git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm
+
+# install neovim
+RUN curl -fL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz -o nvim-linux-x86_64.tar.gz \
+    && tar -xzvf nvim-linux-x86_64.tar.gz \
+    && sudo mkdir /opt/nvim/ && sudo mv nvim-linux-x86_64/* /opt/nvim/ \
+    && sudo ln -s /opt/nvim/bin/nvim /usr/local/bin/nvim \
+    && rm -rf nvim-linux-x86_64 nvim-linux-x86_64.tar.gz 
+
+#install alacritty
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
+    && source $HOME/.cargo/env && cargo install alacritty \
+    && sudo rm -rf /var/lib/apt/lists/*
 
 
 
