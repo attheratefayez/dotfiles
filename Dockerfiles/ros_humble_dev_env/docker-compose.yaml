@@ -5,15 +5,15 @@ services:
       dockerfile: Dockerfile
       args: 
         UID: 1000
-        USER: fayez
+        USER: humble_turtle
     image: ros_humble_dev_env
     container_name: ros_humble_dev_env_cont
     network_mode: host
-    user: fayez
+    user: humble_turtle
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
-      - /home/fayez/Bugs/Rosjects/:/home/fayez/Bugs/Rosjects/:rw
+      - /home/fayez/Bugs/Rosjects/:/home/humble_turtle/Bugs/Rosjects/:rw
       - /dev:/dev
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /usr/share/fonts/:/usr/share/fonts/
