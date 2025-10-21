@@ -1,0 +1,30 @@
+services:
+  nao_dev_env:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args: 
+        UID: 1000
+        USER: nao_dev
+    image: nao_dev_env
+    container_name: nao_dev_env_cont
+    network_mode: host
+    user: nao_dev
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /home/fayez/Bugs/Rosjects/:/home/nao_dev/Bugs/Rosjects/:rw
+      - /dev:/dev
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /usr/share/fonts/:/usr/share/fonts/
+    tty: true
+    command: "/bin/bash"
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+

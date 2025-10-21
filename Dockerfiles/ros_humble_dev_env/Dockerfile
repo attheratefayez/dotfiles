@@ -62,6 +62,8 @@ USER $USER
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 RUN ~/.fzf/install --completion --no-key-bindings --no-update-rc --no-zsh --no-fish
 
+# install uv
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # get dotfiles 
 RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/attheratefayez/dotfiles.git .) \
@@ -90,7 +92,6 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
 # --volume /usr/share/fonts:/usr/share/fonts \
 # --volume /home/re/Bugs/Rosjects/:/home/re/Bugs/Rosjects:rw \
 # --runtime nvidia --gpus all ros_dev_env 
-
 # docker run -it --name dev_kernelbot --hostname dev_kernelbot.uatech \
 # --volume /tmp/.X11-unix:/tmp/.X11-unix:rw --env=DISPLAY   \
 # --volume /usr/share/fonts/:/usr/share/fonts   \

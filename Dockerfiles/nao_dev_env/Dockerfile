@@ -1,4 +1,4 @@
-FROM gcc:latest
+FROM ubuntu:22.04
 
 # Basic Installs
 RUN apt-get update && apt upgrade -y \
@@ -10,7 +10,6 @@ RUN apt-get update && apt upgrade -y \
     curl \
     gcc \
     gdb \
-    gettext \
     git \ 
     libxkbcommon-x11-0 \
     locales \
@@ -33,7 +32,7 @@ RUN apt-get update && apt upgrade -y \
     xclip \
     zoxide \
     unzip 
-    
+
 ARG UID 
 ARG USER
 
@@ -50,7 +49,6 @@ RUN sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
 RUN groupadd --gid $UID $USER \
     && useradd -s /bin/bash --uid $UID --gid $UID -m $USER \ 
     && mkdir /home/$USER/.config && chown $USER:$UID /home/$USER/.config \
-    && mkdir $XDG_RUNTIME_DIR && chown $USER:$UID $XDG_RUNTIME_DIR \
     && echo $USER ALL=\(ALL\) NOPASSWD: ALL > /etc/sudoers.d/$USER \
     && chmod 0440 /etc/sudoers.d/$USER
 
@@ -62,7 +60,8 @@ USER $USER
 # installing fzf    
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 RUN ~/.fzf/install --completion --no-key-bindings --no-update-rc --no-zsh --no-fish
-# installing uv
+
+# install uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # get dotfiles 
@@ -84,17 +83,15 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
     && source $HOME/.cargo/env && cargo install alacritty \
     && sudo rm -rf /var/lib/apt/lists/*
 
-# to build the image
-# docker image build --build-arg UID=$UID --build-arg USER=$USER -t gcc_dev_env .
+# docker image build --build-arg UID=$UID --build-arg USER=$USER -t ros_dev_env .
 
-# to make a container 
-# docker run -it --name sfml_cont --hostname sfml_cont.uatech --user $USER \
+
+# docker run -it --name dev_kernelbot --hostname kernelbot.uatech --user re \
 # --volume /tmp/.X11-unix:/tmp/.X11-unix:rw --env=DISPLAY \
 # --volume /usr/share/fonts:/usr/share/fonts \
-# --volume /home/$USER/Bugs/Rosjects/:/home/$USER/Bugs/Rosjects:rw \
-# --runtime nvidia --gpus all gcc_dev_env 
-
-# docker run -it --name sfml_cont --hostname sfml_cont.uatech \
+# --volume /home/re/Bugs/Rosjects/:/home/re/Bugs/Rosjects:rw \
+# --runtime nvidia --gpus all ros_dev_env 
+# docker run -it --name dev_kernelbot --hostname dev_kernelbot.uatech \
 # --volume /tmp/.X11-unix:/tmp/.X11-unix:rw --env=DISPLAY   \
 # --volume /usr/share/fonts/:/usr/share/fonts   \
 # --volume /home/re/Bugs/Rosjects/:/home/re/Bugs/Rosjects:rw   \
@@ -107,4 +104,4 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
 # --device /dev/media0 \
 # --device /dev/media1 \
 # --volume /sys:/sys  \
-# --runtime nvidia --gpus all gcc_dev_env
+# --runtime nvidia --gpus all ros_dev_env

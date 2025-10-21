@@ -5,15 +5,15 @@ services:
       dockerfile: Dockerfile
       args: 
         UID: 1000
-        USER: fayez
+        USER: cpp_dev
     image: gcc_dev_env
     container_name: gcc_dev_env_cont
     network_mode: host
-    user: fayez
+    user: cpp_dev
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
-      - /home/fayez/Bugs/Cpp/:/home/fayez/Bugs/Cpp:rw
+      - /home/fayez/Bugs/Cpp/:/home/cpp_dev/Bugs/Cpp:rw
       - /dev:/dev
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /usr/share/fonts/:/usr/share/fonts/

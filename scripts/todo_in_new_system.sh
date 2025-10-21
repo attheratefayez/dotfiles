@@ -51,6 +51,10 @@ apt install ghostty
 update-alternatives --install  /usr/bin/x-terminal-emulator x-terminal-emulator $(which alacritty) 50
 update-alternatives --set x-terminal-emulator $(which alacritty)
 
+#install uv
+# On macOS and Linux.
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # install nvidia-container toolkit
 #
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | \
@@ -68,5 +72,6 @@ export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.17.8-1 \
       libnvidia-container-tools=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
       libnvidia-container1=${NVIDIA_CONTAINER_TOOLKIT_VERSION}
 
+apt nvidia-ctk runtime configure --runtime=docker && systemctl restart docker
 # add local:docker in xhost. commnad: xhost +local:docker, so that 
 # docker containers can use xhost to open windows
