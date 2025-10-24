@@ -19,12 +19,12 @@ M.base46 = {
 --       tabufline = {
 --          lazyload = false
 --      }
---}
+-- }
 M.mason = {
-    pkgs = {
-        "codelldb",
-        "debugpy"
-    }
+	pkgs = {
+		"codelldb",
+		"debugpy"
+	}
 }
 
 return M

@@ -7,7 +7,6 @@
 --
 -- If Telescope isn’t installed, it falls back to the old inputlist UI.
 
-local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
 local cached_python_path = nil
 
@@ -85,7 +84,7 @@ local function get_python_path(workspace, force_select)
 
           -- Restart Pyright immediately
           for _, client in ipairs(vim.lsp.get_clients({ name = "pyright" })) do
-            client.stop(true)
+            vim.lsp.client.stop(client, true)
           end
           vim.defer_fn(function()
             vim.cmd("edit")
@@ -110,14 +109,16 @@ end
 -- Setup pyright
 --
 
-lspconfig.pyright.setup{
+vim.lsp.config["pyright"] = {
   before_init = function(_, config)
     config.settings = config.settings or {}
     config.settings.python = config.settings.python or {}
     config.settings.python.pythonPath = get_python_path(vim.fn.getcwd())
   end,
-  root_dir = util.find_git_ancestor or util.path.dirname,
+  -- root_dir = util.find_git_ancestor or util.path.dirname,
 }
+
+get_python_path(vim.fn.getcwd())
 
 -- Command for switching Python interpreter
 vim.api.nvim_create_user_command("SwitchPython", function()
