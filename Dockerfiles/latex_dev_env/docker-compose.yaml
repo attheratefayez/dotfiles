@@ -5,18 +5,17 @@ services:
       dockerfile: Dockerfile
       args: 
         UID: 1000
-        USER: fayez
+        USER: latex_dev
     image: latex_dev_env
     container_name: latex_dev_env_cont
     network_mode: host
-    user: fayez
+    user: latex_dev
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
-      - /home/fayez/Bugs/Cpp/:/home/fayez/Bugs/Cpp:rw
+      - /home/fayez/Bugs/latex/:/home/latex_dev/Bugs/latex:rw
       - /dev:/dev
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - /usr/share/fonts/:/usr/share/fonts/
 
     tty: true
     command: "/bin/bash"

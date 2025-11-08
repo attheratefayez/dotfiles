@@ -48,7 +48,7 @@ RUN sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
 
 # Adding user and createing home and adding user to sudoers group
 RUN groupadd --gid $UID $USER \
-    && useradd -s /bin/bash --uid $UID --gid $UID -m $USER \ 
+    && useradd -s /bin/bash --uid $UID --gid $UID -m $USER \
     && mkdir /home/$USER/.config && chown $USER:$UID /home/$USER/.config \
     && mkdir $XDG_RUNTIME_DIR && chown $USER:$UID $XDG_RUNTIME_DIR \
     && echo $USER ALL=\(ALL\) NOPASSWD: ALL > /etc/sudoers.d/$USER \
@@ -71,6 +71,12 @@ RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/attheratefaye
 
 # get tpm
 RUN git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm
+
+# get nerd font : FiraCode
+RUN (mkdir -p /home/$USER/.local/share/fonts \
+    && cd /home/$USER/.local/share/fonts \
+    && wget -O firacode.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip \
+    && unzip firacode.zip -d firacode && mv ./firacode/*-Regular.ttf ./ && rm -rf firacode.zip firacode)
 
 # install neovim
 RUN curl -fL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz -o nvim-linux-x86_64.tar.gz \
