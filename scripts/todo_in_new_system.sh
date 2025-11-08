@@ -1,4 +1,4 @@
-apt install -y curl stow tmux alacritty vim-gtk3 gnome-tweaks git xclip vlc \
+sudo apt install -y curl stow tmux alacritty vim-gtk3 gnome-tweaks git xclip vlc \
             ninja-build gettext cmake curl build-essential clang-format \
             ffmpeg 7zip jq poppler-utils fd-find ripgrep zoxide imagemagick \
             fonts-noto-core fonts-noto-ui-core \
@@ -10,7 +10,8 @@ fc-cache -f -v
 
 # install latest stable rust toolchain
 #
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+#curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+. "$HOME/.cargo/env"
 rustup update 
 
 # install neovim
@@ -20,7 +21,7 @@ rustup update
 && git clone https://github.com/neovim/neovim \
 && cd neovim \
 && make CMAKE_BUILD_TYPE=Release \
-&& make install)
+&& sudo make install)
 rm -rf temp_nvim
 
 #install fzf
@@ -43,13 +44,13 @@ Suites: /
 Architectures: $ARCH
 Signed-By: /etc/apt/keyrings/home_clayrisser_sid.gpg
 EOF
-apt update
-apt install ghostty
+sudo apt update
+sudo apt install ghostty
 
 # make alacritty the default terminal
 #
-update-alternatives --install  /usr/bin/x-terminal-emulator x-terminal-emulator $(which alacritty) 50
-update-alternatives --set x-terminal-emulator $(which alacritty)
+sudo update-alternatives --install  /usr/bin/x-terminal-emulator x-terminal-emulator $(which alacritty) 50
+sudo update-alternatives --set x-terminal-emulator $(which alacritty)
 
 #install uv
 # On macOS and Linux.
@@ -61,17 +62,17 @@ curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | \
 gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
 && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
 sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
-apt update
+sudo apt update
 
-export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.17.8-1 \
-&& apt install -y \
+export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.18.0-1 \
+&& sudo apt install -y \
       nvidia-container-toolkit=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
       nvidia-container-toolkit-base=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
       libnvidia-container-tools=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
       libnvidia-container1=${NVIDIA_CONTAINER_TOOLKIT_VERSION}
 
-apt nvidia-ctk runtime configure --runtime=docker && systemctl restart docker
+sudo nvidia-ctk runtime configure --runtime=docker && sudo systemctl restart docker
 # add local:docker in xhost. commnad: xhost +local:docker, so that 
 # docker containers can use xhost to open windows

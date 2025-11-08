@@ -18,6 +18,7 @@ RUN apt-get update && apt upgrade -y \
     libfontconfig1-dev \
     libxcb-xfixes0-dev \
     libxkbcommon-dev \
+    luarocks \
     make \ 
     npm \
     ninja-build \
@@ -64,6 +65,13 @@ RUN ~/.fzf/install --completion --no-key-bindings --no-update-rc --no-zsh --no-f
 
 # install uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# get nerd font : FiraCode
+RUN (mkdir -p /home/$USER/.local/share/fonts \
+    && cd /home/$USER/.local/share/fonts \
+    && wget -O firacode.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip \
+    && unzip firacode.zip -d firacode && mv ./firacode/*-Regular.ttf ./ && rm -rf firacode.zip firacode)
+
 
 # get dotfiles 
 RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/attheratefayez/dotfiles.git .) \

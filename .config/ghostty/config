@@ -4,6 +4,5 @@ cursor-style = block
 cursor-style-blink = false
 background-opacity = 0.9
 shell-integration-features = no-cursor
-
 gtk-titlebar = false
-window-decoration=false
+window-decoration = false
