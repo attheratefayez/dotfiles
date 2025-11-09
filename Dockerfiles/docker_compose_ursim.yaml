@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  ursim_wayland:
+    image: universalrobots/ursim_e-series
+    container_name: ursim_wayland
+    environment:
+      ROBOT_MODEL: UR5e
+      URSIM_LICENSE: accept
+    ports:
+      - "5900:5900"
+      - "6080:6080"
+    shm_size: "1g"
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    devices:
+      - "/dev/dri:/dev/dri"
+    volumes:
+      - "${HOME}/.ursim/urcaps:/urcaps"
+      - "${HOME}/.ursim/programs:/ursim/programs"
+    stdin_open: true
+    tty: true
