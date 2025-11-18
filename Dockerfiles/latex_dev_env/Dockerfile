@@ -25,7 +25,9 @@ RUN apt update && apt upgrade -y \
     stow \
     sudo \
     tmux \
-    texlive \
+    texlive-base \
+    texlive-bibtex-extra \
+    texlive-science \
     vim \
     xclip \
     unzip \
