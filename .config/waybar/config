@@ -32,7 +32,7 @@
             "tooltip-format": "<tt>{calendar}</tt>",
             "calendar": {
                 "format": {
-                    "today": "<span color='#fAfBfC'><b>{}</b></span>"
+                    "today": "<span color='#ffaabb'><b>{}</b></span>"
                 }
             },
             "actions": {
