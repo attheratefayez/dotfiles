@@ -8,7 +8,7 @@ edit = [
 	{ run = '${EDITOR:-nvim} "$@"', desc = "$EDITOR", block = true, for = "unix" },
 ]
 open_in_new_window = [
-    { run = 'alacritty --config-file ~/.config/alacritty/vim_config.toml -e nvim "$@" &', block = false, for = "unix"},
+    { run = 'ghostty --title="neovim" -e nvim "$@" &', block = false, for = "unix"},
 ]
 
 [open]
