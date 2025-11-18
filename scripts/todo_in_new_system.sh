@@ -56,6 +56,9 @@ sudo update-alternatives --set x-terminal-emulator $(which alacritty)
 # On macOS and Linux.
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
+# creating colors for waybar
+(cd ~/Public/ && mkdir test && cd test && uv add pywal && uv run python3 -m pywal --theme base16-material && cd .. && rm -rf test && cd)
+
 # install nvidia-container toolkit
 #
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | \
