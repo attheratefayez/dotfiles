@@ -373,7 +373,6 @@ window-rule {
 
 window-rule {
     match title="Yazi"
-    match app-id="com.mitchellh.ghostty"
     open-maximized true
 }
 

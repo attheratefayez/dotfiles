@@ -29,6 +29,7 @@ set laststatus=2
 set cursorline
 set encoding=utf-8
 
+
 " netrw file browser settings
 let g:netrw_banner=0		" Hide the directory banner
 let g:netrw_liststyle=3		" 0=thin; 1=long; 2=wide; 3=tree
@@ -36,6 +37,7 @@ let g:netrw_liststyle=3		" 0=thin; 1=long; 2=wide; 3=tree
 filetype plugin indent on
 syntax on
 colorscheme default
+highlight CursorLine cterm=NONE ctermbg=8 ctermfg=white
 
 " Map Ctrl+[hjkl] to navigate windows vim style
 nnoremap <silent> <C-h> <C-w>h
@@ -54,12 +56,12 @@ if bufwinnr(1)
 endif
 
 " Pageup/down will scroll half-page and center the current line on the screen
-nnoremap <silent> <PageUp> <C-U>zz
-vnoremap <silent> <PageUp> <C-U>zz
-inoremap <silent> <PageUp> <C-O><C-U><C-O>zz
-nnoremap <silent> <PageDown> <C-D>zz
-vnoremap <silent> <PageDown> <C-D>zz
-inoremap <silent> <PageDown> <C-O><C-D><C-O>zz
+" nnoremap <silent> <PageUp> <C-U>zz
+" vnoremap <silent> <PageUp> <C-U>zz
+" inoremap <silent> <PageUp> <C-O><C-U><C-O>zz
+" nnoremap <silent> <PageDown> <C-D>zz
+" vnoremap <silent> <PageDown> <C-D>zz
+" inoremap <silent> <PageDown> <C-O><C-D><C-O>zz
 " F1 netrw file browser
 " nnoremap <silent> <F1> :Explore<CR>
 
