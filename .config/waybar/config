@@ -1,30 +1,23 @@
 {
     "layer": "top",
-    "position": "top",
-    "reload_style_on_change": true,
-    "modules-left": ["custom/notification","niri/workspaces","niri/window"],
-    "modules-center": ["clock"],
-    "modules-right": ["group/expand","pulseaudio","bluetooth","network","battery"],
+        "position": "top",
+        "reload_style_on_change": true,
+        "modules-left": ["niri/workspaces","niri/window"],
+        "modules-center": ["clock"],
+        "modules-right": ["group/expand","pulseaudio","bluetooth","network","battery"],
 
 
-    "niri/workspaces": {
-        "format": "{icon}",
-        "format-icons": {
-            "active": "",
-            "default": "",
-            "empty": ""
+        "niri/workspaces": {
+            "format": "{icon}",
+            "format-icons": {
+                "active": "",
+                "default": "",
+                "empty": ""
+            },
+            "persistent-workspaces": {
+                "*": [1,2,3,4]
+            }
         },
-        "persistent-workspaces": {
-            "*": [1,2,3,4]
-        }
-    },
-
-        // "custom/notification": {
-        //     "tooltip": true,
-        //     "format": "",
-        //     "on-click": "swaync-client -t -sw",
-        //     "escape": true
-        // },
 
         "clock": {
             "format": "{:%a,%d-%b %H:%M}",
@@ -74,11 +67,11 @@
             "format-alt": "{time} {icon}",
             "format-icons": [
                 "󰁻",
-                "󰁼",
-                "󰁾",
-                "󰂀",
-                "󰂂",
-                "󰁹"
+            "󰁼",
+            "󰁾",
+            "󰂀",
+            "󰂂",
+            "󰁹"
             ],
         },
 
