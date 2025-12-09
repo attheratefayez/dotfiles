@@ -402,6 +402,9 @@ source_ros()
 # to launch default terminal use: x-terminal-emulator
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+if ! command -v vim 2>&1 >/dev/null; then
+    export EDITOR=vim
+fi
 
 . "$HOME/.cargo/env"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
