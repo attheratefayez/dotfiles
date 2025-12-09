@@ -3,66 +3,94 @@ sudo pacman -S --noconfirm man-db
 sudo pacman -S --needed --noconfirm base-devel \
 	clang \
 	curl \
+    docker docker-compose docker-buildx \
 	fzf \
 	gcc \
 	git \
-    ghostty \
+	ghostty \
 	neovim \
 	noto-fonts \
 	ripgrep \
 	stow \
+    swayidle \
 	wget \
 	unzip \
-    wl-clipboard \
+	wl-clipboard \
 	xcb-util-cursor \
-    yazi \
+	yazi \
 	zoxide 
 
+# make docker run without sudo 
+# seems like it comes configured for now
+# sudo groupadd docker && sudo usermod -aG docker $USER && newgrp docker
+
 # fix font-issue in browser
-# fc-cache -f -v
+fc-cache -f -v
 
 # get dotfiles
-# (git clone https://github.com/attheratefayez/dotfiles.git \
+# (cd ~ && git clone https://github.com/attheratefayez/dotfiles.git \
 # && rm ~/.bashrc && rm ~/.config/niri/config.kdl \
 # && cd ./dotfiles && stow .
 # )
 
 # install uv
-curl -LsSf https://astral.sh/uv/install.sh | sh
-source $HOME/.local/bin/env
+if ! command -v uv 2>&1 > /dev/null; then
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+	source $HOME/.local/bin/env
+else
+	echo -e "\n\nUV is installed. Skipping.\n\n"
+fi
 
-# creating colors for waybar
-(cd ~/Public/ && mkdir test && cd test && uv add pywal && uv run python3 -m pywal --theme base16-material && cd .. && rm -rf test)
-
+## creating colors for waybar
+(cd ~/Public/ && mkdir test && cd test && uv init && uv add pywal && uv run python3 -m pywal --theme base16-material && cd .. && rm -rf test)
 
 ## install rust
-#curl https://sh.rustup.rs -sSf | sh -s -- -y
-#source $HOME/.cargo/env 
-#
-## install xwayland-satellite
-#(cd ~/Public/ && \
-#git clone https://github.com/Supreeeme/xwayland-satellite.git && \
-#cd xwayland-satellite && \
-#cargo build --release && \
-#cd .. && rm -rf xwayland-satellite)
-#
-## install nerd-font
-#(mkdir -p /home/$USER/.local/share/fonts \
-#&& cd /home/$USER/.local/share/fonts \
-#&& wget -O firacode.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip \
-#&& unzip firacode.zip -d firacode && mv ./firacode/*-Regular.ttf ./ && rm -rf firacode.zip firacode)
+if ! command -v cargo 2>&1 > /dev/null; then
+	curl https://sh.rustup.rs -sSf | sh -s -- -y
+	source $HOME/.cargo/env 
+else
+	echo -e "\n\nRust is installed. Skipping.\n\n"
+fi
+
+# install xwayland-satellite
+if ! command -v xwayland-satellite 2>&1 > /dev/null; then
+	(cd ~/Public/ && \
+		git clone https://github.com/Supreeeme/xwayland-satellite.git && \
+		cd xwayland-satellite && \
+		cargo build --release && sudo mv ./target/release/xwayland-satellite /usr/bin/ \
+		cd .. && rm -rf xwayland-satellite)
+else
+	echo -e "\n\nxwayland-satellite is installed. Skipping.\n\n"
+fi
+
+# set prefer-dark option for applications
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
+
+if [ -z "$(ls -A "/home/$USER/.local/share/fonts")" ]; then
+    (mkdir -p /home/$USER/.local/share/fonts \
+        && cd /home/$USER/.local/share/fonts \
+        && wget -O firacode.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip \
+        && unzip firacode.zip -d firacode && mv ./firacode/*-Regular.ttf ./ && rm -rf firacode.zip firacode)
+else
+    echo -e "\n\nNerd Fonts already downloaded. Skipping.\n\n"
+fi
 
 # install brave-browser
-#curl -fsS https://dl.brave.com/install.sh | sh
+if ! command -v brave 2>&1 > /dev/null; then
+    curl -fsS https://dl.brave.com/install.sh | sh
+else
+	echo -e "\n\nbrave-browser is installed. Skipping.\n\n"
+fi
 
-
-
-
-
-
-
-
-
+# configure ssh
+if [ -z "$(ls -A "/home/$USER/.ssh/id_rsa")" ]; then
+    ssh-keygen -t rsa -b 4096 -C "faizurrahman.fayez@gmail.com"
+    eval $(ssh-agent -s)
+    ssh-add
+else 
+    echo -e "\n\nSSH already configured.\n\n"
+fi
 
 
 #
