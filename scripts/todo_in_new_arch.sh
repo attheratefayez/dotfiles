@@ -112,5 +112,7 @@ fi
 
 # configure network manager
 sudo systemctl enable --now NetworkManager.service
+sudo systemctl disable --now systemd-networkd.service
+
 nmcli device wifi connect "ABCD" --ask
 
