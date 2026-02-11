@@ -1,24 +1,34 @@
 # install basic packages
 sudo pacman -S --noconfirm man-db
 sudo pacman -S --needed --noconfirm base-devel \
+    btop \
 	clang \
+    clang-format \
 	curl \
     docker docker-compose docker-buildx \
+    firefox \
 	fzf \
 	gcc \
 	git \
 	ghostty \
 	neovim \
+    nmcli \
 	noto-fonts \
+    os-prober \
+    pipewire-pulse \
 	ripgrep \
 	stow \
     swayidle \
+    tmux \
 	wget \
 	unzip \
+    vlc \
+    vlc-plugins-all \
 	wl-clipboard \
 	xcb-util-cursor \
 	yazi \
-	zoxide 
+	zoxide \
+	7zip
 
 # make docker run without sudo 
 # seems like it comes configured for now
@@ -66,7 +76,10 @@ fi
 # set prefer-dark option for applications
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
+# install tpm
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
+# get nerd-fonts
 if [ -z "$(ls -A "/home/$USER/.local/share/fonts")" ]; then
     (mkdir -p /home/$USER/.local/share/fonts \
         && cd /home/$USER/.local/share/fonts \
