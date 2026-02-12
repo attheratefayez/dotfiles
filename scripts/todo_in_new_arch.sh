@@ -20,6 +20,7 @@ sudo pacman -S --needed --noconfirm base-devel \
 	tmux \
 	wget \
 	unzip \
+    viewnior \
 	vlc \
 	vlc-plugins-all \
 	wl-clipboard \
@@ -116,3 +117,23 @@ sudo systemctl disable --now systemd-networkd.service
 
 nmcli device wifi connect "ABCD" --ask
 
+
+
+
+
+
+
+
+
+echo -e """
+
+POST INSTALLATION TODOs: 
+
+1. Configure NetworkManager: 
+\tEdit the file: /etc/NetworkManager/NetworkManager.conf
+\tAdd : [device]
+        wifi.backend=iwd
+\tafter that, run: 
+        sudo systemctl restart --now iwd NetworkManager
+
+"""
