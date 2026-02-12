@@ -2,6 +2,7 @@
 sudo pacman -S --noconfirm man-db
 
 sudo pacman -S --needed --noconfirm base-devel \
+    bash-completion \
 	btop \
 	clang \
 	curl \
@@ -17,6 +18,7 @@ sudo pacman -S --needed --noconfirm base-devel \
 	os-prober \
 	ripgrep \
 	stow \
+    timeshift \
 	tmux \
 	wget \
 	unzip \
@@ -28,6 +30,10 @@ sudo pacman -S --needed --noconfirm base-devel \
 	yazi \
 	zoxide \
 	7zip
+
+git config --global user.name "fayez"
+git config --global user.email "faizurrahman.fayez@gmail.com"
+git config --global core.editor "vim"
 
 # make docker run without sudo 
 # seems like it comes configured for now
@@ -135,5 +141,10 @@ POST INSTALLATION TODOs:
         wifi.backend=iwd
 \tafter that, run: 
         sudo systemctl restart --now iwd NetworkManager
+
+2. Add grub entries for other OSs in the system: 
+\tUncomment GRUB_DISABLE_OS_PROBER=false
+\tCreate backup for /boot/grub/grub.cfg 
+\tRun: sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 """
