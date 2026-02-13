@@ -313,11 +313,12 @@ layout {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 // spawn-at-startup "waybar"
 spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c noctalia-shell"
 // spawn-sh-at-startup "swaybg --image ~/Pictures/wallpapers/wal3.jpg --mode fill"
-spawn-sh-at-startup "swayidle -w timeout 720 'qs -c noctalia-shell ipc call lockScreen lock' timeout 1200 'qs -c noctalia-shell ipc call sessionMenu lockAndSuspend' resume 'niri msg action power-on-monitors' before-sleep 'qs -c noctalia-shell ipc call lockScreen lock' "
+spawn-sh-at-startup "swayidle -w timeout 900 'qs -c noctalia-shell ipc call lockScreen lock' timeout 960 'qs -c noctalia-shell ipc call sessionMenu lockAndSuspend' resume 'niri msg action power-on-monitors' before-sleep 'qs -c noctalia-shell ipc call lockScreen lock' after-resume 'niri msg action power-on-monitors'"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.

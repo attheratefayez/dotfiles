@@ -12,10 +12,12 @@ sudo pacman -S --needed --noconfirm base-devel \
 	gcc \
 	git \
 	ghostty \
+    gparted \
 	neovim \
 	networkmanager \
 	noto-fonts \
 	os-prober \
+    polkit-gnome \
 	ripgrep \
 	stow \
     timeshift \
@@ -27,6 +29,7 @@ sudo pacman -S --needed --noconfirm base-devel \
 	vlc-plugins-all \
 	wl-clipboard \
 	xcb-util-cursor \
+    xorg-xhost \
 	yazi \
 	zoxide \
 	7zip
