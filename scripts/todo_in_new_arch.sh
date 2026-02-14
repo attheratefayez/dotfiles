@@ -7,12 +7,15 @@ sudo pacman -S --needed --noconfirm base-devel \
 	clang \
 	curl \
 	docker docker-compose docker-buildx \
+    fastfetch \
 	firefox \
 	fzf \
 	gcc \
 	git \
 	ghostty \
     gparted \
+    gnome-keyring \
+    libsecret \
 	neovim \
 	networkmanager \
 	noto-fonts \
@@ -23,6 +26,7 @@ sudo pacman -S --needed --noconfirm base-devel \
     timeshift \
 	tmux \
 	wget \
+    ueberzugpp \
 	unzip \
     viewnior \
 	vlc \
@@ -131,7 +135,10 @@ nmcli device wifi connect "ABCD" --ask
 
 
 
-
+# remove kwallet
+# it cannot properly store brave's cookies across session
+# using gnome-keyring, libsecret instead
+sudo pacman -Rc kwallet kwallet-pam
 
 
 echo -e """
@@ -150,4 +157,10 @@ POST INSTALLATION TODOs:
 \tCreate backup for /boot/grub/grub.cfg 
 \tRun: sudo grub-mkconfig -o /boot/grub/grub.cfg
 
+3. Fix pam.d for ly display manager: 
+\tRun: systemctl --user enable gnome-keyring-daemon
+\tComment out pam_kwallet for auth and session
+\tUncomment auth and session with pam_gnome_keyring
+
+Restart the system.
 """
