@@ -26,6 +26,7 @@ RUN apt-get update && apt upgrade -y \
     pkg-config \
     python3 \
     python3-venv \
+    qtwayland5 \
     ripgrep \
     stow \
     sudo \

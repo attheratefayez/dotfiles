@@ -13,7 +13,8 @@ services:
     environment:
       - XDG_RUNTIME_DIR=/tmp/runtime-humble_turtle
       - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
-      - QT_QPA_PLATFORM=wayland #helps qt-based apps like rviz,rqt
+      - DISPLAY=${DISPLAY}
+      - QT_QPA_PLATFORM=xda #helps qt-based apps like rviz,rqt
     volumes:
       - /home/fayez/Bugs/Rosjects/:/home/humble_turtle/Bugs/Rosjects/:rw
       - /dev:/dev
