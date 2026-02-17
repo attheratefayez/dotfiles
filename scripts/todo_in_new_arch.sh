@@ -19,6 +19,7 @@ sudo pacman -S --needed --noconfirm base-devel \
 	neovim \
 	networkmanager \
 	noto-fonts \
+    nvidia-container-toolkit \
 	os-prober \
     polkit-gnome \
 	ripgrep \
@@ -36,6 +37,8 @@ sudo pacman -S --needed --noconfirm base-devel \
     xorg-xhost \
 	yazi \
 	zoxide \
+    zathura \
+    zathura-pdf-mupdf \
 	7zip
 
 git config --global user.name "fayez"
@@ -44,7 +47,10 @@ git config --global core.editor "vim"
 
 # make docker run without sudo 
 # seems like it comes configured for now
-# sudo groupadd docker && sudo usermod -aG docker $USER && newgrp docker
+sudo groupadd docker && sudo usermod -aG docker $USER && newgrp docker
+
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
 
 # fix font-issue in browser
 fc-cache -f -v
