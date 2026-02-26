@@ -19,9 +19,11 @@ sudo pacman -S --needed --noconfirm base-devel \
 	neovim \
 	networkmanager \
 	noto-fonts \
+    npm \
     nvidia-container-toolkit \
 	os-prober \
     polkit-gnome \
+    reflector \
 	ripgrep \
 	stow \
     timeshift \
@@ -167,6 +169,9 @@ POST INSTALLATION TODOs:
 \tRun: systemctl --user enable gnome-keyring-daemon
 \tComment out pam_kwallet for auth and session
 \tUncomment auth and session with pam_gnome_keyring
+
+4. Fix mirror list: 
+\tsudo reflector --latest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 Restart the system.
 """
