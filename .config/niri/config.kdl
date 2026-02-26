@@ -209,7 +209,8 @@ layout {
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
 
         // Color of the ring on the active monitor.
-        active-color "#5e81ac"
+        active-color "#2a9d8f"
+        // active-color "#219ebc"
         // active-color "rgba(144, 245, 158, 0.5)"
 
         // Color of the ring on inactive monitors.
@@ -345,7 +346,7 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // https://yalter.github.io/niri/Configuration:-Animations
 animations {
     // Uncomment to turn off all animations.
-    off
+    // off
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
