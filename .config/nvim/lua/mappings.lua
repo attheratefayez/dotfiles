@@ -42,3 +42,7 @@ map("n", "<leader>mso", "<cmd>Markview splitOpen<CR>", { desc = "Opens Markview'
 map("n", "<leader>msc", "<cmd>Markview splitClose<CR>", { desc = "Closes Markview preview"})
 
 
+-- open telescope to pick a directory and then pick a file
+map("n", "<leader>fH", function()
+  require("configs.pickers").find_in_dir()
+end, { desc = "Find files in chosen directory" })
