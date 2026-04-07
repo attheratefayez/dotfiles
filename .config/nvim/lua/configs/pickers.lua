@@ -35,7 +35,7 @@ M.find_in_dir = function()
     -- }),
 
     finder = finders.new_oneshot_job({
-      "find", "/home/fayez", "-type", "d",
+      "find", "/home/fayez", "-type", "d", "-maxdepth", "3",
       "!", "-path", "*/[@.]*"
     }),
     sorter = conf.generic_sorter({}), -- uses fzf if extension loaded
