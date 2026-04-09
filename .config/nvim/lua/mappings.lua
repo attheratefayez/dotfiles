@@ -43,6 +43,11 @@ map("n", "<leader>msc", "<cmd>Markview splitClose<CR>", { desc = "Closes Markvie
 
 
 -- open telescope to pick a directory and then pick a file
-map("n", "<leader>fH", function()
+map("n", "<leader>fdf", function()
   require("configs.pickers").find_in_dir()
 end, { desc = "Find files in chosen directory" })
+
+map("n", "<leader>fdw", function()
+  require("configs.pickers").live_grep_in_dir()
+end, { desc = "Live-grep files in chosen directory" })
+
