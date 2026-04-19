@@ -8,6 +8,10 @@ return {
       -- optional but recommended
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
+    opts = function(_, opts)
+        require('telescope').load_extension('fzf')
+        return opts
+    end
   },
 
   {
