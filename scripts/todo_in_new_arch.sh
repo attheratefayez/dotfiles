@@ -8,6 +8,7 @@ sudo pacman -S --needed --noconfirm base-devel \
 	curl \
 	docker docker-compose docker-buildx \
     fastfetch \
+    fd \
 	firefox \
 	fzf \
 	gcc \
@@ -28,6 +29,7 @@ sudo pacman -S --needed --noconfirm base-devel \
 	stow \
     timeshift \
 	tmux \
+    tree \
 	wget \
     ueberzugpp \
 	unzip \
