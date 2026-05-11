@@ -1,37 +1,239 @@
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
-vim.g.mapleader = " "
+-- ========================================================================== --
+-- ==                           EDITOR SETTINGS                            == --
+-- ========================================================================== --
 
--- bootstrap lazy and all plugins
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+-- Learn more about Neovim lua api
+-- https://neovim.io/doc/user/lua-guide.html
+-- https://vonheikemen.github.io/devlog/tools/build-your-first-lua-config-for-neovim/
 
-if not vim.uv.fs_stat(lazypath) then
-  local repo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
+vim.o.number = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.hlsearch = false
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.showmode = false
+vim.o.termguicolors = true
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
+vim.o.signcolumn = 'yes'
+vim.opt.clipboard = "unnamedplus"
+
+vim.opt.guicursor = {
+  "n-v-i-c:block",        -- normal, visual, insert, command-line
+  "r-cr-o:block",         -- replace, confirm, operator-pending
+}
+
+-- Space as leader key
+vim.g.mapleader = ' '
+
+-- Basic clipboard interaction
+vim.keymap.set({'n', 'x'}, 'gy', '"+y', {desc = 'Copy to clipboard'})
+vim.keymap.set({'n', 'x'}, 'gp', '"+p', {desc = 'Paste clipboard content'})
+vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
+-- ========================================================================== --
+-- ==                               PLUGINS                                == --
+-- ========================================================================== --
+
+local mini = {}
+local nvim_10 = vim.fn.has('nvim-0.10') == 1
+
+mini.branch = 'main'
+mini.packpath = vim.fn.stdpath('data') .. '/site'
+
+-- Last version that supports Neovim v0.9
+mini.revision = '3923662bf3d6ca49a9503f8d7196ea0450983e6a'
+
+function mini.require_deps()
+  local uv = vim.uv or vim.loop
+  local mini_path = mini.packpath .. '/pack/deps/start/mini.nvim'
+
+  if not uv.fs_stat(mini_path) then
+    print('Installing mini.nvim....')
+    vim.fn.system({
+      'git',
+      'clone',
+      '--filter=blob:none',
+      'https://github.com/nvim-mini/mini.nvim',
+      string.format('--branch=%s', mini.branch),
+      mini_path
+    })
+
+    if not nvim_10 then
+      local switch_cmd = {'git', 'switch', '--detach', mini.revision}
+      local job_opts = {cwd = mini_path}
+      vim.fn.jobwait({vim.fn.jobstart(switch_cmd, job_opts)})
+    end
+
+    vim.cmd('packadd mini.nvim | helptags ALL')
+  end
+
+  local ok, deps = pcall(require, 'mini.deps')
+  if not ok then
+    return {}
+  end
+
+  return deps
 end
 
-vim.opt.rtp:prepend(lazypath)
+local MiniDeps = mini.require_deps()
+if not MiniDeps.setup then
+  return
+end
 
-local lazy_config = require "configs.lazy"
-
--- load plugins
-require("lazy").setup({
-  {
-    "NvChad/NvChad",
-    lazy = false,
-    branch = "v2.5",
-    import = "nvchad.plugins",
+-- See :help MiniDeps.config
+MiniDeps.setup({
+  path = {
+    package = mini.packpath,
   },
+})
 
-  { import = "plugins" },
-}, lazy_config)
+MiniDeps.add('folke/tokyonight.nvim')
+MiniDeps.add('folke/which-key.nvim')
+MiniDeps.add({
+  source = 'nvim-mini/mini.nvim',
+  checkout = nvim_10 and mini.branch or mini.revision,
+})
+MiniDeps.add({
+  source = 'neovim/nvim-lspconfig',
+  checkout = nvim_10 and 'v2.5.0' or 'v1.8.0',
+})
+MiniDeps.add({
+  source = 'nvim-treesitter/nvim-treesitter',
+  checkout = 'v0.10.0',
+})
 
--- load theme
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "statusline")
+-- ========================================================================== --
+-- ==                         PLUGIN CONFIGURATION                         == --
+-- ========================================================================== --
 
-require "options"
-require "autocmds"
+vim.cmd.colorscheme('tokyonight')
 
-vim.schedule(function()
-  require "mappings"
-end)
+-- See :help MiniIcons.config
+-- Change style to 'glyph' if you have a font with fancy icons
+require('mini.icons').setup({style = 'ascii'})
+
+-- See :help MiniComment.config
+require('mini.comment').setup({})
+
+-- See :help MiniSurround.config
+require('mini.surround').setup({})
+
+-- See :help MiniNotify.config
+require('mini.notify').setup({
+  lsp_progress = {enable = false},
+})
+
+-- See :help MiniBufremove.config
+require('mini.bufremove').setup({})
+
+-- Close buffer and preserve window layout
+vim.keymap.set('n', '<leader>bc', '<cmd>lua pcall(MiniBufremove.delete)<cr>', {desc = 'Close buffer'})
+
+-- See :help MiniFiles.config
+local mini_files = require('mini.files')
+mini_files.setup({})
+
+-- Toggle file explorer
+-- See :help MiniFiles-navigation
+vim.keymap.set('n', '<leader>e', function()
+  if mini_files.close() then
+    return
+  end
+
+  mini_files.open()
+end, {desc = 'File explorer'})
+
+-- See :help MiniPick.config
+require('mini.pick').setup({})
+
+-- See available pickers
+-- :help MiniPick.builtin
+-- :help MiniExtra.pickers
+vim.keymap.set('n', '<leader>?', '<cmd>Pick oldfiles<cr>', {desc = 'Search file history'})
+vim.keymap.set('n', '<leader><space>', '<cmd>Pick buffers<cr>', {desc = 'Search open files'})
+vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', {desc = 'Search all files'})
+vim.keymap.set('n', '<leader>fg', '<cmd>Pick grep_live<cr>', {desc = 'Search in project'})
+vim.keymap.set('n', '<leader>fd', '<cmd>Pick diagnostic<cr>', {desc = 'Search diagnostics'})
+vim.keymap.set('n', '<leader>fs', '<cmd>Pick buf_lines<cr>', {desc = 'Buffer local search'})
+
+-- See :help MiniStatusline.config
+require('mini.statusline').setup({})
+
+-- See :help MiniExtra
+require('mini.extra').setup({})
+
+-- See :help MiniSnippets.config
+require('mini.snippets').setup({})
+
+-- See :help MiniCompletion.config
+require('mini.completion').setup({
+  lsp_completion = {
+    source_func = 'omnifunc',
+    auto_setup = false,
+  },
+})
+
+-- See :help which-key.nvim-which-key-setup
+require('which-key').setup({
+  preset = 'helix',
+  icons = {
+    mappings = false,
+    keys = {
+      Space = 'Space',
+      Esc = 'Esc',
+      BS = 'Backspace',
+      C = 'Ctrl-',
+    },
+  },
+})
+
+require('which-key').add({
+  {'<leader>f', group = 'Fuzzy Find'},
+  {'<leader>b', group = 'Buffer'},
+})
+
+-- Treesitter setup
+-- NOTE: the list of supported parsers is in the documentation:
+-- https://github.com/nvim-treesitter/nvim-treesitter/tree/v0.10.0#supported-languages
+local ts_parsers = {'lua', 'vim', 'vimdoc', 'c', 'query'}
+require('nvim-treesitter.configs').setup({
+  highlight = {enable = true},
+  ensure_installed = ts_parsers,
+})
+
+-- LSP setup
+vim.keymap.set('n', '<C-w>d', '<cmd>lua vim.diagnostic.open_float()<cr>')
+vim.keymap.set('n', '<C-w><C-d>', '<cmd>lua vim.diagnostic.open_float()<cr>')
+vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function(event)
+    local opts = {buffer = event.buf}
+
+    -- These keymaps will become defaults after Neovim v0.11
+    vim.keymap.set('n', 'grr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+    vim.keymap.set('n', 'gri', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+    vim.keymap.set('n', 'grt', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+    vim.keymap.set('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+    vim.keymap.set('n', 'gra', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+    vim.keymap.set('n', 'gO', '<cmd>lua vim.lsp.buf.document_symbol()<cr>', opts)
+    vim.keymap.set({'i', 's'}, '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+
+    -- These are custom keymaps
+    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+    vim.keymap.set('n', 'grd', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+    vim.keymap.set({'n', 'x'}, 'gq', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+
+    local id = vim.tbl_get(event, 'data', 'client_id')
+    local client = id and vim.lsp.get_client_by_id(id)
+
+    if client and client.supports_method('textDocument/completion') then
+      vim.bo[event.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+    end
+  end,
+})
+
