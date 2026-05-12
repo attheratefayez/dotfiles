@@ -1,0 +1,12 @@
+-- local gh = require('vim_pack_nvim').gh
+-- local selective_load = require('vim_pack_nvim').selective_load
+--
+-- vim.pack.add({ { src = gh 'lervag/vimtex', data = { manual_load = true } } }, { load = selective_load })
+--
+-- vim.api.nvim_create_autocmd('BufEnter', {
+--   pattern = { '*.tex' },
+--   callback = function()
+--     vim.cmd.packadd 'vimtex'
+--     vim.g.vimtex_view_method = 'zathura'
+--   end,
+-- })
