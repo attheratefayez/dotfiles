@@ -1,239 +1,82 @@
--- ========================================================================== --
--- ==                           EDITOR SETTINGS                            == --
--- ========================================================================== --
+-- guide to vim.pack
+-- https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack#lazy-loading
+-- Enable faster startup by caching compiled Lua modules
+vim.loader.enable()
 
--- Learn more about Neovim lua api
--- https://neovim.io/doc/user/lua-guide.html
--- https://vonheikemen.github.io/devlog/tools/build-your-first-lua-config-for-neovim/
+-- options should be loaded first 
+require('options')
 
-vim.o.number = true
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.hlsearch = false
-vim.o.tabstop = 2
-vim.o.shiftwidth = 2
-vim.o.showmode = false
-vim.o.termguicolors = true
-vim.o.updatetime = 250
-vim.o.timeoutlen = 300
-vim.o.signcolumn = 'yes'
-vim.opt.clipboard = "unnamedplus"
+local gh = require('vim_pack_nvim').gh
 
-vim.opt.guicursor = {
-  "n-v-i-c:block",        -- normal, visual, insert, command-line
-  "r-cr-o:block",         -- replace, confirm, operator-pending
-}
+require("plugins.conform_nvim")
+require("plugins.debug")
+require("plugins.git_signs_nvim")
+require("plugins.lsp_config")
+require("plugins.lua_snip_nvim")
+require("plugins.mini_nvim")
+require("plugins.nvim_surround_nvim")
+require("plugins.nvim_tree_sitter_nvim")
+require("plugins.todo_comments_nvim")
+require("plugins.telescope_nvim")
+require("plugins.which_key_nvim")
 
--- Space as leader key
-vim.g.mapleader = ' '
+require('mappings')
 
--- Basic clipboard interaction
-vim.keymap.set({'n', 'x'}, 'gy', '"+y', {desc = 'Copy to clipboard'})
-vim.keymap.set({'n', 'x'}, 'gp', '"+p', {desc = 'Paste clipboard content'})
-vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
--- ========================================================================== --
--- ==                               PLUGINS                                == --
--- ========================================================================== --
+require('custom.custom_pyright')
+-- ============================================================
+-- SECTION 3: UI / CORE UX PLUGINS
+-- guess-indent, gitsigns, which-key, colorscheme, todo-comments, mini modules
+-- ============================================================
+  if vim.g.have_nerd_font then vim.pack.add { gh 'nvim-tree/nvim-web-devicons' } end
 
-local mini = {}
-local nvim_10 = vim.fn.has('nvim-0.10') == 1
+  -- [[ Colorscheme ]]
+  -- You can easily change to a different colorscheme.
+  -- Change the name of the colorscheme plugin below, and then
+  -- change the command under that to load whatever the name of that colorscheme is.
+  --
+  -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  vim.pack.add { gh 'EdenEast/nightfox.nvim' }
+  -- Load the colorscheme here.
+  -- Like many other themes, this one has different styles, and you could load
+  -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+  vim.cmd.colorscheme 'nightfox'
 
-mini.branch = 'main'
-mini.packpath = vim.fn.stdpath('data') .. '/site'
+-- ============================================================
+-- SECTION 6: FORMATTING
+-- conform.nvim setup and keymap
+-- ============================================================
 
--- Last version that supports Neovim v0.9
-mini.revision = '3923662bf3d6ca49a9503f8d7196ea0450983e6a'
+-- ============================================================
+-- SECTION 7: AUTOCOMPLETE & SNIPPETS
+-- blink.cmp and luasnip setup
+-- ============================================================
 
-function mini.require_deps()
-  local uv = vim.uv or vim.loop
-  local mini_path = mini.packpath .. '/pack/deps/start/mini.nvim'
+-- ============================================================
+-- SECTION 9: OPTIONAL EXAMPLES / NEXT STEPS
+-- kickstart.plugins.* examples
+-- ============================================================
+do
+  -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
+  -- init.lua. If you want these files, they are in the repository, so you can just download them and
+  -- place them in the correct locations.
 
-  if not uv.fs_stat(mini_path) then
-    print('Installing mini.nvim....')
-    vim.fn.system({
-      'git',
-      'clone',
-      '--filter=blob:none',
-      'https://github.com/nvim-mini/mini.nvim',
-      string.format('--branch=%s', mini.branch),
-      mini_path
-    })
+  -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
+  --
+  --  Here are some example plugins that I've included in the Kickstart repository.
+  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
+  --
+  -- require 'kickstart.plugins.debug'
+  -- require 'kickstart.plugins.indent_line'
+  -- require 'kickstart.plugins.lint'
+  -- require 'kickstart.plugins.autopairs'
+  -- require 'kickstart.plugins.neo-tree'
+  -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
-    if not nvim_10 then
-      local switch_cmd = {'git', 'switch', '--detach', mini.revision}
-      local job_opts = {cwd = mini_path}
-      vim.fn.jobwait({vim.fn.jobstart(switch_cmd, job_opts)})
-    end
-
-    vim.cmd('packadd mini.nvim | helptags ALL')
-  end
-
-  local ok, deps = pcall(require, 'mini.deps')
-  if not ok then
-    return {}
-  end
-
-  return deps
+  -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
+  --
+  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
+  -- require 'custom.plugins'
 end
 
-local MiniDeps = mini.require_deps()
-if not MiniDeps.setup then
-  return
-end
-
--- See :help MiniDeps.config
-MiniDeps.setup({
-  path = {
-    package = mini.packpath,
-  },
-})
-
-MiniDeps.add('folke/tokyonight.nvim')
-MiniDeps.add('folke/which-key.nvim')
-MiniDeps.add({
-  source = 'nvim-mini/mini.nvim',
-  checkout = nvim_10 and mini.branch or mini.revision,
-})
-MiniDeps.add({
-  source = 'neovim/nvim-lspconfig',
-  checkout = nvim_10 and 'v2.5.0' or 'v1.8.0',
-})
-MiniDeps.add({
-  source = 'nvim-treesitter/nvim-treesitter',
-  checkout = 'v0.10.0',
-})
-
--- ========================================================================== --
--- ==                         PLUGIN CONFIGURATION                         == --
--- ========================================================================== --
-
-vim.cmd.colorscheme('tokyonight')
-
--- See :help MiniIcons.config
--- Change style to 'glyph' if you have a font with fancy icons
-require('mini.icons').setup({style = 'ascii'})
-
--- See :help MiniComment.config
-require('mini.comment').setup({})
-
--- See :help MiniSurround.config
-require('mini.surround').setup({})
-
--- See :help MiniNotify.config
-require('mini.notify').setup({
-  lsp_progress = {enable = false},
-})
-
--- See :help MiniBufremove.config
-require('mini.bufremove').setup({})
-
--- Close buffer and preserve window layout
-vim.keymap.set('n', '<leader>bc', '<cmd>lua pcall(MiniBufremove.delete)<cr>', {desc = 'Close buffer'})
-
--- See :help MiniFiles.config
-local mini_files = require('mini.files')
-mini_files.setup({})
-
--- Toggle file explorer
--- See :help MiniFiles-navigation
-vim.keymap.set('n', '<leader>e', function()
-  if mini_files.close() then
-    return
-  end
-
-  mini_files.open()
-end, {desc = 'File explorer'})
-
--- See :help MiniPick.config
-require('mini.pick').setup({})
-
--- See available pickers
--- :help MiniPick.builtin
--- :help MiniExtra.pickers
-vim.keymap.set('n', '<leader>?', '<cmd>Pick oldfiles<cr>', {desc = 'Search file history'})
-vim.keymap.set('n', '<leader><space>', '<cmd>Pick buffers<cr>', {desc = 'Search open files'})
-vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', {desc = 'Search all files'})
-vim.keymap.set('n', '<leader>fg', '<cmd>Pick grep_live<cr>', {desc = 'Search in project'})
-vim.keymap.set('n', '<leader>fd', '<cmd>Pick diagnostic<cr>', {desc = 'Search diagnostics'})
-vim.keymap.set('n', '<leader>fs', '<cmd>Pick buf_lines<cr>', {desc = 'Buffer local search'})
-
--- See :help MiniStatusline.config
-require('mini.statusline').setup({})
-
--- See :help MiniExtra
-require('mini.extra').setup({})
-
--- See :help MiniSnippets.config
-require('mini.snippets').setup({})
-
--- See :help MiniCompletion.config
-require('mini.completion').setup({
-  lsp_completion = {
-    source_func = 'omnifunc',
-    auto_setup = false,
-  },
-})
-
--- See :help which-key.nvim-which-key-setup
-require('which-key').setup({
-  preset = 'helix',
-  icons = {
-    mappings = false,
-    keys = {
-      Space = 'Space',
-      Esc = 'Esc',
-      BS = 'Backspace',
-      C = 'Ctrl-',
-    },
-  },
-})
-
-require('which-key').add({
-  {'<leader>f', group = 'Fuzzy Find'},
-  {'<leader>b', group = 'Buffer'},
-})
-
--- Treesitter setup
--- NOTE: the list of supported parsers is in the documentation:
--- https://github.com/nvim-treesitter/nvim-treesitter/tree/v0.10.0#supported-languages
-local ts_parsers = {'lua', 'vim', 'vimdoc', 'c', 'query'}
-require('nvim-treesitter.configs').setup({
-  highlight = {enable = true},
-  ensure_installed = ts_parsers,
-})
-
--- LSP setup
-vim.keymap.set('n', '<C-w>d', '<cmd>lua vim.diagnostic.open_float()<cr>')
-vim.keymap.set('n', '<C-w><C-d>', '<cmd>lua vim.diagnostic.open_float()<cr>')
-vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
-vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
-
-vim.api.nvim_create_autocmd('LspAttach', {
-  desc = 'LSP actions',
-  callback = function(event)
-    local opts = {buffer = event.buf}
-
-    -- These keymaps will become defaults after Neovim v0.11
-    vim.keymap.set('n', 'grr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-    vim.keymap.set('n', 'gri', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-    vim.keymap.set('n', 'grt', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-    vim.keymap.set('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-    vim.keymap.set('n', 'gra', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
-    vim.keymap.set('n', 'gO', '<cmd>lua vim.lsp.buf.document_symbol()<cr>', opts)
-    vim.keymap.set({'i', 's'}, '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-
-    -- These are custom keymaps
-    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-    vim.keymap.set('n', 'grd', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-    vim.keymap.set({'n', 'x'}, 'gq', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-
-    local id = vim.tbl_get(event, 'data', 'client_id')
-    local client = id and vim.lsp.get_client_by_id(id)
-
-    if client and client.supports_method('textDocument/completion') then
-      vim.bo[event.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
-    end
-  end,
-})
-
+-- The line beneath this is called `modeline`. See `:help modeline`
+-- vim: ts=2 sts=2 sw=2 et
