@@ -14,6 +14,7 @@ require('mini.comment').setup {
 require('mini.diff').setup()
 require('mini.files').setup()
 require('mini.git').setup()
+-- require('mini.notify').setup()
 require('mini.pairs').setup()
 require('mini.tabline').setup()
 
