@@ -5,7 +5,10 @@ vim.pack.add({{src = gh "folke/persistence.nvim", data = {manual_load = true}}},
 
 vim.api.nvim_create_autocmd('BufReadPre', {
   callback = function()
-    vim.cmd.packadd 'persistance.nvim'
+    vim.cmd.packadd('persistence.nvim')
+    require("persistence").setup({
+			need = 0
+		})
 
     -- load the session for the current directory
     vim.keymap.set('n', '<leader>pl', function() require('persistence').load() end, {desc = "load session for cwd"})
