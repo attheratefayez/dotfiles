@@ -89,6 +89,7 @@ local map_split = function(buf_id, lhs, direction)
     end)
 
     MiniFiles.set_target_window(new_target)
+    MiniFiles.go_in()
 
     -- This intentionally doesn't act on file under cursor in favor of
     -- explicit "go in" action (`l` / `L`). To immediately open file,

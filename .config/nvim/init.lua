@@ -23,6 +23,7 @@ require("plugins.nvim_tree_sitter_nvim")
 require("plugins.persistence_nvim")
 require("plugins.todo_comments_nvim")
 require("plugins.telescope_nvim")
+-- require("plugins.vimtex_nvim")
 require("plugins.which_key_nvim")
 
 require('mappings')
