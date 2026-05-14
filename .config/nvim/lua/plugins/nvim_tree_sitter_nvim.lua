@@ -8,7 +8,7 @@ local gh = require("vim_pack_nvim").gh
 vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
 -- Ensure basic parsers are installed
-local parsers = { 'bash', 'c', 'cpp', 'diff', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python','vim', 'vimdoc' }
+local parsers = { 'bash', 'c', 'cpp', 'diff', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python','vim', 'vimdoc', 'dockerfile'}
 require('nvim-treesitter').install(parsers)
 
 ---@param buf integer
