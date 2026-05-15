@@ -1,10 +1,9 @@
 local gh = require('vim_pack_nvim').gh
-local selective_load = require('vim_pack_nvim').selective_load
 
-vim.pack.add({ { src = gh 'OXY2DEV/markview.nvim', data = { manual_load = true } } }, { load = selective_load })
+vim.pack.add({ { src = gh 'OXY2DEV/markview.nvim' } }, { load = false})
 
-vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = '*.md',
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
   callback = function()
     vim.cmd.packadd 'markview.nvim'
     require('markview').setup {

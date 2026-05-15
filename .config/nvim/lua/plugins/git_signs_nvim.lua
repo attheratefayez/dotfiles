@@ -1,7 +1,8 @@
 local gh = require('vim_pack_nvim').gh
 
+vim.pack.add { gh 'lewis6991/gitsigns.nvim' }
+
 vim.schedule(function()
-  vim.pack.add { gh 'lewis6991/gitsigns.nvim' }
   require('gitsigns').setup {
     signs = {
       add = { text = '+' }, ---@diagnostic disable-line: missing-fields

@@ -2,47 +2,47 @@
 sudo pacman -S --noconfirm man-db
 
 sudo pacman -S --needed --noconfirm base-devel \
-    bash-completion \
+	bash-completion \
 	btop \
 	clang \
 	curl \
 	docker docker-compose docker-buildx \
-    fastfetch \
-    fd \
+	fastfetch \
+	fd \
 	firefox \
 	fzf \
 	gcc \
 	git \
 	ghostty \
-    gparted \
-    gnome-keyring \
-    libsecret \
+	gparted \
+	gnome-keyring \
+	libsecret \
 	neovim \
 	networkmanager \
 	noto-fonts \
-    npm \
-    nvidia-container-toolkit \
+	npm \
+	nvidia-container-toolkit \
 	os-prober \
-    polkit-gnome \
-    reflector \
+	polkit-gnome \
+	reflector \
 	ripgrep \
 	stow \
-    timeshift \
+	timeshift \
 	tmux \
-    tree \
+	tree \
 	wget \
-    ueberzugpp \
+	ueberzugpp \
 	unzip \
-    viewnior \
+	viewnior \
 	vlc \
 	vlc-plugins-all \
 	wl-clipboard \
 	xcb-util-cursor \
-    xorg-xhost \
+	xorg-xhost \
 	yazi \
 	zoxide \
-    zathura \
-    zathura-pdf-mupdf \
+	zathura \
+	zathura-pdf-mupdf \
 	7zip
 
 git config --global user.name "fayez"

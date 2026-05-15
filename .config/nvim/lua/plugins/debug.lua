@@ -6,13 +6,12 @@
 -- be extended to other languages as well. That's why it's called
 -- kickstart.nvim and not kitchen-sink.nvim ;)
 local gh = require('vim_pack_nvim').gh
-local selective_load = require('vim_pack_nvim').selective_load
 
 local debug_plugins = {
   'mfussenegger/nvim-dap',
   'rcarriga/nvim-dap-ui',
   'nvim-neotest/nvim-nio',
-  -- 'mason-org/mason.nvim',
+--  'mason-org/mason.nvim',
   'jay-babu/mason-nvim-dap.nvim',
   'mfussenegger/nvim-dap-python',
 }
@@ -21,11 +20,10 @@ local addables = {}
 for _, val in ipairs(debug_plugins) do
   table.insert(addables, {
     src = gh(val),
-    data = { manual_load = true },
   })
 end
 
-vim.pack.add(addables, { load = selective_load })
+vim.pack.add(addables, { load = false })
 
 local function load_debug()
   for _, val in ipairs(debug_plugins) do
@@ -106,7 +104,8 @@ local function load_debug()
   require('dap-python').setup 'uv'
 end
 
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+-- load debug modules just before entering a python-file
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 	once = true,
 	pattern = {"*.py"},
 	callback = load_debug

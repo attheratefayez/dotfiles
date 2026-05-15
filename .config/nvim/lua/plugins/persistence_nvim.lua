@@ -1,7 +1,6 @@
 local gh = require('vim_pack_nvim').gh
-local selective_load = require('vim_pack_nvim').selective_load
 
-vim.pack.add({{src = gh "folke/persistence.nvim", data = {manual_load = true}}}, {load = selective_load})
+vim.pack.add({{src = gh "folke/persistence.nvim"}}, {load = false})
 
 vim.api.nvim_create_autocmd('BufReadPre', {
   callback = function()

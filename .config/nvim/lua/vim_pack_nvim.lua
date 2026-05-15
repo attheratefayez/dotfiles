@@ -77,9 +77,9 @@ function M.gh(repo) return 'https://github.com/' .. repo end
 --   { src = 'https://github.com/neovim/nvim-lspconfig', data = { manual_load = true } },
 -- }, { load = selective_load })
 --
-function M.selective_load(plug_data)
-  if (plug_data.spec.data or {}).manual_load then return end
-  vim.cmd.packadd(plug_data.spec.name)
-end
+-- function M.selective_load(plug_data)
+--   if (plug_data.spec.data or {}).manual_load then return end
+--   vim.cmd.packadd(plug_data.spec.name)
+-- end
 
 return M

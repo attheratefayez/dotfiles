@@ -1,4 +1,4 @@
--- guide to vim.pack
+-- uide to vim.pack
 -- https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack#lazy-loading
 -- Enable faster startup by caching compiled Lua modules
 vim.loader.enable()
@@ -8,23 +8,23 @@ require('options')
 
 local gh = require('vim_pack_nvim').gh
 
-require("plugins.conform_nvim")
-require("plugins.debug")
-require("plugins.focus_nvim")
-require("plugins.git_signs_nvim")
-require("plugins.iron_nvim")
-require("plugins.lsp_config")
-require("plugins.lua_snip_nvim")
-require("plugins.markview_nvim")
-require("plugins.mini_nvim")
-require("plugins.neogen_nvim")
-require("plugins.nvim_surround_nvim")
-require("plugins.nvim_tree_sitter_nvim")
-require("plugins.persistence_nvim")
-require("plugins.todo_comments_nvim")
-require("plugins.telescope_nvim")
--- require("plugins.vimtex_nvim")
-require("plugins.which_key_nvim")
+require("plugins.conform_nvim")          -- formatting
+require("plugins.debug")                 -- debugging (python)
+require("plugins.focus_nvim")            -- in multiwindow view, biggen the window that have cursor
+require("plugins.git_signs_nvim")        -- provide git signs
+require("plugins.iron_nvim")             -- iron repl for python
+require("plugins.lsp_config")            -- lsp
+require("plugins.lua_snip_nvim")         -- snippets engine
+require("plugins.markview_nvim")         -- markdown viewer
+require("plugins.mini_nvim")             -- collection of plugins (filemanager, tabline, statusline)
+require("plugins.neogen_nvim")           -- documentation format generator
+require("plugins.nvim_surround_nvim")    -- sorround things
+require("plugins.nvim_tree_sitter_nvim") -- highlighting
+require("plugins.persistence_nvim")      -- persistence over sessions
+require("plugins.todo_comments_nvim")    -- special tag hl and search (TODO, NOTE, HACK, FIX, WARN)
+require("plugins.telescope_nvim")        -- picker, search etc.
+-- require("plugins.vimtex_nvim")        -- latex help (disabled for most part)
+require("plugins.which_key_nvim")        -- shows keyboard shortcuts
 
 require('mappings')
 

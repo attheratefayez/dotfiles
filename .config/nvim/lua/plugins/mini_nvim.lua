@@ -11,10 +11,7 @@ require('mini.comment').setup {
     comment_visual = '<leader>/',
   },
 }
-require('mini.diff').setup()
 require('mini.files').setup()
-require('mini.git').setup()
--- require('mini.notify').setup()
 require('mini.pairs').setup()
 require('mini.tabline').setup()
 
@@ -23,17 +20,27 @@ require('mini.statusline').setup {
 
   content = {
     active = function()
-      local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 120 }
-
+      local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 200 }
       local git = MiniStatusline.section_git { trunc_width = 75 }
-
-      local diagnostics = MiniStatusline.section_diagnostics { trunc_width = 75 }
-
       local filename = MiniStatusline.section_filename { trunc_width = 140 }
-
       local fileinfo = MiniStatusline.section_fileinfo { trunc_width = 120 }
-
       local location = MiniStatusline.section_location { trunc_width = 75 }
+
+      local function current_lsp()
+        local clients = vim.lsp.get_clients {
+          bufnr = vim.api.nvim_get_current_buf(),
+        }
+
+        if #clients == 0 then return '' end
+
+        local names = {}
+
+        for _, client in ipairs(clients) do
+          if client:supports_method 'textDocument/completion' then table.insert(names, client.name) end
+        end
+
+        return 'lsp:' .. table.concat(names, ', ')
+      end
 
       return MiniStatusline.combine_groups {
         {
@@ -45,7 +52,6 @@ require('mini.statusline').setup {
           hl = 'MiniStatuslineDevinfo',
           strings = {
             git,
-            diagnostics,
           },
         },
 
@@ -61,6 +67,8 @@ require('mini.statusline').setup {
         {
           hl = 'MiniStatuslineFileinfo',
           strings = {
+            current_lsp(),
+	    '',
             fileinfo,
             location,
           },
@@ -76,9 +84,7 @@ require('mini.statusline').setup {
 ---@diagnostic disable-next-line: duplicate-set-field
 require('mini.statusline').section_location = function() return '%2l:%-2v %p%%' end
 
-
-
-
+-- mini.file keybind: <C-s> -> horizontal split, <C-v> vertical split
 local map_split = function(buf_id, lhs, direction)
   local rhs = function()
     -- Make new window and set it as target
@@ -108,14 +114,6 @@ vim.api.nvim_create_autocmd('User', {
     -- Tweak keys to your liking
     map_split(buf_id, '<C-s>', 'belowright horizontal')
     map_split(buf_id, '<C-v>', 'belowright vertical')
-    map_split(buf_id, '<C-t>', 'tab')
+    -- map_split(buf_id, '<C-t>', 'tab')
   end,
 })
-
-
-
-
-
-
-
-
