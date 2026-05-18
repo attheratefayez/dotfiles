@@ -7,9 +7,9 @@ prepend_keymap = [
 
 append_keymap = [
 	{ on = [ "g", "b" ],       run = "cd ~/Bugs",             desc = "Go ~/Bugs" },
-	{ on = [ "g", "r" ],       run = "cd ~/Bugs/Rosjects",    desc = "Go ~/Bugs/Rosjects" },
-	{ on = [ "g", "p" ],       run = "cd ~/Bugs/PythonWorks", desc = "Go ~/Bugs/PythonWorks" },
-	{ on = [ "g", "C" ],       run = "cd ~/Bugs/Cpp",         desc = "Go ~/Bugs/Cpp" },
+	{ on = [ "g", "r" ],       run = "cd ~/Bugs/rosjects",    desc = "Go ~/Bugs/rosjects" },
+	{ on = [ "g", "p" ],       run = "cd ~/Bugs/pythonWorks", desc = "Go ~/Bugs/pythonWorks" },
+	{ on = [ "g", "C" ],       run = "cd ~/Bugs/cpp",         desc = "Go ~/Bugs/cpp" },
 
 	{ on = [ "T" , "a"],       run = "shell --orphan --confirm alacritty &",desc = "Open Alacritty" },
 	{ on = [ "T" , "g"],       run = "shell --orphan --confirm ghostty &",desc = "Open Ghostty" },

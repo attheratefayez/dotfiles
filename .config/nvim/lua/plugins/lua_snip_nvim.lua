@@ -9,7 +9,6 @@ require('luasnip').setup {}
 vim.pack.add { gh 'rafamadriz/friendly-snippets' }
 require('luasnip.loaders.from_vscode').lazy_load()
 
-
 -- [[ Autocomplete Engine ]]
 --
 vim.pack.add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
@@ -52,10 +51,23 @@ require('blink.cmp').setup {
     -- By default, you may press `<c-space>` to show the documentation.
     -- Optionally, set `auto_show = true` to show the documentation after a delay.
     documentation = { auto_show = false, auto_show_delay_ms = 500 },
+    menu = {
+      draw = {
+        align_to = 'none',
+      },
+      cmdline_position = function()
+        if vim.g.ui_cmdline_pos ~= nil then
+          local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
+          return { pos[1] - 1, pos[2] }
+        end
+        local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+        return { vim.o.lines - height - 3, 0 }
+      end,
+    },
   },
 
   sources = {
-    default = { 'lsp', 'path', 'snippets', 'buffer'},
+    default = { 'lsp', 'path', 'snippets', 'buffer' },
   },
 
   snippets = { preset = 'luasnip' },
@@ -70,11 +82,9 @@ require('blink.cmp').setup {
   fuzzy = { implementation = 'lua' },
 
   -- Shows a signature help window while you type arguments for a function
-  signature = { enabled = true,
-		window = {
-			min_width = 10, 
-			max_width = 80,
-			max_height = 20,
-		}
-	},
+  signature = { enabled = true, window = {
+    min_width = 10,
+    max_width = 80,
+    max_height = 20,
+  } },
 }
