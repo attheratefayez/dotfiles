@@ -396,6 +396,24 @@ source_ros()
     export ROS_DOMAIN_ID=1
 }
 
+opdt()
+{
+	local dir
+	dir=$(fzf --walker=dir --walker-root=$HOME/Bugs)
+
+	[ -z "$dir" ] && return
+
+	dir=$(realpath "$dir")
+	local session
+	session=$(basename "$dir" | tr '.' '_')
+
+	if ! tmux has-session -t="$session" 2>/dev/null; then
+		tmux new-session -ds "$session" -c "$dir"
+	fi
+	tmux attach-session -t "$session"
+}
+
+
 # keyboard shortcut for yazi in ghostty
 # ghostty --title=Yazi --window-height=40 --window-width=160 --background-opacity=0.95 -e yazi
 #
