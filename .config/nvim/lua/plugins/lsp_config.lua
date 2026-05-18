@@ -26,6 +26,7 @@
 
 -- Useful status updates for LSP.
 --
+vim.o.winborder = "rounded"
 local gh = require('vim_pack_nvim').gh
 
 --
@@ -180,6 +181,7 @@ vim.list_extend(ensure_installed, {
 })
 
 require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'python',

@@ -3,49 +3,49 @@
 -- Enable faster startup by caching compiled Lua modules
 vim.loader.enable()
 
--- options should be loaded first 
-require('options')
+-- options should be loaded first
+require 'options'
 
 local gh = require('vim_pack_nvim').gh
 
-require("plugins.conform_nvim")          -- formatting
-require("plugins.debug")                 -- debugging (python)
-require("plugins.focus_nvim")            -- in multiwindow view, biggen the window that have cursor
-require("plugins.git_signs_nvim")        -- provide git signs
-require("plugins.iron_nvim")             -- iron repl for python
-require("plugins.lsp_config")            -- lsp
-require("plugins.lua_snip_nvim")         -- snippets engine
-require("plugins.markview_nvim")         -- markdown viewer
-require("plugins.mini_nvim")             -- collection of plugins (filemanager, tabline, statusline)
-require("plugins.neogen_nvim")           -- documentation format generator
-require("plugins.nvim_surround_nvim")    -- sorround things
-require("plugins.nvim_tree_sitter_nvim") -- highlighting
-require("plugins.persistence_nvim")      -- persistence over sessions
-require("plugins.todo_comments_nvim")    -- special tag hl and search (TODO, NOTE, HACK, FIX, WARN)
-require("plugins.telescope_nvim")        -- picker, search etc.
+require 'plugins.conform_nvim' -- formatting
+require 'plugins.debug' -- debugging (python)
+require 'plugins.focus_nvim' -- in multiwindow view, biggen the window that have cursor
+require 'plugins.git_signs_nvim' -- provide git signs
+require 'plugins.iron_nvim' -- iron repl for python
+require 'plugins.lsp_config' -- lsp
+require 'plugins.lua_snip_nvim' -- snippets engine
+require 'plugins.markview_nvim' -- markdown viewer
+require 'plugins.mini_nvim' -- collection of plugins (filemanager, tabline, statusline)
+require 'plugins.neogen_nvim' -- documentation format generator
+require 'plugins.nvim_surround_nvim' -- sorround things
+require 'plugins.nvim_tree_sitter_nvim' -- highlighting
+require 'plugins.persistence_nvim' -- persistence over sessions
+require 'plugins.todo_comments_nvim' -- special tag hl and search (TODO, NOTE, HACK, FIX, WARN)
+require 'plugins.telescope_nvim' -- picker, search etc.
 -- require("plugins.vimtex_nvim")        -- latex help (disabled for most part)
-require("plugins.which_key_nvim")        -- shows keyboard shortcuts
+require 'plugins.which_key_nvim' -- shows keyboard shortcuts
 
-require('mappings')
+require 'mappings'
 
-require('custom.custom_pyright')
+require 'custom.custom_pyright'
 -- ============================================================
 -- SECTION 3: UI / CORE UX PLUGINS
 -- guess-indent, gitsigns, which-key, colorscheme, todo-comments, mini modules
 -- ============================================================
-  if vim.g.have_nerd_font then vim.pack.add { gh 'nvim-tree/nvim-web-devicons' } end
+if vim.g.have_nerd_font then vim.pack.add { gh 'nvim-tree/nvim-web-devicons' } end
 
-  -- [[ Colorscheme ]]
-  -- You can easily change to a different colorscheme.
-  -- Change the name of the colorscheme plugin below, and then
-  -- change the command under that to load whatever the name of that colorscheme is.
-  --
-  -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-  vim.pack.add { gh 'EdenEast/nightfox.nvim' }
-  -- Load the colorscheme here.
-  -- Like many other themes, this one has different styles, and you could load
-  -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'nightfox'
+-- [[ Colorscheme ]]
+-- You can easily change to a different colorscheme.
+-- Change the name of the colorscheme plugin below, and then
+-- change the command under that to load whatever the name of that colorscheme is.
+--
+-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+vim.pack.add { gh 'EdenEast/nightfox.nvim' }
+-- Load the colorscheme here.
+-- Like many other themes, this one has different styles, and you could load
+-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+vim.cmd.colorscheme 'nightfox'
 
 -- ============================================================
 -- SECTION 6: FORMATTING
