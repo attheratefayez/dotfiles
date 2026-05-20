@@ -47,13 +47,43 @@ local function load_debug()
     ensure_installed = {
       -- Update this to ensure that you have the debuggers for the langs you want
       'debugpy',
+      'codelldb',
     },
-  }
+  } -- end of mason-nvim-dap setup
 
   -- Dap UI setup
   -- For more information, see |:help nvim-dap-ui|
   ---@diagnostic disable-next-line: missing-fields
   dapui.setup {
+    layouts = { {
+        elements = { {
+            id = "scopes",
+            size = 0.25
+          }, {
+            id = "breakpoints",
+            size = 0.25
+          }, {
+            id = "stacks",
+            size = 0.25
+          }, {
+            id = "watches",
+            size = 0.25
+          } },
+        position = "left",
+        size = 60
+      }, {
+        elements = { {
+            id = "repl",
+            size = 0.5
+          }, {
+            id = "console",
+            size = 0.5
+          } },
+        position = "bottom",
+        size = 20
+      } },
+
+
     -- Set icons to characters that are more likely to work in every terminal.
     --    Feel free to remove or use ones that you like more! :)
     --    Don't feel like these are good choices.
@@ -74,29 +104,24 @@ local function load_debug()
     },
   }
 
-  -- Change breakpoint icons
-  -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
-  -- vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
-  -- local breakpoint_icons = vim.g.have_nerd_font
-  --     and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
-  --   or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
-  -- for type, icon in pairs(breakpoint_icons) do
-  --   local tp = 'Dap' .. type
-  --   local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
-  --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
-  -- end
-
   dap.listeners.after.event_initialized['dapui_config'] = dapui.open
   dap.listeners.before.event_terminated['dapui_config'] = dapui.close
   dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+  dap.listeners.after.event_initialized['focus_disable'] = function() vim.g.focus_disable = true end
+  dap.listeners.before.event_terminated['focus_enable'] = function() vim.g.focus_disable = false end
+  dap.listeners.before.event_exited['focus_enable'] = function() vim.g.focus_disable = false end
+
+  vim.api.nvim_create_user_command('DapRestart', dap.restart, { desc = 'Restart Debug Adapter.' })
+  vim.keymap.set('n', '<Up>', dap.continue, { desc = 'DAP Continue.' })
 
   require('dap-python').setup 'uv'
 end
 
 -- load debug modules just before entering a python-file
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
-	once = true,
-	pattern = {"*.py"},
-	callback = load_debug
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  once = true,
+  pattern = { '*.py', '*.c', '*.cpp' },
+  callback = load_debug,
 })
 
