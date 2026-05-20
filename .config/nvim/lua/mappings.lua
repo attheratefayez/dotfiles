@@ -54,27 +54,10 @@ vim.api.nvim_create_autocmd('FileType', {
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
--- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
-
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
--- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
---
--- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
--- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
--- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
--- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
 -- mini.files keymapping
 
@@ -85,3 +68,76 @@ end, { desc = 'Toggle file explorer' })
 vim.keymap.set('n', '-', function() MiniFiles.open(vim.api.nvim_buf_get_name(0)) end, {
   desc = 'Open MiniFiles',
 })
+
+-- compile command
+vim.keymap.set('n', '<leader>c', function()
+  local cmd = vim.fn.input 'Compile command: '
+
+  cmd = vim.trim(cmd)
+
+  -- Cancel if empty
+  if cmd == '' then return end
+
+  vim.g.focus_disable = true
+  -- Open terminal split at bottom
+  vim.cmd 'botright 5split'
+
+  -- Start terminal with command
+  vim.cmd('terminal ' .. cmd)
+  vim.cmd 'startinsert'
+  vim.g.focus_disable = false
+end)
+
+-- open a floating terminal
+local terminal = {
+  buf = nil,
+  win = nil,
+}
+
+vim.keymap.set('n', '<leader>t', function()
+  -- toggle close
+  if terminal.win and vim.api.nvim_win_is_valid(terminal.win) then
+    vim.api.nvim_win_close(terminal.win, true)
+    terminal.win = nil
+    return
+  end
+
+  -- create buffer if needed
+  if not terminal.buf or not vim.api.nvim_buf_is_valid(terminal.buf) then
+    terminal.buf = vim.api.nvim_create_buf(false, true)
+
+    vim.bo[terminal.buf].bufhidden = 'hide'
+  end
+
+  -- floating window size
+  local width = math.floor(vim.o.columns * 0.35)
+  local height = math.floor(vim.o.lines * 0.3)
+
+  -- local row = math.floor((vim.o.lines - height) / 2)
+  -- local col = math.floor((vim.o.columns - width) / 2)
+  local padding = 4
+  local row = math.floor(vim.o.lines - height - padding)
+  local col = math.floor(padding)
+
+  -- create floating window
+  terminal.win = vim.api.nvim_open_win(terminal.buf, true, {
+    relative = 'editor',
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    border = 'rounded',
+  })
+
+  -- disable focus.nvim resizing
+  vim.w[terminal.win].focus_disable = true
+
+  -- start terminal INSIDE this buffer
+  if vim.bo[terminal.buf].buftype ~= 'terminal' then
+    vim.cmd.terminal()
+    terminal.buf = vim.api.nvim_get_current_buf()
+  end
+
+  -- enter insert mode
+  vim.cmd.startinsert()
+end)
