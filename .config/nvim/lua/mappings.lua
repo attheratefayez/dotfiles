@@ -37,15 +37,16 @@ vim.diagnostic.config {
   },
 }
 
+-- press enter to jump to a location in either location list / quick-fix list
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
   callback = function()
     vim.keymap.set('n', '<CR>', function()
       local wininfo = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1]
       if wininfo.loclist == 1 then
-        vim.cmd 'll' -- jump from location list
+        vim.cmd '.ll' -- jump from location list
       else
-        vim.cmd 'cc' -- jump from quickfix list
+        vim.cmd '.cc' -- jump from quickfix list
       end
     end, { buffer = true, silent = true })
   end,
