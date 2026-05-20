@@ -643,7 +643,7 @@
     },
     "wallpaper": {
         "automationEnabled": false,
-        "directory": "/home/fayez/Pictures/Wallpapers",
+        "directory": "/home/fayez/Pictures/wallpapers",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "favorites": [
@@ -671,7 +671,6 @@
             "disc",
             "stripes",
             "wipe",
-            "pixelate",
             "honeycomb"
         ],
         "useOriginalImages": false,

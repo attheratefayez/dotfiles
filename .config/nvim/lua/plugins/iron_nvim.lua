@@ -56,7 +56,7 @@ vim.api.nvim_create_autocmd('FileType', {
         -- cr = "<space>s<cr>",
         interrupt = "<space>s<space>",
         -- exit = "<space>sq",
-        clear = "<space>cl",
+        -- clear = "<space>cl",
       },
       -- If the highlight is on, you can change how it looks
       -- For the available options, check nvim_set_hl

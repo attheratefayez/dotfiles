@@ -60,8 +60,8 @@ require('blink.cmp').setup {
           local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
           return { pos[1] - 1, pos[2] }
         end
-        local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
-        return { vim.o.lines - height - 3, 0 }
+        -- local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+        return { vim.o.lines - 8, 8 }
       end,
     },
   },

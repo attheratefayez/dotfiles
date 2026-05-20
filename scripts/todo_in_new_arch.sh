@@ -175,5 +175,8 @@ POST INSTALLATION TODOs:
 4. Fix mirror list: 
 \tsudo reflector --latest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
+5. About installing nvidia driver: (if needed)
+\tdkms remove --no-depmod nvidia/580.159.03 -k 6.18.31-1-lts
+\tdkms install --no-depmod nvidia/580.159.03 -k 6.18.32-1-lts
 Restart the system.
 """
