@@ -14,6 +14,8 @@ require('mini.comment').setup {
 require('mini.files').setup()
 require('mini.pairs').setup()
 require('mini.tabline').setup()
+require('mini.icons').setup()
+
 
 require('mini.statusline').setup {
   use_icons = vim.g.have_nerd_font,
