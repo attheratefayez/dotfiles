@@ -86,7 +86,11 @@ vim.keymap.set('n', '<leader>c', function()
   vim.cmd('terminal ' .. cmd)
   vim.cmd 'startinsert'
   vim.g.focus_disable = false
-end)
+end,
+	{
+		desc = "Run Commands."
+	}
+)
 
 -- open a floating terminal
 local terminal = {
@@ -140,4 +144,8 @@ vim.keymap.set('n', '<leader>t', function()
 
   -- enter insert mode
   vim.cmd.startinsert()
-end)
+end,
+	{
+		desc = "Open floating terminal."
+	}
+	)

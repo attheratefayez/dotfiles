@@ -16,7 +16,7 @@ require 'plugins.iron_nvim' -- iron repl for python
 require 'plugins.lsp_config' -- lsp
 require 'plugins.lua_snip_nvim' -- snippets engine
 require 'plugins.markview_nvim' -- markdown viewer
-require 'plugins.mini_nvim' -- collection of plugins (filemanager, tabline, statusline)
+require 'plugins.mini_nvim' -- collection of plugins (filemanager, icons, statusline, tabline)
 require 'plugins.neogen_nvim' -- documentation format generator
 require 'plugins.nvim_surround_nvim' -- sorround things
 require 'plugins.nvim_tree_sitter_nvim' -- highlighting
@@ -29,8 +29,7 @@ require 'plugins.which_key_nvim' -- shows keyboard shortcuts
 require 'mappings'
 
 require 'custom.custom_pyright'
-if vim.g.have_nerd_font then vim.pack.add { gh 'nvim-tree/nvim-web-devicons' } end
+-- if vim.g.have_nerd_font then vim.pack.add { gh 'nvim-tree/nvim-web-devicons' } end
 
 vim.pack.add { gh 'EdenEast/nightfox.nvim' }
 vim.cmd.colorscheme 'nightfox'
-

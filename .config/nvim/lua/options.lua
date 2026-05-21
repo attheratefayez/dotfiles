@@ -16,9 +16,11 @@ vim.g.have_nerd_font = true
 --  See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
+vim.o.winborder = "rounded"
 
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
+vim.o.smartindent = true
 -- Make line numbers default
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
@@ -77,14 +79,13 @@ vim.o.inccommand = 'split'
 -- Show which line your cursor is on
 vim.o.cursorline = true
 
-
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
 
 -- use block cursor
 vim.opt.guicursor = {
-  "n-v-i-c:block",        -- normal, visual, insert, command-line
-  "r-cr-o:block",         -- replace, confirm, operator-pending
+  'n-v-i-c:block', -- normal, visual, insert, command-line
+  'r-cr-o:block', -- replace, confirm, operator-pending
 }
 
 -- [[ Basic Autocommands ]]
@@ -94,8 +95,12 @@ vim.opt.guicursor = {
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
-	desc = 'Highlight when yanking (copying) text',
-	group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-	callback = function() vim.hl.on_yank() end,
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function() vim.hl.on_yank() end,
 })
 
+-- disable autocomment new line
+vim.api.nvim_create_autocmd('BufEnter', {
+  callback = function() vim.opt_local.formatoptions:remove { 'c', 'r', 'o' } end,
+})
