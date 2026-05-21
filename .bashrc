@@ -63,6 +63,12 @@ else
 fi
 unset color_prompt force_color_prompt
 
+# if terminal is in distrobox
+if [ -n "$DISTROBOX_ENTER_PATH" ]; then
+    PS1="[distrobox] $PS1"
+fi
+
+
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
