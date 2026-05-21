@@ -1,0 +1,33 @@
+services:
+  ros_humble_dev_env:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args: 
+        UID: 1000
+        USER: humble_turtle
+    image: ros_humble_dev_env
+    container_name: ros_humble_dev_env_cont
+    network_mode: host
+    user: humble_turtle
+    environment:
+      - XDG_RUNTIME_DIR=/tmp/runtime-humble_turtle
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
+      - DISPLAY=${DISPLAY}
+      - QT_QPA_PLATFORM=xda #helps qt-based apps like rviz,rqt
+    volumes:
+      - /home/fayez/Bugs/Rosjects/:/home/humble_turtle/Bugs/Rosjects/:rw
+      - /dev:/dev
+      - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:/tmp/runtime-humble_turtle/${WAYLAND_DISPLAY}
+      # - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    tty: true
+    command: "/bin/bash"
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
