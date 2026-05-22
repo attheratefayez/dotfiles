@@ -1,8 +1,5 @@
 -- https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack#lazy-loading
 -- Enable faster startup by caching compiled Lua modules
--- WARN: Experimental
-require('vim._core.ui2').enable {}
-
 vim.loader.enable()
 
 -- options should be loaded first
@@ -19,10 +16,8 @@ require 'plugins.iron_nvim' -- iron repl for python
 require 'plugins.mini_nvim' -- collection of plugins (filemanager, icons, statusline, tabline)
 require 'plugins.lsp_config' -- lsp
 -- wtf resolved
-require 'plugins.lua_snip_nvim' -- snippets engine
 require 'plugins.markview_nvim' -- markdown viewer
 require 'plugins.neogen_nvim' -- documentation format generator
-require 'plugins.nvim_surround_nvim' -- sorround things
 require 'plugins.nvim_tree_sitter_nvim' -- highlighting
 require 'plugins.persistence_nvim' -- persistence over sessions
 require 'plugins.todo_comments_nvim' -- special tag hl and search (TODO, NOTE, HACK, FIX, WARN)

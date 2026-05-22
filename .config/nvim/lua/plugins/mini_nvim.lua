@@ -16,6 +16,7 @@ local MiniPairs = require 'mini.pairs'
 local MiniSnippets = require 'mini.snippets'
 local MiniStatusline = require 'mini.statusline'
 local MiniSurround = require 'mini.surround'
+local MiniTabline = require 'mini.tabline'
 
 
 -- mini.comment config
@@ -79,17 +80,27 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
-MiniIcons.setup()
+-- mini.icons config
+MiniIcons.setup {}
+
+-- mini.notify config
 MiniNotify.setup {
   lsp_progress = {
     enable = false,
   },
 }
+
+-- mini.pairs config
 MiniPairs.setup()
 
 -- mini.snippets config
+
+-- start the snippet server, but don't perform match
+-- mini.completion will take care of that (fuzzy matching)
 MiniSnippets.start_lsp_server { match = false }
 
+-- load snippets automatically per language and expand them using MiniSnippets’ 
+-- default engine with clean empty placeholders
 MiniSnippets.setup {
   snippets = {
     MiniSnippets.gen_loader.from_lang(),
@@ -173,3 +184,6 @@ MiniSurround.setup {
   n_lines = 5,
   search_method = 'cover',
 }
+
+-- mini.tabline config
+MiniTabline.setup {}
