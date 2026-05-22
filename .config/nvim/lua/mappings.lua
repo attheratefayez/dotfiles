@@ -13,6 +13,9 @@ vim.keymap.set('n', 'gt', ':bnext<CR>', { noremap = true, silent = true, desc = 
 vim.keymap.set('n', 'gT', ':bprevious<CR>', { noremap = true, silent = true, desc = 'Go to previous buffer.' })
 vim.keymap.set('n', '<leader>x', ':bd<CR>', { noremap = true, silent = true, desc = 'Close current buffer.' })
 
+-- HACK: but not using it, want to stick to the default config
+-- vim.keymap.set("x", "p", [["_dp]], {desc = "Paste over selection without losing yanked text."})
+
 -- Diagnostic Config & Keymaps
 --  See `:help vim.diagnostic.Opts`
 vim.diagnostic.config {
@@ -36,6 +39,7 @@ vim.diagnostic.config {
     end,
   },
 }
+
 
 -- press enter to jump to a location in either location list / quick-fix list
 vim.api.nvim_create_autocmd('FileType', {

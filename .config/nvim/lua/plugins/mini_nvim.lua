@@ -1,90 +1,49 @@
 local gh = require('vim_pack_nvim').gh
 
 vim.pack.add { gh 'nvim-mini/mini.nvim' }
+vim.pack.add { gh 'rafamadriz/friendly-snippets' }
 
 -- Simple and easy statusline.
 --  You could remove this setup call if you don't like it,
 --  and try some other statusline plugin
-require('mini.comment').setup {
+
+local MiniComment = require 'mini.comment'
+local MiniCompletion = require 'mini.completion'
+local MiniFiles = require 'mini.files'
+local MiniIcons = require 'mini.icons'
+local MiniNotify = require 'mini.notify'
+local MiniPairs = require 'mini.pairs'
+local MiniSnippets = require 'mini.snippets'
+local MiniStatusline = require 'mini.statusline'
+local MiniSurround = require 'mini.surround'
+
+
+-- mini.comment config
+MiniComment.setup {
   mappings = {
     comment_line = '<leader>/',
     comment_visual = '<leader>/',
   },
 }
-require('mini.files').setup()
-require('mini.pairs').setup()
-require('mini.tabline').setup()
-require('mini.icons').setup()
 
-
-require('mini.statusline').setup {
-  use_icons = vim.g.have_nerd_font,
-
-  content = {
-    active = function()
-      local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 200 }
-      local git = MiniStatusline.section_git { trunc_width = 75 }
-      local filename = MiniStatusline.section_filename { trunc_width = 140 }
-      local fileinfo = MiniStatusline.section_fileinfo { trunc_width = 120 }
-      local location = MiniStatusline.section_location { trunc_width = 75 }
-
-      local function current_lsp()
-        local clients = vim.lsp.get_clients {
-          bufnr = vim.api.nvim_get_current_buf(),
-        }
-
-        if #clients == 0 then return '' end
-
-        local names = {}
-
-        for _, client in ipairs(clients) do
-          if client:supports_method 'textDocument/completion' then table.insert(names, client.name) end
-        end
-
-        return 'lsp:' .. table.concat(names, ', ')
-      end
-
-      return MiniStatusline.combine_groups {
-        {
-          hl = mode_hl,
-          strings = { mode },
-        },
-
-        {
-          hl = 'MiniStatuslineDevinfo',
-          strings = {
-            git,
-          },
-        },
-
-        '%<',
-
-        {
-          hl = 'MiniStatuslineFilename',
-          strings = { filename },
-        },
-
-        '%=',
-
-        {
-          hl = 'MiniStatuslineFileinfo',
-          strings = {
-            current_lsp(),
-	    '',
-            fileinfo,
-            location,
-          },
-        },
-      }
-    end,
+-- mini.completion config
+MiniCompletion.setup {
+  lsp_completion = {
+    auto_setup = true,
+    -- process_items = function(items, base)
+    --   return MiniCompletion.default_process_items(items, base, {
+    --     filtersort = 'fuzzy',
+    --   })
+    -- end,
   },
 }
 
--- You can configure sections in the statusline by overriding their
--- default behavior. For example, here we set the section for
--- cursor location to LINE:COLUMN
----@diagnostic disable-next-line: duplicate-set-field
-require('mini.statusline').section_location = function() return '%2l:%-2v %p%%' end
+-- mini.files config
+MiniFiles.setup {
+  mappings = {
+    go_in = '<CR>',
+  },
+}
 
 -- mini.file keybind: <C-s> -> horizontal split, <C-v> vertical split
 local map_split = function(buf_id, lhs, direction)
@@ -119,3 +78,98 @@ vim.api.nvim_create_autocmd('User', {
     -- map_split(buf_id, '<C-t>', 'tab')
   end,
 })
+
+MiniIcons.setup()
+MiniNotify.setup {
+  lsp_progress = {
+    enable = false,
+  },
+}
+MiniPairs.setup()
+
+-- mini.snippets config
+MiniSnippets.start_lsp_server { match = false }
+
+MiniSnippets.setup {
+  snippets = {
+    MiniSnippets.gen_loader.from_lang(),
+  },
+  expand = {
+    insert = function(snippet) MiniSnippets.default_insert(snippet, { empty_tabstop = '' }) end,
+  },
+}
+
+-- clears underline markings and other decoratory stuffs
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = function()
+    vim.api.nvim_set_hl(0, 'MiniSnippetsCurrent', {})
+    vim.api.nvim_set_hl(0, 'MiniSnippetsCurrentReplace', {})
+    vim.api.nvim_set_hl(0, 'MiniSnippetsFinal', {})
+    vim.api.nvim_set_hl(0, 'MiniSnippetsVisited', {})
+    vim.api.nvim_set_hl(0, 'MiniSnippetsUnvisited', {})
+  end,
+})
+
+-- mini.statusline config
+MiniStatusline.setup {
+  use_icons = vim.g.have_nerd_font,
+
+  content = {
+    active = function()
+      local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 200 }
+      local git = MiniStatusline.section_git { trunc_width = 75 }
+      local filename = MiniStatusline.section_filename { trunc_width = 140 }
+      local fileinfo = MiniStatusline.section_fileinfo { trunc_width = 120 }
+      local location = MiniStatusline.section_location { trunc_width = 75 }
+
+      local function lsp()
+        local names = {}
+
+        for _, client in ipairs(vim.lsp.get_clients { bufnr = 0 }) do
+          if client:supports_method 'textDocument/hover' then table.insert(names, client.name) end
+        end
+
+        return #names > 0 and ('LSP: ' .. table.concat(names, ', ')) or ''
+      end
+
+      return MiniStatusline.combine_groups {
+        {
+          hl = mode_hl,
+          strings = { mode },
+        },
+
+        {
+          hl = 'MiniStatuslineDevinfo',
+          strings = { git },
+        },
+
+        '%<',
+
+        {
+          hl = 'MiniStatuslineFilename',
+          strings = { filename },
+        },
+
+        '%=',
+
+        {
+          hl = 'MiniStatuslineFileinfo',
+          strings = {
+            lsp(),
+            fileinfo,
+            location,
+          },
+        },
+      }
+    end,
+  },
+}
+
+---@diagnostic disable-next-line: duplicate-set-field
+MiniStatusline.section_location = function() return '%2l:%-2v %p%%' end
+
+-- mini.surround config
+MiniSurround.setup {
+  n_lines = 5,
+  search_method = 'cover',
+}

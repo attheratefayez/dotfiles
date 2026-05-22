@@ -19,6 +19,7 @@ vim.g.have_nerd_font = true
 vim.o.winborder = "rounded"
 
 vim.o.tabstop = 4
+vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
 vim.o.smartindent = true
 -- Make line numbers default
@@ -51,6 +52,8 @@ vim.o.smartcase = true
 
 -- Keep signcolumn on by default
 vim.o.signcolumn = 'yes'
+vim.o.cmdheight = 0
+vim.o.termguicolors = true
 
 -- Decrease update time
 vim.o.updatetime = 250
@@ -62,16 +65,6 @@ vim.o.timeoutlen = 300
 vim.o.splitright = true
 vim.o.splitbelow = true
 
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
---
---  Notice listchars is set using `vim.opt` instead of `vim.o`.
---  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
---   See `:help lua-options`
---   and `:help lua-guide-options`
-vim.o.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
 vim.o.inccommand = 'split'
@@ -87,6 +80,19 @@ vim.opt.guicursor = {
   'n-v-i-c:block', -- normal, visual, insert, command-line
   'r-cr-o:block', -- replace, confirm, operator-pending
 }
+vim.opt.completeopt = "menuone,noselect,fuzzy,nosort"
+vim.opt.shortmess:append("c")
+
+-- no swapfile, maintain undodir
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.undofile = true
+vim.o.undodir = vim.fn.stdpath('data') .. "/undodir"
+
+-- create undodir if it doesn't exist
+if vim.fn.isdirectory(vim.o.undodir) == 0 then
+	vim.fn.mkdir(vim.o.undodir, 'p')
+end
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -96,7 +102,7 @@ vim.opt.guicursor = {
 --  See `:help vim.hl.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
   callback = function() vim.hl.on_yank() end,
 })
 

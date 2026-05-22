@@ -64,6 +64,12 @@ vim.api.nvim_create_autocmd('PackChanged', {
   end,
 })
 
+vim.api.nvim_create_user_command(
+  'PackDelete',
+  function(opts) vim.pack.del(opts.fargs) end,
+  { nargs = '+', desc = 'Delete plugins: (PackDelete plugin1 plugin2)' }
+)
+
 ---Because most plugins are hosted on GitHub, you can use the helper
 ---function to have less repetition in the following sections.
 ---@param repo string

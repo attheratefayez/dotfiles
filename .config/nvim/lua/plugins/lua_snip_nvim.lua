@@ -3,56 +3,57 @@ local gh = require('vim_pack_nvim').gh
 
 -- NOTE: You can also specify plugin using a version range for its git tag.
 --  See `:help vim.version.range()` for more info
-vim.pack.add { { src = gh 'L3MON4D3/LuaSnip', version = vim.version.range '2.*' } }
-require('luasnip').setup {}
 
-vim.pack.add { gh 'rafamadriz/friendly-snippets' }
-require('luasnip.loaders.from_vscode').lazy_load()
+-- vim.pack.add { { src = gh 'L3MON4D3/LuaSnip', version = vim.version.range '2.*' } }
+-- require('luasnip').setup {}
+--
+-- vim.pack.add { gh 'rafamadriz/friendly-snippets' }
+-- require('luasnip.loaders.from_vscode').lazy_load()
 
 -- [[ Autocomplete Engine ]]
 --
-vim.pack.add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
-require('blink.cmp').setup {
-  keymap = {
-    preset = 'enter',
-  },
-
-  appearance = {
-    nerd_font_variant = 'normal',
-  },
-
-  completion = {
-    -- By default, you may press `<c-space>` to show the documentation.
-    -- Optionally, set `auto_show = true` to show the documentation after a delay.
-    documentation = { auto_show = false, auto_show_delay_ms = 500 },
-
-    menu = {
-      draw = {
-        align_to = 'none',
-      },
-      cmdline_position = function()
-        if vim.g.ui_cmdline_pos ~= nil then
-          local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
-          return { pos[1] - 1, pos[2] }
-        end
-        -- local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
-        return { vim.o.lines - 8, 8 }
-      end,
-    },
-  },
-
-  sources = {
-    default = { 'lsp', 'path', 'snippets', 'buffer' },
-  },
-
-  snippets = { preset = 'luasnip' },
-
-  fuzzy = { implementation = 'lua' },
-
-  -- Shows a signature help window while you type arguments for a function
-  signature = { enabled = true, window = {
-    min_width = 10,
-    max_width = 40,
-    max_height = 5,
-  } },
-}
+-- vim.pack.add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
+-- require('blink.cmp').setup {
+--   keymap = {
+--     preset = 'enter',
+--   },
+--
+--   appearance = {
+--     nerd_font_variant = 'normal',
+--   },
+--
+--   completion = {
+--     -- By default, you may press `<c-space>` to show the documentation.
+--     -- Optionally, set `auto_show = true` to show the documentation after a delay.
+--     documentation = { auto_show = false, auto_show_delay_ms = 500 },
+--
+--     menu = {
+--       draw = {
+--         align_to = 'none',
+--       },
+--       cmdline_position = function()
+--         if vim.g.ui_cmdline_pos ~= nil then
+--           local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
+--           return { pos[1] - 1, pos[2] }
+--         end
+--         -- local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+--         return { vim.o.lines - 8, 8 }
+--       end,
+--     },
+--   },
+--
+--   sources = {
+--     default = { 'lsp', 'path', 'snippets', 'buffer' },
+--   },
+--
+--   snippets = { preset = 'luasnip' },
+--
+--   fuzzy = { implementation = 'lua' },
+--
+--   -- Shows a signature help window while you type arguments for a function
+--   signature = { enabled = true, window = {
+--     min_width = 10,
+--     max_width = 40,
+--     max_height = 5,
+--   } },
+-- }

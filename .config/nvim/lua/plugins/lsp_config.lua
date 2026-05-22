@@ -182,39 +182,11 @@ vim.list_extend(ensure_installed, {
 
 require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = vim.tbl_deep_extend("force", capabilities, require("mini.completion").get_lsp_capabilities())
+vim.lsp.config("*", {capabilities = capabilities})
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'python',
-  callback = function()
-    local lsp_name = 'pyright'
-    vim.lsp.config(lsp_name, servers[lsp_name])
-    vim.lsp.enable(lsp_name)
-  end,
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'c', 'cpp' },
-  callback = function()
-    local lsp_name = 'clangd'
-    vim.lsp.config(lsp_name, servers[lsp_name])
-    vim.lsp.enable(lsp_name)
-  end,
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'lua',
-  callback = function()
-    local lsp_name = 'lua_ls'
-    local formatter = 'stylua'
-
-    vim.lsp.config(lsp_name, servers[lsp_name])
-    vim.lsp.config(formatter, servers[formatter])
-    vim.lsp.enable(lsp_name)
-    vim.lsp.enable(formatter)
-  end,
-})
-
--- for name, server in pairs(servers) do
---   vim.lsp.config(name, server)
---   vim.lsp.enable(name)
--- end
+for name, server in pairs(servers) do
+  vim.lsp.config(name, server)
+  vim.lsp.enable(name)
+end
