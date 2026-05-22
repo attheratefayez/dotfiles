@@ -9,15 +9,16 @@ vim.pack.add { gh 'rafamadriz/friendly-snippets' }
 
 local MiniComment = require 'mini.comment'
 local MiniCompletion = require 'mini.completion'
+local MiniExtra = require 'mini.extra'
 local MiniFiles = require 'mini.files'
 local MiniIcons = require 'mini.icons'
 local MiniNotify = require 'mini.notify'
 local MiniPairs = require 'mini.pairs'
+local MiniPick = require 'mini.pick'
 local MiniSnippets = require 'mini.snippets'
 local MiniStatusline = require 'mini.statusline'
 local MiniSurround = require 'mini.surround'
 local MiniTabline = require 'mini.tabline'
-
 
 -- mini.comment config
 MiniComment.setup {
@@ -99,7 +100,7 @@ MiniPairs.setup()
 -- mini.completion will take care of that (fuzzy matching)
 MiniSnippets.start_lsp_server { match = false }
 
--- load snippets automatically per language and expand them using MiniSnippets’ 
+-- load snippets automatically per language and expand them using MiniSnippets’
 -- default engine with clean empty placeholders
 MiniSnippets.setup {
   snippets = {
@@ -118,6 +119,26 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, 'MiniSnippetsFinal', {})
     vim.api.nvim_set_hl(0, 'MiniSnippetsVisited', {})
     vim.api.nvim_set_hl(0, 'MiniSnippetsUnvisited', {})
+  end,
+})
+
+-- mini.pick config
+MiniPick.setup {}
+MiniExtra.setup {}
+
+vim.keymap.set('n', '<leader>fb', function() MiniPick.builtin.buffers() end, { desc = 'Find buffers' })
+vim.keymap.set('n', '<leader>ff', function() MiniPick.builtin.files({}, { preview = true }) end, { desc = 'Find files' })
+vim.keymap.set('n', '<leader>fg', function() MiniPick.builtin.grep_live() end, { desc = 'Find pattern in project(all sub-dir)' })
+vim.keymap.set('n', '<leader>fh', function() MiniPick.builtin.help() end, { desc = 'Find in nvim-help' })
+vim.keymap.set('n', '<leader>fr', function() MiniPick.builtin.resume() end, { desc = 'Resume last-search' })
+vim.keymap.set('n', '<leader>fw', function() MiniExtra.pickers.buf_lines() end, { desc = 'Find pattern in loaded buffers' })
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('mini_picker-lsp-attach', { clear = true }),
+  callback = function(event)
+    local buf = event.buf
+    vim.keymap.set('n', 'gO', function() MiniExtra.pickers.lsp { scope = 'document_symbol' } end, { buffer = buf, desc = 'Document Symbols' })
+    vim.keymap.set('n', 'grr', function() MiniExtra.pickers.lsp { scope = 'references' } end, { buffer = buf, desc = 'References' })
   end,
 })
 
