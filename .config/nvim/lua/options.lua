@@ -47,7 +47,7 @@ vim.o.smartcase = true
 
 -- Keep signcolumn on by default
 vim.o.signcolumn = 'yes'
-vim.o.cmdheight = 0
+-- vim.o.cmdheight = 0
 -- neovim checks and turns it on if available
 -- vim.o.termguicolors = true 
 
