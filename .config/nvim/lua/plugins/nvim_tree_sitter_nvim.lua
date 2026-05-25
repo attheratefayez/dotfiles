@@ -11,7 +11,7 @@ vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } 
 local parsers = { 'bash', 'c', 'cpp', 'diff', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'vim', 'vimdoc', 'dockerfile', "json"}
 require('nvim-treesitter').install(parsers)
 
-vim.schedule(function()
+-- vim.schedule(function()
   ---@param buf integer
   ---@param language string
   local function treesitter_try_attach(buf, language)
@@ -54,4 +54,4 @@ vim.schedule(function()
       treesitter_try_attach(buf, language)
     end,
   })
-end)
+-- end)

@@ -123,11 +123,25 @@ local function load_debug()
   dap.listeners.before.event_terminated['focus_enable'] = function() vim.g.focus_disable = false end
   dap.listeners.before.event_exited['focus_enable'] = function() vim.g.focus_disable = false end
 
-  vim.api.nvim_create_user_command(
-    'DapFloat',
-    function() dapui.float_element(nil, { width = 40, height = 20, enter = true, title = 'DapFloat', position = 'center' }) end,
-    { desc = 'Restart Debug Adapter.' }
-  )
+vim.api.nvim_create_user_command(
+  "DapFloat",
+  function(opts)
+    local element = opts.args ~= "" and opts.args or nil
+
+    require("dapui").float_element(element, {
+      width = 40,
+      height = 20,
+      enter = true,
+      title = "DapFloat",
+      position = "center",
+    })
+  end,
+  {
+    nargs = "?",
+    desc = "Open dapui floating element",
+  }
+)
+
   vim.keymap.set('n', '<Up>', dap.continue, { desc = 'DAP Continue.' })
 
   require('dap-python').setup 'uv'
@@ -139,7 +153,7 @@ local function load_debug()
     module = 'fastapi',
     args = { 'dev' },
     console = 'integratedTerminal',
-    justMyCode = true,
+    justMyCode = false,
   })
 end
 
