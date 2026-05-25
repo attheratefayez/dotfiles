@@ -10,6 +10,7 @@ local gh = require('vim_pack_nvim').gh
 vim.pack.add({ { src = gh 'mfussenegger/nvim-dap' } }, { load = false })
 vim.pack.add({ { src = gh 'rcarriga/nvim-dap-ui' } }, { load = false })
 vim.pack.add({ { src = gh 'nvim-neotest/nvim-nio' } }, { load = false })
+vim.pack.add({ { src = gh 'mason-org/mason.nvim' } }, { load = false })
 vim.pack.add({ { src = gh 'jay-babu/mason-nvim-dap.nvim' } }, { load = false })
 vim.pack.add({ { src = gh 'mfussenegger/nvim-dap-python' } }, { load = false })
 
@@ -17,6 +18,7 @@ local function load_debug()
   vim.cmd.packadd { 'mfussenegger/nvim-dap' }
   vim.cmd.packadd { 'rcarriga/nvim-dap-ui' }
   vim.cmd.packadd { 'nvim-neotest/nvim-nio' }
+  vim.cmd.packadd { 'mason-org/mason.nvim' }
   vim.cmd.packadd { 'jay-babu/mason-nvim-dap.nvim' }
   vim.cmd.packadd { 'mfussenegger/nvim-dap-python' }
 
@@ -40,7 +42,9 @@ local function load_debug()
 
     -- You can provide additional configuration to the handlers,
     -- see mason-nvim-dap README for more information
-    handlers = {},
+    handlers = {
+      function(config) require('mason-nvim-dap').default_setup(config) end,
+    },
 
     -- You'll need to check that you have the required things installed
     -- online, please don't ask me how to install them :)
@@ -55,34 +59,41 @@ local function load_debug()
   -- For more information, see |:help nvim-dap-ui|
   ---@diagnostic disable-next-line: missing-fields
   dapui.setup {
-    layouts = { {
+    layouts = {
+      {
+        elements = {
+          {
+            id = 'scopes',
+            size = 0.60,
+          },
+          {
+            id = 'breakpoints',
+            size = 0.20,
+          },
+          {
+            id = 'stacks',
+            size = 0.20,
+          },
+          -- {
+          --   id = 'watches',
+          --   size = 0.25,
+          -- },
+        },
+        position = 'left',
+        size = 60,
+      },
+      {
         elements = { {
-            id = "scopes",
-            size = 0.25
-          }, {
-            id = "breakpoints",
-            size = 0.25
-          }, {
-            id = "stacks",
-            size = 0.25
-          }, {
-            id = "watches",
-            size = 0.25
-          } },
-        position = "left",
-        size = 60
-      }, {
-        elements = { {
-            id = "repl",
-            size = 0.5
-          }, {
-            id = "console",
-            size = 0.5
-          } },
-        position = "bottom",
-        size = 20
-      } },
-
+          id = 'watches',
+          size = 0.5,
+        }, {
+          id = 'console',
+          size = 0.5,
+        } },
+        position = 'bottom',
+        size = 20,
+      },
+    },
 
     -- Set icons to characters that are more likely to work in every terminal.
     --    Feel free to remove or use ones that you like more! :)
@@ -112,10 +123,24 @@ local function load_debug()
   dap.listeners.before.event_terminated['focus_enable'] = function() vim.g.focus_disable = false end
   dap.listeners.before.event_exited['focus_enable'] = function() vim.g.focus_disable = false end
 
-  vim.api.nvim_create_user_command('DapRestart', dap.restart, { desc = 'Restart Debug Adapter.' })
+  vim.api.nvim_create_user_command(
+    'DapFloat',
+    function() dapui.float_element(nil, { width = 40, height = 20, enter = true, title = 'DapFloat', position = 'center' }) end,
+    { desc = 'Restart Debug Adapter.' }
+  )
   vim.keymap.set('n', '<Up>', dap.continue, { desc = 'DAP Continue.' })
 
   require('dap-python').setup 'uv'
+
+  table.insert(dap.configurations.python, {
+    type = 'python',
+    request = 'launch',
+    name = 'FastAPI (Debug)',
+    module = 'fastapi',
+    args = { 'dev' },
+    console = 'integratedTerminal',
+    justMyCode = true,
+  })
 end
 
 -- load debug modules just before entering a python-file
@@ -124,4 +149,3 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
   pattern = { '*.py', '*.c', '*.cpp' },
   callback = load_debug,
 })
-
