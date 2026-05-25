@@ -127,9 +127,10 @@ MiniPick.setup {}
 MiniExtra.setup {}
 
 vim.keymap.set('n', '<leader>fb', function() MiniPick.builtin.buffers() end, { desc = 'Find buffers' })
-vim.keymap.set('n', '<leader>ff', function() MiniPick.builtin.files({}, { preview = true }) end, { desc = 'Find files' })
+vim.keymap.set('n', '<leader>ff', function() MiniPick.builtin.files() end, { desc = 'Find files' })
 vim.keymap.set('n', '<leader>fg', function() MiniPick.builtin.grep_live() end, { desc = 'Find pattern in project(all sub-dir)' })
 vim.keymap.set('n', '<leader>fh', function() MiniPick.builtin.help() end, { desc = 'Find in nvim-help' })
+vim.keymap.set('n', '<leader>fn', function() MiniPick.builtin.files({}, {source = {cwd = '~/.config/nvim/'}}) end, { desc = 'Find in neovim config-files' })
 vim.keymap.set('n', '<leader>fr', function() MiniPick.builtin.resume() end, { desc = 'Resume last-search' })
 vim.keymap.set('n', '<leader>fw', function() MiniExtra.pickers.buf_lines() end, { desc = 'Find pattern in loaded buffers' })
 
