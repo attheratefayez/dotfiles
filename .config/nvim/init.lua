@@ -2,13 +2,14 @@
 -- Enable faster startup by caching compiled Lua modules
 vim.loader.enable()
 
+-- Define config table to be able to pass data between scripts
+-- It is a global variable which can be use both as `_G.Config` and `Config`
+
 -- options should be loaded first
 require 'options'
 
-local gh = require('vim_pack_nvim').gh
-
 require 'plugins.conform_nvim' -- formatting
-require 'plugins.debug' -- debugging (python)
+require 'plugins.debug' -- debugging (python, cpp)
 require 'plugins.focus_nvim' -- in multiwindow view, biggen the window that have cursor
 -- require 'plugins.git_signs_nvim' -- provide git signs
 require 'plugins.iron_nvim' -- iron repl for python
@@ -27,5 +28,5 @@ require 'plugins.which_key_nvim' -- shows keyboard shortcuts
 require 'mappings'
 require 'custom.custom_pyright'
 
-vim.pack.add { gh 'EdenEast/nightfox.nvim' }
+vim.pack.add { 'https://github.com/EdenEast/nightfox.nvim' }
 vim.cmd.colorscheme 'nightfox'
