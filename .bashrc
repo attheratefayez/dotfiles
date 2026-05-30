@@ -402,21 +402,30 @@ source_ros()
     export ROS_DOMAIN_ID=1
 }
 
-opdt()
+# Open Project in Tmux Session
+opts()
 {
-	local dir
-	dir=$(fzf --walker=dir --walker-root=$HOME/Bugs)
+    local dir
 
-	[ -z "$dir" ] && return
+    # check length of arg0 is non-zero and file exists & is a directory
+    if [ -n "$1" ] && [ -d "$1" ]; then
+        dir="$1"
+    else
+        # run fzf and select. in case we exit fzf without selecting anything, return
+        dir=$(fzf --walker=dir --walker-root="$HOME/Bugs")
+        [ -z "$dir" ] && return
+    fi
 
-	dir=$(realpath "$dir")
-	local session
-	session=$(basename "$dir" | tr '.' '_')
+    dir=$(realpath "$dir")
 
-	if ! tmux has-session -t="$session" 2>/dev/null; then
-		tmux new-session -ds "$session" -c "$dir"
-	fi
-	tmux attach-session -t "$session"
+    local session
+    session=$(basename "$dir" | tr '.' '_')
+
+    if ! tmux has-session -t="$session" 2>/dev/null; then
+        tmux new-session -ds "$session" -c "$dir"
+    fi
+
+    tmux attach-session -t "$session"
 }
 
 
