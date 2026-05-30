@@ -1,10 +1,3 @@
--- debug.lua
---
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
 local gh = require('vim_pack_nvim').gh
 
 vim.pack.add({ { src = gh 'mfussenegger/nvim-dap' } }, { load = false })
@@ -64,7 +57,7 @@ local function load_debug()
         elements = {
           {
             id = 'scopes',
-            size = 0.60,
+            size = 0.50,
           },
           {
             id = 'breakpoints',
@@ -72,26 +65,22 @@ local function load_debug()
           },
           {
             id = 'stacks',
-            size = 0.20,
+            size = 0.30,
           },
-          -- {
-          --   id = 'watches',
-          --   size = 0.25,
-          -- },
         },
         position = 'left',
-        size = 60,
+        size = 0.30,
       },
       {
         elements = { {
           id = 'watches',
-          size = 0.5,
+          size = 0.4,
         }, {
           id = 'console',
-          size = 0.5,
+          size = 0.6,
         } },
         position = 'bottom',
-        size = 20,
+        size = 0.30,
       },
     },
 
@@ -129,7 +118,7 @@ vim.api.nvim_create_user_command(
     local element = opts.args ~= "" and opts.args or nil
 
     require("dapui").float_element(element, {
-      width = 40,
+      width = 50,
       height = 20,
       enter = true,
       title = "DapFloat",

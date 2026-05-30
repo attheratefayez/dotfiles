@@ -32,19 +32,28 @@ MiniComment.setup {
 MiniCompletion.setup {
   lsp_completion = {
     auto_setup = true,
-    -- process_items = function(items, base)
-    --   return MiniCompletion.default_process_items(items, base, {
-    --     filtersort = 'fuzzy',
-    --   })
-    -- end,
+    source_func = 'omnifunc',
+    process_items = function(items, base)
+      return MiniCompletion.default_process_items(items, base, {
+        filtersort = 'fuzzy',
+        kind_priority = {Text = -1, Snippet = 99},
+      })
+    end,
   },
 }
 
+vim.api.nvim_create_autocmd(
+  'LspAttach',
+  { callback = function(ev) vim.bo[ev.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp' end, desc = "Set 'OmniFunc'" }
+)
+
+-- Advertise to servers that Neovim now supports certain set of completion and
+-- signature features through 'mini.completion'.
+vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
+
 -- mini.files config
 MiniFiles.setup {
-  mappings = {
-    go_in = '<CR>',
-  },
+  windows = { preview = true },
 }
 
 -- mini.file keybind: <C-s> -> horizontal split, <C-v> vertical split
@@ -130,7 +139,7 @@ vim.keymap.set('n', '<leader>fb', function() MiniPick.builtin.buffers() end, { d
 vim.keymap.set('n', '<leader>ff', function() MiniPick.builtin.files() end, { desc = 'Find files' })
 vim.keymap.set('n', '<leader>fg', function() MiniPick.builtin.grep_live() end, { desc = 'Find pattern in project(all sub-dir)' })
 vim.keymap.set('n', '<leader>fh', function() MiniPick.builtin.help() end, { desc = 'Find in nvim-help' })
-vim.keymap.set('n', '<leader>fn', function() MiniPick.builtin.files({}, {source = {cwd = '~/.config/nvim/'}}) end, { desc = 'Find in neovim config-files' })
+vim.keymap.set('n', '<leader>fn', function() MiniPick.builtin.files({}, { source = { cwd = '~/.config/nvim/' } }) end, { desc = 'Find in neovim config-files' })
 vim.keymap.set('n', '<leader>fr', function() MiniPick.builtin.resume() end, { desc = 'Resume last-search' })
 vim.keymap.set('n', '<leader>fw', function() MiniExtra.pickers.buf_lines() end, { desc = 'Find pattern in loaded buffers' })
 
@@ -145,61 +154,48 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 -- mini.statusline config
 MiniStatusline.setup {
-  use_icons = vim.g.have_nerd_font,
-
   content = {
     active = function()
-      local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 200 }
-      local git = MiniStatusline.section_git { trunc_width = 75 }
+      local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 120 }
+      local diagnostics = MiniStatusline.section_diagnostics { trunc_width = 75 }
       local filename = MiniStatusline.section_filename { trunc_width = 140 }
       local fileinfo = MiniStatusline.section_fileinfo { trunc_width = 120 }
       local location = MiniStatusline.section_location { trunc_width = 75 }
 
-      local function lsp()
+      -- LSP section
+      local lsp = ''
+      local clients = vim.lsp.get_clients { bufnr = 0 }
+
+      if #clients > 0 then
         local names = {}
 
-        for _, client in ipairs(vim.lsp.get_clients { bufnr = 0 }) do
+        for _, client in ipairs(clients) do
           if client:supports_method 'textDocument/hover' then table.insert(names, client.name) end
+          -- table.insert(names, client.name)
         end
-
-        return #names > 0 and ('LSP: ' .. table.concat(names, ', ')) or ''
+        if #names > 0 then
+          lsp = '󰒋 ' .. table.concat(names, ', ')
+        else
+          lsp = '󰒋 ' .. '✖'
+        end
       end
 
       return MiniStatusline.combine_groups {
-        {
-          hl = mode_hl,
-          strings = { mode },
-        },
-
-        {
-          hl = 'MiniStatuslineDevinfo',
-          strings = { git },
-        },
-
-        '%<',
-
-        {
-          hl = 'MiniStatuslineFilename',
-          strings = { filename },
-        },
-
-        '%=',
-
-        {
-          hl = 'MiniStatuslineFileinfo',
-          strings = {
-            lsp(),
-            fileinfo,
-            location,
-          },
-        },
+        { hl = mode_hl, strings = { mode } },
+        { hl = 'MiniStatuslineDevinfo', strings = { diagnostics } },
+        '%<', -- truncate point
+        { hl = 'MiniStatuslineFilename', strings = { filename } },
+        '%=', -- right align
+        { hl = 'MiniStatuslineInfo', strings = { lsp } },
+        { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+        { hl = mode_hl, strings = { location } },
       }
     end,
   },
 }
 
 ---@diagnostic disable-next-line: duplicate-set-field
-MiniStatusline.section_location = function() return '%2l:%-2v %p%%' end
+MiniStatusline.section_location = function() return '%p%% %2l:%-2L' end
 
 -- mini.surround config
 MiniSurround.setup {
