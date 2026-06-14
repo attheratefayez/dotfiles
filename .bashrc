@@ -63,9 +63,27 @@ else
 fi
 unset color_prompt force_color_prompt
 
-# if terminal is in distrobox
+# # if terminal is in distrobox
+# if [ -n "$DISTROBOX_ENTER_PATH" ]; then
+#     PS1="[distrobox] $PS1"
+# fi
+
+PS1_PREFIX=""
+
 if [ -n "$DISTROBOX_ENTER_PATH" ]; then
-    PS1="[distrobox] $PS1"
+    PS1_PREFIX="${PS1_PREFIX}[distrobox]"
+fi
+
+if [ -f /.dockerenv ]; then
+    PS1_PREFIX="${PS1_PREFIX}[docker]"
+fi
+
+if [ -n "$SSH_CONNECTION" ]; then
+    PS1_PREFIX="${PS1_PREFIX}[ssh]"
+fi
+
+if [ -n "$PS1_PREFIX" ] && [[ "$PS1" != *"$PS1_PREFIX"* ]]; then
+    PS1="${PS1_PREFIX} $PS1"
 fi
 
 

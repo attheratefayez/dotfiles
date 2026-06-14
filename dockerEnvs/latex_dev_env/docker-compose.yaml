@@ -1,23 +1,27 @@
 services:
   latex_dev_env:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
-      args: 
+      args:
         UID: 1000
         USER: latex_dev
+
     image: latex_dev_env
     container_name: latex_dev_env_cont
+
     network_mode: host
+
     user: latex_dev
+
     environment:
-      - DISPLAY=${DISPLAY}
+      DISPLAY: ${DISPLAY}
+
     volumes:
-      - /home/fayez/Bugs/latex/:/home/latex_dev/Bugs/latex:rw
-      - /dev:/dev
+      - /home/fayez/Bugs/latex:/home/latex_dev/Bugs/latex:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
 
+    stdin_open: true
     tty: true
-    command: "/bin/bash"
 
-
+    command: /bin/bash

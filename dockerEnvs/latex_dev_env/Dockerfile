@@ -1,116 +1,93 @@
-FROM debian:latest
+FROM debian:bookworm-slim
 
-# Basic Installs
-RUN apt update && apt upgrade -y \
-    && apt-get install -y \
+ARG UID=1000
+ARG USER=latex_dev
+
+ENV USER=${USER}
+ENV HOME=/home/${USER}
+ENV XDG_RUNTIME_DIR=/run/user/${UID}
+ENV LANG=en_US.UTF-8
+
+# Basic installs
+RUN apt-get update && apt-get install -y --no-install-recommends \
     bash-completion \
     curl \
     dbus-x11 \
     gettext \
-    git \ 
+    git \
     latexmk \
-    libxkbcommon-x11-0 \
-    luarocks \
     locales \
-    libfreetype6-dev \
-    libfontconfig1-dev \
-    libxcb-xfixes0-dev \
-    libxkbcommon-dev \
-    make \ 
+    luarocks \
+    make \
     npm \
-    ninja-build \
     python3 \
     python3-venv \
     ripgrep \
     stow \
     sudo \
-    tmux \
     texlive-base \
     texlive-bibtex-extra \
     texlive-science \
+    texlive-latex-extra \
+    tmux \
     vim \
+    wget \
     xclip \
     unzip \
-    zathura
-    
-ARG UID 
-ARG USER
+    zathura \
+    && rm -rf /var/lib/apt/lists/*
 
-ENV USER=$USER
-ENV HOME=/home/$USER
-ENV XDG_RUNTIME_DIR=/run/user/$UID
-ENV LANG=en_US.UTF-8
+# Locale setup
+RUN sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    locale-gen en_US.UTF-8 && \
+    update-locale LANG=en_US.UTF-8
 
-RUN sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
-    && locale-gen en_US.UTF-8 \
-    && update-locale LANG=en_US.UTF-8
-
-# Adding user and createing home and adding user to sudoers group
-RUN groupadd --gid $UID $USER \
-    && useradd -s /bin/bash --uid $UID --gid $UID -m $USER \
-    && mkdir -p /home/$USER/.config && chown $USER:$UID /home/$USER/.config \
-    && mkdir -p $XDG_RUNTIME_DIR && chown $USER:$UID $XDG_RUNTIME_DIR \
-    && echo $USER ALL=\(ALL\) NOPASSWD: ALL > /etc/sudoers.d/$USER \
-    && chmod 0440 /etc/sudoers.d/$USER
+# Create user
+RUN groupadd -g ${UID} ${USER} && \
+    useradd -m -s /bin/bash -u ${UID} -g ${UID} ${USER} && \
+    mkdir -p /run/user/${UID} && \
+    chown -R ${USER}:${USER} /home/${USER} /run/user/${UID} && \
+    echo "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USER} && \
+    chmod 0440 /etc/sudoers.d/${USER}
 
 SHELL ["/bin/bash", "-c"]
-WORKDIR /home/$USER
 
-USER $USER 
+USER ${USER}
+WORKDIR /home/${USER}
 
-# installing fzf    
-RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-RUN ~/.fzf/install --completion --no-key-bindings --no-update-rc --no-zsh --no-fish
+# fzf
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
+    ~/.fzf/install --completion --no-key-bindings --no-update-rc --no-zsh --no-fish
 
-# installing uv
+# uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# get dotfiles 
-RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/attheratefayez/dotfiles.git .) \
-    && (rm .bashrc && cd dotfiles && stow . && source ./../.bashrc && source /etc/profile.d/bash_completion.sh) 
+# dotfiles
+RUN mkdir -p ~/dotfiles && \
+    git clone --depth 1 https://github.com/attheratefayez/dotfiles.git ~/dotfiles && \
+    rm -f ~/.bashrc && \
+    cd ~/dotfiles && \
+    stow .
 
-# get tpm
-RUN git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm
+# tmux plugin manager
+RUN git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-# install neovim
-RUN curl -fL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz -o nvim-linux-x86_64.tar.gz \
-    && tar -xzvf nvim-linux-x86_64.tar.gz \
-    && sudo mkdir /opt/nvim/ && sudo mv nvim-linux-x86_64/* /opt/nvim/ \
-    && sudo ln -s /opt/nvim/bin/nvim /usr/local/bin/nvim \
-    && rm -rf nvim-linux-x86_64 nvim-linux-x86_64.tar.gz 
+# Neovim (latest prebuilt binary)
+USER root
 
-# get nerd font : FiraCode
-RUN (mkdir -p /home/$USER/.local/share/fonts \
-    && cd /home/$USER/.local/share/fonts \
-    && wget -O firacode.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip \
-    && unzip firacode.zip -d firacode && mv ./firacode/*-Regular.ttf ./ && rm -rf firacode.zip firacode)
+RUN curl -fsSL \
+    https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz \
+    -o /tmp/nvim.tar.gz && \
+    mkdir -p /opt && \
+    tar -xzf /tmp/nvim.tar.gz -C /opt && \
+    ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim && \
+    rm -f /tmp/nvim.tar.gz
 
-#install alacritty
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
-    && source $HOME/.cargo/env && cargo install alacritty \
-    && sudo rm -rf /var/lib/apt/lists/*
+USER ${USER}
 
-# to build the image
-# docker image build --build-arg UID=$UID --build-arg USER=$USER -t gcc_dev_env .
-
-# to make a container 
-# docker run -it --name sfml_cont --hostname sfml_cont.uatech --user $USER \
-# --volume /tmp/.X11-unix:/tmp/.X11-unix:rw --env=DISPLAY \
-# --volume /usr/share/fonts:/usr/share/fonts \
-# --volume /home/$USER/Bugs/Rosjects/:/home/$USER/Bugs/Rosjects:rw \
-# --runtime nvidia --gpus all gcc_dev_env 
-
-# docker run -it --name sfml_cont --hostname sfml_cont.uatech \
-# --volume /tmp/.X11-unix:/tmp/.X11-unix:rw --env=DISPLAY   \
-# --volume /usr/share/fonts/:/usr/share/fonts   \
-# --volume /home/re/Bugs/Rosjects/:/home/re/Bugs/Rosjects:rw   \
-# --device /dev/video0   \
-# --device /dev/video1   \
-# --device /dev/video2   \
-# --device /dev/video3   \
-# --device /dev/video4  \
-# --device /dev/video5 \
-# --device /dev/media0 \
-# --device /dev/media1 \
-# --volume /sys:/sys  \
-# --runtime nvidia --gpus all gcc_dev_env
+# FiraCode Nerd Font
+RUN mkdir -p ~/.local/share/fonts && \
+    cd ~/.local/share/fonts && \
+    wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip && \
+    unzip -j FiraCode.zip "*Regular.ttf" && \
+    rm -f FiraCode.zip
