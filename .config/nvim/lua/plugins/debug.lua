@@ -146,7 +146,7 @@ vim.api.nvim_create_user_command(
   })
 end
 
--- load debug modules just before entering a python-file
+-- load debug modules just before entering a python, c or cpp file
 vim.api.nvim_create_autocmd('BufWinEnter', {
   once = true,
   pattern = { '*.py', '*.c', '*.cpp' },

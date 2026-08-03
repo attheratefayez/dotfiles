@@ -3,15 +3,23 @@
 
 -- exit insert mode with jk
 vim.keymap.set('i', 'jk', '<ESC>', { noremap = true, silent = true })
+
 -- exit terminal mode
 vim.keymap.set('t', 'jk', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<CR>', '<cmd>nohlsearch<CR>', { noremap = true, silent = true })
 
+-- Navigate among tabs
 vim.keymap.set('n', 'gt', ':bnext<CR>', { noremap = true, silent = true, desc = 'Go to next buffer.' })
 vim.keymap.set('n', 'gT', ':bprevious<CR>', { noremap = true, silent = true, desc = 'Go to previous buffer.' })
 vim.keymap.set('n', '<leader>x', ':bd<CR>', { noremap = true, silent = true, desc = 'Close current buffer.' })
+
+-- Navigate among windows
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- HACK: but not using it, want to stick to the default config
 -- vim.keymap.set("x", "p", [["_dp]], {desc = "Paste over selection without losing yanked text."})
@@ -40,7 +48,6 @@ vim.diagnostic.config {
   },
 }
 
-
 -- press enter to jump to a location in either location list / quick-fix list
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
@@ -58,20 +65,14 @@ vim.api.nvim_create_autocmd('FileType', {
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
--- mini.files keymapping
-
+-- mini.files keybinds
 vim.keymap.set('n', '<C-n>', function()
   local mini_files = require 'mini.files'
   if not mini_files.close() then mini_files.open() end
 end, { desc = 'Toggle file explorer' })
-vim.keymap.set('n', '-', function() MiniFiles.open(vim.api.nvim_buf_get_name(0)) end, {
-  desc = 'Open MiniFiles',
-})
+
+-- conform_nvim keybinds
+vim.keymap.set({ 'n', 'v' }, '<leader>fm', function() require('conform').format { async = true } end, { desc = 'Format buffer' })
 
 -- compile command
 vim.keymap.set('n', '<leader>c', function()

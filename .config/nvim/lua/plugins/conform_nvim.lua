@@ -33,7 +33,6 @@ local conform_setup = function()
     },
   }
 
-  vim.keymap.set({ 'n', 'v' }, '<leader>fm', function() require('conform').format { async = true } end, { desc = '[F]ormat buffer' })
 end
 
 -- load conform before entering a buffer

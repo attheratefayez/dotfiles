@@ -1,4 +1,16 @@
 -- https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack#lazy-loading
+
+-- NOTE: 
+-- vim.pack.add {github-link-of-plugin} 
+--  install if necessary
+--  load it (add to the runtimepath)
+--  plugin is not configured yet ( require('plugin-name').setup{} is not called yet ) 
+-- NOTE:
+-- vim.pack.add { {github-link-of-plugin}, {load = false} } 
+--  install if necessary
+--  not loaded (not added to runtimepath, require() will fail)
+--  have to explicitly load it later
+
 -- Enable faster startup by caching compiled Lua modules
 vim.loader.enable()
 

@@ -3,10 +3,6 @@ local gh = require('vim_pack_nvim').gh
 vim.pack.add { gh 'nvim-mini/mini.nvim' }
 vim.pack.add { gh 'rafamadriz/friendly-snippets' }
 
--- Simple and easy statusline.
---  You could remove this setup call if you don't like it,
---  and try some other statusline plugin
-
 local MiniComment = require 'mini.comment'
 local MiniCompletion = require 'mini.completion'
 local MiniExtra = require 'mini.extra'
