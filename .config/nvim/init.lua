@@ -32,6 +32,7 @@ require 'plugins.lsp_config' -- lsp
 require 'plugins.markview_nvim' -- markdown viewer
 require 'plugins.neogen_nvim' -- documentation format generator
 require 'plugins.nvim_tree_sitter_nvim' -- highlighting
+require 'plugins.opencode_nvim' -- highlighting
 require 'plugins.persistence_nvim' -- persistence over sessions
 require 'plugins.todo_comments_nvim' -- special tag hl and search (TODO, NOTE, HACK, FIX, WARN)
 -- require("plugins.vimtex_nvim")        -- latex help (disabled for most part)
