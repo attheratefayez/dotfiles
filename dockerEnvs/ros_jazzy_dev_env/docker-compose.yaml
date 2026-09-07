@@ -13,9 +13,10 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
-      - /home/fayez/Bugs/Rosjects/:/home/ubuntu/Bugs/Rosjects/:rw
+      - /home/fayez/Bugs/rosjects/:/home/ubuntu/Bugs/rosjects/:rw
       - /dev:/dev
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:/tmp/runtime-ubuntu/${WAYLAND_DISPLAY}
+      # - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /usr/share/fonts/:/usr/share/fonts/
     tty: true
     command: "/bin/bash"

@@ -80,7 +80,7 @@ RUN curl -fL https://github.com/neovim/neovim/releases/latest/download/nvim-linu
 
 #install alacritty
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
-    && source $HOME/.cargo/env && cargo install alacritty \
+    && source $HOME/.cargo/env && cargo install alacritty tree-sitter-cli\
     && sudo rm -rf /var/lib/apt/lists/*
 
 

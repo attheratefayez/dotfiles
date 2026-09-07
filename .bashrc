@@ -423,6 +423,15 @@ source_ros()
 # Open Project in Tmux Session
 opts()
 {
+    # usage: 
+    # opts <project_name> : try to open folder <project_name>, 
+    #                       else fallback to default
+    # opts : default behavior -> open fzf in $HOME/Bugs
+    #        and let user select the project to open
+    # in either case, if there is already a tmux session with the project, 
+    # attach to it, 
+    # else, creates new tmux session
+
     local dir
 
     # check length of arg0 is non-zero and file exists & is a directory
