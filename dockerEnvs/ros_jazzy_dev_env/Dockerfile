@@ -2,7 +2,7 @@ FROM osrf/ros:jazzy-desktop-full
 
 
 # Basic Installs
-RUN apt-get update && apt upgrade -y \
+RUN apt-get update && apt-get upgrade -y \
     && apt-get install -y \
     bash-completion \
     build-essential \
@@ -71,17 +71,28 @@ RUN (mkdir dotfiles && cd dotfiles && git clone https://github.com/attheratefaye
 # get tpm
 RUN git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm
 
-# install neovim
-RUN curl -fL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz -o nvim-linux-x86_64.tar.gz \
+
+# install neovim (nightly)
+RUN curl -fL https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz -o nvim-linux-x86_64.tar.gz \
     && tar -xzvf nvim-linux-x86_64.tar.gz \
     && sudo mkdir /opt/nvim/ && sudo mv nvim-linux-x86_64/* /opt/nvim/ \
     && sudo ln -s /opt/nvim/bin/nvim /usr/local/bin/nvim \
     && rm -rf nvim-linux-x86_64 nvim-linux-x86_64.tar.gz 
 
+# # install neovim
+# RUN curl -fL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz -o nvim-linux-x86_64.tar.gz \
+#     && tar -xzvf nvim-linux-x86_64.tar.gz \
+#     && sudo mkdir /opt/nvim/ && sudo mv nvim-linux-x86_64/* /opt/nvim/ \
+#     && sudo ln -s /opt/nvim/bin/nvim /usr/local/bin/nvim \
+#     && rm -rf nvim-linux-x86_64 nvim-linux-x86_64.tar.gz 
+
 #install alacritty
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
     && source $HOME/.cargo/env && cargo install alacritty tree-sitter-cli\
     && sudo rm -rf /var/lib/apt/lists/*
+
+#install opencode
+RUN curl -fsSL https://opencode.ai/install | bash
 
 
 
