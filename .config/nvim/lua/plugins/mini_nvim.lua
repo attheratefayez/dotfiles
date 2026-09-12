@@ -32,7 +32,7 @@ MiniCompletion.setup {
     process_items = function(items, base)
       return MiniCompletion.default_process_items(items, base, {
         filtersort = 'fuzzy',
-        kind_priority = {Text = -1, Snippet = 99},
+        kind_priority = { Text = -1, Snippet = 99 },
       })
     end,
   },
@@ -49,7 +49,11 @@ vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
 
 -- mini.files config
 MiniFiles.setup {
-  windows = { preview = true },
+  windows = {
+    max_number = 3,
+    preview = true,
+    width_preview = 50
+  },
 }
 
 -- mini.file keybind: <C-s> -> horizontal split, <C-v> vertical split

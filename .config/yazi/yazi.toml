@@ -1,17 +1,20 @@
 [mgr]
-ratio          = [ 2, 4, 4 ]
-title_format   = "Yazi"
-linemode       = "permissions"
+ratio = [2, 4, 4]
+title_format = "Yazi"
+linemode = "permissions"
 
 [opener]
+
 edit = [
-	{ run = '${EDITOR:-nvim} "$@"', desc = "$EDITOR", block = true, for = "unix" },
+    { run = '${EDITOR:-nvim} %s', desc = "edit in neovim", block = true, for = "unix" },
 ]
+
 open_in_new_window = [
-    { run = 'ghostty --title="neovim" -e nvim "$@" &', block = false, for = "unix"},
+    { run = 'ghostty --title="neovim" -e nvim %s', desc = "edit in neovim (new window)", orphan = true, for = "unix" },
 ]
 
 [open]
-append_rules = [
-    { mime = "text/*", use = ["edit", "open", "reveal", "open_in_new_window"]}
+
+prepend_rules = [
+    { mime = "text/*", use = ["edit", "open_in_new_window"] },
 ]

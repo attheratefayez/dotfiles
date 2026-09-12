@@ -16,10 +16,10 @@ vim.keymap.set('n', 'gT', ':bprevious<CR>', { noremap = true, silent = true, des
 vim.keymap.set('n', '<leader>x', ':bd<CR>', { noremap = true, silent = true, desc = 'Close current buffer.' })
 
 -- Navigate among windows
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+-- vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+-- vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+-- vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+-- vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- HACK: but not using it, want to stick to the default config
 -- vim.keymap.set("x", "p", [["_dp]], {desc = "Paste over selection without losing yanked text."})
