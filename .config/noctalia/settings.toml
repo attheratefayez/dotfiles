@@ -1,0 +1,186 @@
+[bar.default]
+center = [ "bar", "caffeine", "date", "clock", "notifications", "notes" ]
+end = [ "tray", "summary", "network", "bluetooth", "volume", "brightness", "battery", "session" ]
+layer = "overlay"
+shadow = false
+
+[battery]
+warning_threshold = 20
+
+[desktop_widgets]
+enabled = false
+schema_version = 2
+widget_order = []
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget]
+
+[idle]
+behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
+
+    [idle.behavior.lock]
+    action = "lock"
+    enabled = true
+    timeout = 600.0
+
+    [idle.behavior.lock-and-suspend]
+    action = "lock_and_suspend"
+    enabled = true
+    timeout = 900.0
+
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    enabled = true
+    timeout = 660.0
+
+[location]
+address = "Khulna, Bangladesh"
+
+[lockscreen]
+fingerprint = false
+transition_duration = 700
+
+[lockscreen_widgets]
+enabled = true
+schema_version = 2
+widget_order = [ "lockscreen-login-box@eDP-1", "lockscreen-login-box@HDMI-A-1", "lockscreen-widget-0000000000000001" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 8
+    major_interval = 4
+    visible = false
+
+    [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 844.0
+    output = "HDMI-A-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
+    box_height = 213.13232421875
+    box_width = 468.11248779296875
+    cx = 960.0
+    cy = 419.25286865234375
+    output = "HDMI-A-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.00072333216667175293
+    type = "clock"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000001.settings]
+        background = false
+        center_text = true
+        clock_style = "digital"
+        color = "primary"
+        font_family = ""
+
+[plugin_settings."noctalia/notes"]
+panel_position = "center"
+
+[plugin_settings."yuuto/calculator"]
+angle_unit = "deg"
+panel_placement = "floating"
+panel_position = "center"
+precision = 5
+
+[plugins]
+enabled = [ "yuuto/calculator", "noctalia/notes", "tmelik/system-monitor", "noctalia/timer" ]
+
+[shell]
+clipboard_history_max_entries = 20
+font_family = "Quicksand"
+
+[theme]
+builtin = "Tokyo-Night"
+community_palette = "Catppuccin Macchiato Rosewater"
+mode = "dark"
+source = "builtin"
+wallpaper_scheme = "m3-fruit-salad"
+
+[wallpaper]
+directory = "/home/fayez/Pictures/wallpapers"
+
+    [wallpaper.default]
+    path = "/home/fayez/Pictures/wallpapers/wal06.jpg"
+
+    [wallpaper.last]
+    path = "/home/fayez/Pictures/wallpapers/wal06.jpg"
+
+    [wallpaper.monitors.HDMI-A-1]
+    path = "/home/fayez/Pictures/wallpapers/wal06.jpg"
+
+    [wallpaper.monitors.eDP-1]
+    path = "/home/fayez/Pictures/wallpapers/wal06.jpg"
+
+[widget.bar]
+show_idle_on_horizontal = false
+type = "noctalia/timer:bar"
+
+[widget.brightness]
+show_when_unavailable = true
+
+[widget.notes]
+type = "noctalia/notes:notes"
+
+[widget.summary]
+ram_display_mode = "used"
+show_download = false
+show_gpu_usage = "off"
+show_swap = false
+show_upload = false
+type = "tmelik/system-monitor:summary"
+
+[widget.tray]
+drawer = true
