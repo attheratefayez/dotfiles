@@ -1,11 +1,15 @@
 [bar.default]
 center = [ "bar", "caffeine", "date", "clock", "notifications", "notes" ]
 end = [ "tray", "summary", "network", "bluetooth", "volume", "brightness", "battery", "session" ]
-layer = "overlay"
+layer = "top"
 shadow = false
+start = [ "launcher", "workspaces", "active_window" ]
 
 [battery]
 warning_threshold = 20
+
+[calendar]
+enabled = true
 
 [desktop_widgets]
 enabled = false
@@ -29,7 +33,7 @@ behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
 
     [idle.behavior.lock-and-suspend]
     action = "lock_and_suspend"
-    enabled = true
+    enabled = false
     timeout = 900.0
 
     [idle.behavior.screen-off]
@@ -42,12 +46,18 @@ address = "Khulna, Bangladesh"
 
 [lockscreen]
 fingerprint = false
+transition = [ "disc", "fade", "honeycomb", "stripes", "wipe", "zoom" ]
 transition_duration = 700
 
 [lockscreen_widgets]
 enabled = true
 schema_version = 2
-widget_order = [ "lockscreen-login-box@eDP-1", "lockscreen-login-box@HDMI-A-1", "lockscreen-widget-0000000000000001" ]
+widget_order = [
+    "lockscreen-login-box@eDP-1",
+    "lockscreen-login-box@HDMI-A-1",
+    "lockscreen-widget-0000000000000001",
+    "lockscreen-widget-0000000000000003"
+]
 
     [lockscreen_widgets.grid]
     cell_size = 8
@@ -112,7 +122,7 @@ widget_order = [ "lockscreen-login-box@eDP-1", "lockscreen-login-box@HDMI-A-1", 
     box_height = 213.13232421875
     box_width = 468.11248779296875
     cx = 960.0
-    cy = 419.25286865234375
+    cy = 421.01849365234375
     output = "HDMI-A-1"
     placement_height = 1080.0
     placement_width = 1920.0
@@ -121,10 +131,44 @@ widget_order = [ "lockscreen-login-box@eDP-1", "lockscreen-login-box@HDMI-A-1", 
 
         [lockscreen_widgets.widget.lockscreen-widget-0000000000000001.settings]
         background = false
+        background_color = "surface"
+        background_opacity = 0.80000000000000004
+        background_padding = 7
+        background_radius = 30
         center_text = true
+        circle = true
         clock_style = "digital"
         color = "primary"
         font_family = ""
+        format = "{:%H:%M}"
+        shadow = false
+        timezone = ""
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000003]
+    box_height = 213.13232421875
+    box_width = 468.11248779296875
+    cx = 960.0
+    cy = 416.36614990234375
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.00072333216667175293
+    type = "clock"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000003.settings]
+        background = false
+        background_color = "surface"
+        background_opacity = 0.80000000000000004
+        background_padding = 7
+        background_radius = 30
+        center_text = true
+        circle = true
+        clock_style = "digital"
+        color = "primary"
+        font_family = ""
+        format = "{:%H:%M}"
+        shadow = false
+        timezone = ""
 
 [plugin_settings."noctalia/notes"]
 panel_position = "center"
@@ -142,8 +186,15 @@ enabled = [ "yuuto/calculator", "noctalia/notes", "tmelik/system-monitor", "noct
 clipboard_history_max_entries = 20
 font_family = "Quicksand"
 
+    [shell.animation]
+    speed = 1.6000000238418579
+
+    [shell.launcher]
+    search_position = "top"
+    show_session_button = false
+    show_settings_button = false
+
 [theme]
-builtin = "Tokyo-Night"
 community_palette = "Catppuccin Macchiato Rosewater"
 mode = "dark"
 source = "builtin"
@@ -153,16 +204,19 @@ wallpaper_scheme = "m3-fruit-salad"
 directory = "/home/fayez/Pictures/wallpapers"
 
     [wallpaper.default]
-    path = "/home/fayez/Pictures/wallpapers/wal06.jpg"
+    path = "/home/fayez/Pictures/wallpapers/wal03.jpg"
 
     [wallpaper.last]
-    path = "/home/fayez/Pictures/wallpapers/wal06.jpg"
+    path = "/home/fayez/Pictures/wallpapers/wal03.jpg"
 
     [wallpaper.monitors.HDMI-A-1]
-    path = "/home/fayez/Pictures/wallpapers/wal06.jpg"
+    path = "/home/fayez/Pictures/wallpapers/wal03.jpg"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/fayez/Pictures/wallpapers/wal06.jpg"
+    path = "/home/fayez/Pictures/wallpapers/wal03.jpg"
+
+[widget.audio_visualizer]
+color_2 = "secondary"
 
 [widget.bar]
 show_idle_on_horizontal = false

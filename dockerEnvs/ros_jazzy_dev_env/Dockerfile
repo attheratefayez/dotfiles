@@ -52,7 +52,8 @@ RUN sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
 #     && useradd -s /bin/bash --uid $UID --gid $UID -m $USER \ 
 #     && mkdir /home/$USER/.config && chown $USER:$UID /home/$USER/.config \
 RUN echo $USER ALL=\(ALL\) NOPASSWD: ALL > /etc/sudoers.d/$USER \
-    && chmod 0440 /etc/sudoers.d/$USER
+    && chmod 0440 /etc/sudoers.d/$USER \
+    && chown $USER:$UID /run/user 
 
 SHELL ["/bin/bash", "-c"]
 WORKDIR /home/$USER
@@ -79,12 +80,9 @@ RUN curl -fL https://github.com/neovim/neovim/releases/download/nightly/nvim-lin
     && sudo ln -s /opt/nvim/bin/nvim /usr/local/bin/nvim \
     && rm -rf nvim-linux-x86_64 nvim-linux-x86_64.tar.gz 
 
-# # install neovim
-# RUN curl -fL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz -o nvim-linux-x86_64.tar.gz \
-#     && tar -xzvf nvim-linux-x86_64.tar.gz \
-#     && sudo mkdir /opt/nvim/ && sudo mv nvim-linux-x86_64/* /opt/nvim/ \
-#     && sudo ln -s /opt/nvim/bin/nvim /usr/local/bin/nvim \
-#     && rm -rf nvim-linux-x86_64 nvim-linux-x86_64.tar.gz 
+# RUN rm -rf /home/$USER/dotfiles/.config/nvim/* && wget -O /home/$USER/dotfiles/.config/nvim/init.lua https://raw.githubusercontent.com/VonHeikemen/nvim-light/refs/heads/main/configs/stable.lua
+# RUN (cd /home/$USER/dotfiles/ && stow .)
+
 
 #install alacritty
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
@@ -92,7 +90,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
     && sudo rm -rf /var/lib/apt/lists/*
 
 #install opencode
-RUN curl -fsSL https://opencode.ai/install | bash
+# RUN curl -fsSL https://opencode.ai/install | bash
 
 
 

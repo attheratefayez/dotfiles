@@ -1,19 +1,20 @@
-vim.pack.add {
+vim.pack.add({
   {
-    src = 'https://github.com/nickjvandyke/opencode.nvim',
-    version = vim.version.range '*', -- Latest stable release
+    src = "https://github.com/nickjvandyke/opencode.nvim",
+    -- Defaults to "main", supporting OpenCode v2.
+    -- Uncomment to pull the latest stable release, supporting OpenCode v1.
+    -- version = vim.version.range("*"),
   },
-}
+})
 
 ---@type opencode.Opts
 vim.g.opencode_opts = {
   -- Your configuration, if any; goto definition on the type for details
 }
 
+
 -- Recommended/example keymaps
-vim.keymap.set({ 'n', 'x' }, '<C-a>', function() require('opencode').ask '@this: ' end, { desc = 'Ask OpenCode…' })
-vim.keymap.set({ 'n', 'x' }, '<C-x>', function() require('opencode').select() end, { desc = 'Select from OpenCode options…' })
-vim.keymap.set({ 'n', 'x' }, 'go', function() return require('opencode').operator '@this ' end, { desc = 'Append range to OpenCode', expr = true })
-vim.keymap.set({ 'n' }, 'goo', function() return require('opencode').operator '@this ' .. '_' end, { desc = 'Append line to OpenCode', expr = true })
--- vim.keymap.set({ 'n' }, '<S-C-u>', function() require('opencode').command 'session.half.page.up' end, { desc = 'Scroll OpenCode up' })
--- vim.keymap.set({ 'n' }, '<S-C-d>', function() require('opencode').command 'session.half.page.down' end, { desc = 'Scroll OpenCode down' })
+vim.keymap.set({ "n", "x" }, "<leader>za",   function() require("opencode").ask("@this: ") end,                          { desc = "Ask Opencode" })
+vim.keymap.set({ "n", "x" }, "<leader>ze",   function() require("opencode").prompt("Explain @this and its context") end,                          { desc = "Explain with opencode" })
+vim.keymap.set({ "n", "x" }, "<leader>zf",   function() require("opencode").prompt("Fix @diagnostics") end,                          { desc = "Fix with opencode" })
+vim.keymap.set({ "n", "x" }, "<leader>zs",   function() require("opencode").select() end,                          { desc = "Select OpenCode opts" })
