@@ -1,9 +1,7 @@
 FROM osrf/ros:jazzy-desktop-full
 
-
 # Basic Installs
-RUN apt-get update && apt-get upgrade -y \
-    && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     bash-completion \
     build-essential \
     cmake \
@@ -12,26 +10,24 @@ RUN apt-get update && apt-get upgrade -y \
     gcc \
     gdb \
     gettext \
-    git \ 
+    git \
     libxkbcommon-x11-0 \
     locales \
     libfreetype6-dev \
     libfontconfig1-dev \
     libxcb-xfixes0-dev \
     libxkbcommon-dev \
-    make \ 
-    npm \
+    make \
     ninja-build \
-    openssh-server \
     pkg-config \
     python3 \
     python3-venv \
     ripgrep \
     stow \
     sudo \
-    tmux \ 
+    tmux \
     vim \
-    xclip \
+    wl-clipboard \
     zoxide \
     unzip 
     
@@ -48,12 +44,9 @@ RUN sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && update-locale LANG=en_US.UTF-8
 
 # Adding user and createing home and adding user to sudoers group
-# RUN groupadd --gid $UID $USER \
-#     && useradd -s /bin/bash --uid $UID --gid $UID -m $USER \ 
-#     && mkdir /home/$USER/.config && chown $USER:$UID /home/$USER/.config \
 RUN echo $USER ALL=\(ALL\) NOPASSWD: ALL > /etc/sudoers.d/$USER \
     && chmod 0440 /etc/sudoers.d/$USER \
-    && chown $USER:$UID /run/user 
+    && rm -rf /var/lib/apt/lists/*
 
 SHELL ["/bin/bash", "-c"]
 WORKDIR /home/$USER
@@ -76,44 +69,27 @@ RUN git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm
 # install neovim (nightly)
 RUN curl -fL https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz -o nvim-linux-x86_64.tar.gz \
     && tar -xzvf nvim-linux-x86_64.tar.gz \
-    && sudo mkdir /opt/nvim/ && sudo mv nvim-linux-x86_64/* /opt/nvim/ \
-    && sudo ln -s /opt/nvim/bin/nvim /usr/local/bin/nvim \
-    && rm -rf nvim-linux-x86_64 nvim-linux-x86_64.tar.gz 
-
-# RUN rm -rf /home/$USER/dotfiles/.config/nvim/* && wget -O /home/$USER/dotfiles/.config/nvim/init.lua https://raw.githubusercontent.com/VonHeikemen/nvim-light/refs/heads/main/configs/stable.lua
-# RUN (cd /home/$USER/dotfiles/ && stow .)
+    && sudo mkdir -p /opt/nvim/ && sudo mv nvim-linux-x86_64/* /opt/nvim/ \
+    && sudo ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim \
+    && rm -rf nvim-linux-x86_64 nvim-linux-x86_64.tar.gz
 
 
 #install alacritty
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
-    && source $HOME/.cargo/env && cargo install alacritty tree-sitter-cli\
-    && sudo rm -rf /var/lib/apt/lists/*
+    && source $HOME/.cargo/env && cargo install alacritty tree-sitter-cli
 
 #install opencode
-# RUN curl -fsSL https://opencode.ai/install | bash
+RUN curl -fsSL https://opencode.ai/v2/install | bash
+RUN /home/$USER/.opencode/bin/opencode plugin add @dietrichgebert/ponytail
 
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash \
+    && \. "$HOME/.nvm/nvm.sh"\
+    && nvm install 24
 
+RUN . "$HOME/.nvm/nvm.sh" \
+    && git clone --depth 1 https://github.com/affaan-m/ECC.git\
+    && cd ECC\
+    && npm install && npm run build:opencode && ./install.sh --profile full --target opencode --enable-hooks\
+    && cd && rm -rf ECC
 
 # docker image build --build-arg UID=$UID --build-arg USER=$USER -t ros_dev_env .
-
-
-# docker run -it --name dev_microros_jazzy --net=host --user ubuntu \
-#  --volume /tmp/.X11-unix:/tmp/.X11-unix --env=DISPLAY \
-#  --volume /usr/share/fonts:/usr/share/fonts --volume /home/fayez/Bugs/Rosjects:/home/ubuntu/Bugs/Rosjects:rw \
-#  --volume /dev:/dev --privileged --runtime nvidia --gpus all ros_jazzy_dev_env
-#
-
-# docker run -it --name dev_kernelbot --hostname dev_kernelbot.uatech \
-# --volume /tmp/.X11-unix:/tmp/.X11-unix:rw --env=DISPLAY   \
-# --volume /usr/share/fonts/:/usr/share/fonts   \
-# --volume /home/re/Bugs/Rosjects/:/home/re/Bugs/Rosjects:rw   \
-# --device /dev/video0   \
-# --device /dev/video1   \
-# --device /dev/video2   \
-# --device /dev/video3   \
-# --device /dev/video4  \
-# --device /dev/video5 \
-# --device /dev/media0 \
-# --device /dev/media1 \
-# --volume /sys:/sys  \
-# --runtime nvidia --gpus all ros_dev_env

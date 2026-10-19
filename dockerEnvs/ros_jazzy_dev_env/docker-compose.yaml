@@ -12,20 +12,13 @@ services:
     user: ubuntu
     environment:
       - DISPLAY=${DISPLAY}
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
     volumes:
-      - /home/fayez/Bugs/rosjects/:/home/ubuntu/Bugs/rosjects/:rw
+      - ${HOME}/Bugs/rosjects/:/home/ubuntu/Bugs/rosjects/:rw
       - /dev:/dev
-      - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:/tmp/runtime-ubuntu/${WAYLAND_DISPLAY}
+      - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:/${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}
       # - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /usr/share/fonts/:/usr/share/fonts/
     tty: true
     command: "/bin/bash"
     runtime: nvidia
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-    

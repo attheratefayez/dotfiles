@@ -60,7 +60,10 @@ vim.opt.completetimeout = 300
 -- Schedule the setting after `UiEnter` because it can increase startup-time.
 -- Remove this option if you want your OS clipboard to remain independent.
 -- See `:help 'clipboard'`
-vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
+vim.schedule(function()
+  vim.o.clipboard = 'unnamedplus'
+  vim.g.clipboard = 'wl-copy'
+end)
 
 -- vim.o.cmdheight = 0
 -- neovim checks and turns it on if available

@@ -16,3 +16,5 @@ style = "Regular"
 columns = 110
 lines = 27
 
+[terminal]
+osc52="CopyPaste"
