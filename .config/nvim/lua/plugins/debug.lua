@@ -118,8 +118,8 @@ vim.api.nvim_create_user_command(
     local element = opts.args ~= "" and opts.args or nil
 
     require("dapui").float_element(element, {
-      width = 50,
-      height = 20,
+      width = 70,
+      height = 30,
       enter = true,
       title = "DapFloat",
       position = "center",
@@ -135,15 +135,15 @@ vim.api.nvim_create_user_command(
 
   require('dap-python').setup 'uv'
 
-  table.insert(dap.configurations.python, {
-    type = 'python',
-    request = 'launch',
-    name = 'FastAPI (Debug)',
-    module = 'fastapi',
-    args = { 'dev' },
-    console = 'integratedTerminal',
-    justMyCode = false,
-  })
+  -- table.insert(dap.configurations.python, {
+  --   type = 'python',
+  --   request = 'launch',
+  --   name = 'FastAPI (Debug)',
+  --   module = 'fastapi',
+  --   args = { 'dev' },
+  --   console = 'integratedTerminal',
+  --   justMyCode = false,
+  -- })
 end
 
 -- load debug modules just before entering a python, c or cpp file
