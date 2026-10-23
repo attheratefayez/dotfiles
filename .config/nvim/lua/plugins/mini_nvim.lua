@@ -199,8 +199,8 @@ MiniStatusline.section_location = function() return '%p%% %2l:%-2L' end
 
 -- mini.surround config
 MiniSurround.setup {
-  n_lines = 5,
-  search_method = 'cover',
+  n_lines = 30,
+  search_method = "cover",
 }
 
 -- mini.tabline config

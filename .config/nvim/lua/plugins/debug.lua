@@ -76,7 +76,7 @@ local function load_debug()
           id = 'watches',
           size = 0.4,
         }, {
-          id = 'console',
+          id = 'repl',
           size = 0.6,
         } },
         position = 'bottom',

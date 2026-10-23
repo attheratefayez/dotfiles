@@ -466,14 +466,16 @@ if ! command -v vim 2>&1 >/dev/null; then
     export EDITOR=vim
 fi
 
+# >>>>>>>>>> CUSTOM <<<<<<<<<<
 . "$HOME/.cargo/env"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 eval "$(fzf --bash)"
 eval "$(zoxide init bash)"
-
-. "$HOME/.local/bin/env"
+. "$HOME/.local/bin/env" # for uv
+export PATH="/home/fayez/.pixi/bin:$PATH"
 
 
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
