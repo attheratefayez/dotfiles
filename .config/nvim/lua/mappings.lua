@@ -119,7 +119,7 @@ vim.keymap.set('n', '<leader>t', function()
   end
 
   -- floating window size
-  local width = math.floor(vim.o.columns * 0.35)
+  local width = math.floor(vim.o.columns * 0.45)
   local height = math.floor(vim.o.lines * 0.3)
 
   -- local row = math.floor((vim.o.lines - height) / 2)

@@ -469,11 +469,12 @@ fi
 # >>>>>>>>>> CUSTOM <<<<<<<<<<
 . "$HOME/.cargo/env"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-eval "$(fzf --bash)"
-eval "$(zoxide init bash)"
-. "$HOME/.local/bin/env" # for uv
 export PATH="/home/fayez/.pixi/bin:$PATH"
+. "$HOME/.local/bin/env" # for uv
 
+eval "$(fzf --bash)"
+eval "$(pixi completion --shell bash)"
+eval "$(zoxide init bash)"
 
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

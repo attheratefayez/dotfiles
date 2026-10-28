@@ -9,6 +9,16 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.cmd.packadd 'iron.nvim'
     local iron = require 'iron.core'
     local common = require 'iron.fts.common'
+    local view = require 'iron.view'
+
+    -- Right split unless it would leave <80 columns of code, then split below
+    local repl_width = 50
+    local open_repl = function(bufnr)
+      if vim.o.columns - repl_width >= 80 then
+        return view.split.vertical.botright(repl_width)(bufnr)
+      end
+      return view.split.botright('40%')(bufnr)
+    end
 
     iron.setup {
       config = {
@@ -30,7 +40,7 @@ vim.api.nvim_create_autocmd('FileType', {
         },
         -- How the repl window will be displayed
         -- See below for more information
-        repl_open_cmd = require('iron.view').split.vertical.botright(50),
+        repl_open_cmd = open_repl,
       },
       -- Iron doesn't set keymaps by default anymore.
       -- You can set them here or manually add keymaps to the functions in iron.core
